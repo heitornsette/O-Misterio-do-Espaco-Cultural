@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/CC01_A_Madrugada_3D.unity
+    guid: 19d2eda24d617387d861a4526a4b10e5
+  - enabled: 1
     path: Assets/Scenes/CC01_A_Madrugada_Comeca.unity
     guid: c95da522dc24fb582989319b4c062adc
   m_configObjects:

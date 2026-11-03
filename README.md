@@ -16,6 +16,12 @@ Os espaços dos clipes de voz estão vazios para receber as gravações do narra
 
 O projeto contém somente esta cutscene por enquanto. `onCutsceneFinished` é o ponto de integração com a cena jogável, quando ela for criada.
 
+### Versão cinematográfica 3D
+
+A cena 3D fica em `Assets/Scenes/CC01_A_Madrugada_3D.unity`. O arquivo fonte do Blender e o script que monta o saguão, personagem, câmeras e animação estão em `Documentation/Blender/`.
+
+O vídeo final é silencioso e usa VP8/WebM em `Assets/StreamingAssets/Cinematics/CC01_A_Madrugada_Comeca.webm` (1280×720, 24 fps, 35,7 s). Falas, legendas e sons ficam na Unity e seguem o tempo do vídeo. A sequência de quadros usada no render é temporária e não faz parte do repositório. Os modelos foram construídos no Blender; Meshy não foi necessário para esta versão.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
