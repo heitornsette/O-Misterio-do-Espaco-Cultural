@@ -16,9 +16,11 @@ Os espaços dos clipes de voz estão vazios para receber as gravações do narra
 
 O projeto contém somente esta cutscene por enquanto. `onCutsceneFinished` é o ponto de integração com a cena jogável, quando ela for criada.
 
-### Estudo 3D opcional
+### Cutscene 3D opcional
 
-Uma exploração low-poly opcional fica em `Assets/Scenes/CC01_A_Madrugada_3D.unity`, com fontes em `Documentation/Blender/CC01_Cinematic.blend` e `Documentation/Blender/create_cc01.py`. Ela não está nas Build Settings. A abertura padrão continua usando o fundo e os sprites pixel art do próprio jogo.
+A reconstrução cinematográfica 3D da CC01 fica em `Assets/Scenes/CC01_A_Madrugada_3D.unity`. O arquivo silencioso `Assets/StreamingAssets/Cinematics/CC01_A_Madrugada_Comeca.webm` preserva os 35,7 segundos e os mesmos acontecimentos; falas, legendas e efeitos continuam sincronizados pela Unity. A fonte editável e o gerador da cena estão em `Documentation/Blender/CC01_Cinematic.blend` e `Documentation/Blender/create_cc01_realistic.py`.
+
+Para reconstruir a cena com Blender 5.1 ou posterior, rode `blender --background --python Documentation/Blender/create_cc01_realistic.py`. Para renderizar a animação, rode `blender --background Documentation/Blender/CC01_Cinematic.blend --render-anim`; as sequências PNG temporárias vão para `/tmp/cc01_realistic_frames/`. O estudo low-poly anterior foi guardado em `Documentation/Blender/CC01_Cinematic_LowPoly_Study.blend`. A cena 3D permanece opcional e fora das Build Settings; a abertura padrão segue usando o fundo e os sprites pixel art do jogo.
 
 ## Arte e fontes
 

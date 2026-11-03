@@ -12,7 +12,6 @@ namespace Misterio.EditorTools
     public static class CC01VideoSceneBuilder
     {
         const string ScenePath = "Assets/Scenes/CC01_A_Madrugada_3D.unity";
-        const string LegacyScenePath = "Assets/Scenes/CC01_A_Madrugada_Comeca.unity";
 
         [MenuItem("Misterio/Build CC01 - vídeo 3D")]
         public static void Build()
@@ -48,6 +47,7 @@ namespace Misterio.EditorTools
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1280f, 720f);
             scaler.matchWidthOrHeight = 0.5f;
+            canvas.transform.localScale = Vector3.one;
 
             var backingObject = new GameObject("Subtitle backing", typeof(RectTransform), typeof(Image));
             backingObject.transform.SetParent(canvas.transform, false);
@@ -101,11 +101,6 @@ namespace Misterio.EditorTools
             serialized.ApplyModifiedPropertiesWithoutUndo();
 
             EditorSceneManager.SaveScene(scene, ScenePath);
-            EditorBuildSettings.scenes = new[]
-            {
-                new EditorBuildSettingsScene(ScenePath, true),
-                new EditorBuildSettingsScene(LegacyScenePath, true)
-            };
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log("CC01 video scene built. Place the exported VP8 WebM at Assets/StreamingAssets/Cinematics/CC01_A_Madrugada_Comeca.webm.");
