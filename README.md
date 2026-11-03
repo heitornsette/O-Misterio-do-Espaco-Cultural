@@ -18,7 +18,7 @@ O projeto contém somente esta cutscene por enquanto. `onCutsceneFinished` é o 
 
 ### Estudo 3D opcional
 
-Uma exploração low-poly da abertura foi mantida como referência em `Documentation/Blender/CC01_Cinematic.blend`, com seu script em `Documentation/Blender/create_cc01.py`. Ela não faz parte da abertura jogável. A cena ativa usa o fundo e os sprites pixel art do próprio jogo.
+Uma exploração low-poly opcional fica em `Assets/Scenes/CC01_A_Madrugada_3D.unity`, com fontes em `Documentation/Blender/CC01_Cinematic.blend` e `Documentation/Blender/create_cc01.py`. Ela não está nas Build Settings. A abertura padrão continua usando o fundo e os sprites pixel art do próprio jogo.
 
 ## Arte e fontes
 
