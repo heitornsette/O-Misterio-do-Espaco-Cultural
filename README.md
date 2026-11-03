@@ -8,7 +8,7 @@ Cena: `Assets/Scenes/CC01_A_Madrugada_Comeca.unity`
 Duração: 35,7 segundos, incluindo o cartão de título após a ação.  
 Construção: no Unity, use **Misterio → Build CC01 - A madrugada começa**.
 
-A cena abre no saguão às 02:00 e segue os seis beats do roteiro: apresentação do turno, ronda e café, estrondo na escadaria, lanterna e cassetete, pegadas no facho de luz, e caminhada em direção à porta entreaberta. A sequência inclui legendas, iluminação e poeira em pixel art, sons de ambiente, música, estrondo, clique, passos, mariposa, pena e título. O relógio permanece em 02:00 e `ControlsLocked` só é liberado ao final.
+A cena abre no saguão às 02:00 e segue os seis beats do roteiro: apresentação do turno, ronda e café, estrondo na escadaria, lanterna e cassetete, pegadas no facho de luz, e caminhada em direção à porta entreaberta. Ela usa o fundo pixel art do jogo e os sprites originais do segurança, com animações de idle e caminhada. A sequência inclui legendas, iluminação e poeira em pixel art, sons de ambiente, música, estrondo, clique, passos, mariposa, pena e título. O relógio permanece em 02:00 e `ControlsLocked` só é liberado ao final.
 
 No encerramento, a imagem corta para preto após a última fala, o som ambiente baixa e o título aparece depois de uma pausa curta com impacto sonoro. Referências de ritmo e apresentação: trailers oficiais de [Alan Wake 2](https://www.youtube.com/watch?v=MEWgOlTIW4Y), [Layers of Fear](https://www.youtube.com/watch?v=JJMeiW0Gz_Y) e [Silent Hill 2](https://www.youtube.com/watch?v=xRShSWXFDFA).
 
@@ -16,11 +16,9 @@ Os espaços dos clipes de voz estão vazios para receber as gravações do narra
 
 O projeto contém somente esta cutscene por enquanto. `onCutsceneFinished` é o ponto de integração com a cena jogável, quando ela for criada.
 
-### Versão cinematográfica 3D
+### Estudo 3D opcional
 
-A cena 3D fica em `Assets/Scenes/CC01_A_Madrugada_3D.unity`. O arquivo fonte do Blender e o script que monta o saguão, personagem, câmeras e animação estão em `Documentation/Blender/`.
-
-O vídeo final é silencioso e usa VP8/WebM em `Assets/StreamingAssets/Cinematics/CC01_A_Madrugada_Comeca.webm` (1280×720, 24 fps, 35,7 s). Falas, legendas e sons ficam na Unity e seguem o tempo do vídeo. A sequência de quadros usada no render é temporária e não faz parte do repositório. Os modelos foram construídos no Blender; Meshy não foi necessário para esta versão.
+Uma exploração low-poly da abertura foi mantida como referência em `Documentation/Blender/CC01_Cinematic.blend`, com seu script em `Documentation/Blender/create_cc01.py`. Ela não faz parte da abertura jogável. A cena ativa usa o fundo e os sprites pixel art do próprio jogo.
 
 ## Arte e fontes
 
