@@ -54,6 +54,7 @@ namespace Misterio.EditorTools
             serialized.FindProperty("spriteRenderer").objectReferenceValue = guardRenderer;
             serialized.FindProperty("movementMin").vector2Value = new Vector2(-1.65f, -0.8f);
             serialized.FindProperty("movementMax").vector2Value = new Vector2(1.65f, 0.45f);
+            serialized.FindProperty("moveSpeed").floatValue = 0.65f;
             SetFrames(serialized.FindProperty("idleFront"), "GuardIdleFront", 5);
             SetFrames(serialized.FindProperty("idleBack"), "GuardIdleBack", 5);
             SetFrames(serialized.FindProperty("walkFront"), "GuardWalkFront", 8);
@@ -96,3 +97,4 @@ namespace Misterio.EditorTools
         }
     }
 }
+

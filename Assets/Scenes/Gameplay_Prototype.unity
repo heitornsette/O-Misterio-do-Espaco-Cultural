@@ -335,7 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Misterio.Gameplay.GuardMovementController
   inputActions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   moveActionPath: Player/Move
-  moveSpeed: 1.4
+  moveSpeed: 0.65
   movementMin: {x: -1.65, y: -0.8}
   movementMax: {x: 1.65, y: 0.45}
   spriteRenderer: {fileID: 2046397611}

@@ -16,7 +16,7 @@ namespace Misterio.Gameplay
         [SerializeField] string moveActionPath = "Player/Move";
 
         [Header("Movement")]
-        [SerializeField, Min(0f)] float moveSpeed = 1.4f;
+        [SerializeField, Min(0f)] float moveSpeed = 0.65f;
         [SerializeField] Vector2 movementMin = new Vector2(-1.65f, -0.8f);
         [SerializeField] Vector2 movementMax = new Vector2(1.65f, 0.45f);
 
@@ -127,3 +127,4 @@ namespace Misterio.Gameplay
         }
     }
 }
+
