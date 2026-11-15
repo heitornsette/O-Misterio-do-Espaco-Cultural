@@ -58,6 +58,20 @@ O cenário do terceiro andar, a vitrine, as tábuas e os quadros de Moema vieram
 
 Para revisar a animação quadro a quadro no Editor, use **Misterio → Review → Arm CC04A frame capture** e entre em Play Mode. A captura gera 241 imagens em `Library/CC04AReviewFrames/sequence`, de 0 a 4 segundos em passos de 1/60 s.
 
+## Cutscene CC05 — A obra no escuro
+
+- Cena: `Assets/Scenes/CC05_A_Obra_no_Escuro.unity`
+- Duração: 10 segundos.
+- Construção: no Unity, use **Misterio → Build CC05 - A obra no escuro**.
+
+As portas do elevador se abrem para o salão principal do quarto andar. A lanterna encontra o quadro elétrico aberto; a obra central permanece apagada. Os conduítes interrompidos conduzem o olhar do painel até a basculante. Moema atravessa o fundo, sobe pela estrutura e desaparece pela janela sem animação ou som de voo. O céu clareia apenas nas vidraças. No último plano, o segurança se volta para o painel, pronto para iniciar a etapa do circuito.
+
+O visor usa **Misterio.Cutscenes.CC05CutsceneController.SetGlobalClock(string)** para receber o horário atual da partida. A cena começa com `--:--` em pré-visualização e não cria, fixa nem avança um relógio próprio. `onCutsceneStarted` e `onCutsceneFinished` são os ganchos para pausar e retomar o tempo global e os temporizadores locais durante a transição. `PlayCutscene()` inicia a cena após a furtividade; o evento `onCutsceneFinished` pode ser ligado ao puzzle de energia quando ele estiver implementado.
+
+Os fundos, painel, quadro de faíscas, obra apagada e faixas de céu foram selecionados do pacote do quarto andar compartilhado no Drive e ficam em `Assets/Art/CC05`. A cena mantém o ponto, o recorte e a transparência em pixel art. As animações existentes do segurança e de Moema são reutilizadas. O zumbido, os estalos e a trilha baixa são específicos desta cena; motor do elevador, passos, rangido e penas reutilizam os efeitos já presentes no projeto.
+
+Para revisar o movimento quadro a quadro, use **Misterio → Review → Arm CC05 frame capture** e entre em Play Mode. A captura produz 601 imagens em `Library/CC05ReviewFrames/sequence`, de 0 a 10 segundos em passos de 1/60 s.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
