@@ -26,6 +26,16 @@ O cenário base do térreo veio dos recursos em `comp_grafica/_trailer_assets` d
 
 O projeto também contém um protótipo independente de movimentação do segurança em `Assets/Scenes/Gameplay_Prototype.unity`; ele não implementa ainda os puzzles do jogo.
 
+## Cutscene CC03 — A galeria reorganizada
+
+- Cena: `Assets/Scenes/CC03_A_Galeria_Reorganizada.unity`
+- Duração: 9 segundos.
+- Construção: no Unity, use **Misterio → Build CC03 - A galeria reorganizada**.
+
+Ao concluir o puzzle das pinturas, a última obra se encaixa no nicho e a câmera recua para revelar a galeria completa. O segurança confere as telas, caminha até a porta do acervo e a abre; a transição mostra o corredor escuro e uma sombra distante sem revelar Moema. A cena inclui placas azuis, luar, legendas, música e efeitos de encaixe, passos, porta e ruído distante. `ControlsLocked` só é liberado ao final, e `onCutsceneFinished` está pronto para conectar o próximo andar, cuja fase jogável ainda não foi construída.
+
+As três pinturas — litoral de Mucuripe, serra de Baturité e sertão — foram criadas como obras fictícias originais. Os fundos e as pinturas ficam em `Assets/Art/CC03`; seis efeitos e trechos musicais em WAV ficam em `Assets/Audio/CC03`. A cena reutiliza as animações do segurança, a fonte e a vinheta de CC01. Os espaços de voz permanecem prontos para gravação em `CC03CutsceneController`.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
