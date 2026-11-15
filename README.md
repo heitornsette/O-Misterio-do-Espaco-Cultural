@@ -72,6 +72,18 @@ Os fundos, painel, quadro de faíscas, obra apagada e faixas de céu foram selec
 
 Para revisar o movimento quadro a quadro, use **Misterio → Review → Arm CC05 frame capture** e entre em Play Mode. A captura produz 601 imagens em `Library/CC05ReviewFrames/sequence`, de 0 a 10 segundos em passos de 1/60 s.
 
+## Cutscene CC06 — A energia retorna
+
+- Cena: `Assets/Scenes/CC06_A_Energia_Retorna.unity`
+- Duração: 12 segundos.
+- Construção: no Unity, use **Misterio → Build CC06 - A energia retorna**.
+
+O close inicial mostra os dois terminais e o último trecho do conduíte se encaixando. A câmera então recua para manter o circuito e o salão legíveis enquanto um pulso azul e branco percorre a fiação. Os focos se acendem em sequência, a obra intacta ganha uma borda quente e a mariposa cruza o salão até a basculante. A animação do inseto usa escala e curva de voo contínuas, sem brilho mágico. A pausa final mantém a obra, o segurança e a fala de encerramento no mesmo enquadramento.
+
+A cena reutiliza o quarto andar, o painel e a obra da CC05. O sprite da mariposa veio da pasta compartilhada no Drive e fica em `Assets/Art/Characters/Mariposa_Base.png`; focos, reflexo de piso, terminais e pulso são sprites pixelados próprios da cena em `Assets/Art/CC06`. `CC06CutsceneController.SetGlobalClock(string)` recebe a hora real da partida e a cena não a avança. Os eventos `onCutsceneStarted` e `onCutsceneFinished` permitem congelar e retomar o relógio e os temporizadores globais.
+
+Para revisar a cena quadro a quadro, use **Misterio → Review → Arm CC06 frame capture** e entre em Play Mode. A captura produz 721 imagens em `Library/CC06ReviewFrames/sequence`, de 0 a 12 segundos em passos de 1/60 s. As falas estão legendadas e os campos de voz permanecem prontos para gravação.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
