@@ -46,6 +46,18 @@ Depois de recolher as peças do acervo sem assustar Moema, o segurança recua se
 
 O fundo do acervo e os efeitos em pixel art ficam em `Assets/Art/CC04`; os seis sons WAV ficam em `Assets/Audio/CC04`. A cena reutiliza as animações do segurança, o sprite de Moema, a fonte e a vinheta já presentes no projeto. Os campos de voz ficam prontos para gravação em `CC04CutsceneController`.
 
+## Cutscene CC04A — Alerta de Moema
+
+- Cena: `Assets/Scenes/CC04A_Alerta_de_Moema.unity`
+- Duração: 4 segundos.
+- Construção: no Unity, use **Misterio → Build CC04A - Alerta de Moema**.
+
+No acervo do terceiro andar, uma tábua cede e chama a atenção de Moema. A cena mantém o segurança e Moema no mesmo enquadramento, deixa o holofote atravessar os dois e reserva uma pausa musical para a reação. Moema ergue o pescoço, recua e faz um pivô curto antes de trotar pela rota livre; a câmera abre o quadro e permanece parada, e o segurança não a persegue. O fade cobre o retorno ao estado inicial do puzzle. `ControlsLocked` permanece ativo durante a cutscene; `onAttemptRestartRequested` é o ponto de integração para reiniciar o puzzle quando essa etapa jogável existir.
+
+O cenário do terceiro andar, a vitrine, as tábuas e os quadros de Moema vieram da pasta de assets compartilhada no Drive. Os arquivos de origem e a composição de referência estão arquivados em `Documentation/ArtSource/CC04A`; os sprites e efeitos usados pela cena ficam em `Assets/Art/CC04A`, e os quadros originais de Moema em `Assets/Art/Characters`. Os sete sons WAV — ambiente, pausa musical, tábua, penas, trote, xilofone e reinício — ficam em `Assets/Audio/CC04A`. As falas estão legendadas, com campos de voz prontos para gravação em `CC04ACutsceneController`.
+
+Para revisar a animação quadro a quadro no Editor, use **Misterio → Review → Arm CC04A frame capture** e entre em Play Mode. A captura gera 241 imagens em `Library/CC04AReviewFrames/sequence`, de 0 a 4 segundos em passos de 1/60 s.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
