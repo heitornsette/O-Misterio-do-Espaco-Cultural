@@ -1,0 +1,1653 @@
+fileFormatVersion: 2
+guid: 7034bfb531d83caa2aeb1a3ab7766cc0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7291074858202984646
+    second: escultura_espiral_0
+  - first:
+      213: 761380505034460697
+    second: escultura_espiral_1
+  - first:
+      213: 1286465952173850676
+    second: escultura_espiral_2
+  - first:
+      213: 3091058434746720403
+    second: escultura_espiral_3
+  - first:
+      213: -7228202866699662674
+    second: escultura_espiral_4
+  - first:
+      213: 2140640112622221738
+    second: escultura_espiral_5
+  - first:
+      213: 3472557014920489697
+    second: escultura_espiral_6
+  - first:
+      213: -8629758478349471581
+    second: escultura_espiral_7
+  - first:
+      213: -2767242770826331595
+    second: escultura_espiral_8
+  - first:
+      213: -3873041221091747948
+    second: escultura_espiral_9
+  - first:
+      213: -3681118202769312499
+    second: escultura_espiral_10
+  - first:
+      213: 2261678145202778064
+    second: escultura_espiral_11
+  - first:
+      213: -7666905782578723935
+    second: escultura_espiral_12
+  - first:
+      213: 7408266525756880242
+    second: escultura_espiral_13
+  - first:
+      213: 2999598613677497313
+    second: escultura_espiral_14
+  - first:
+      213: -6959875067334877749
+    second: escultura_espiral_15
+  - first:
+      213: -7745026658541164490
+    second: escultura_espiral_16
+  - first:
+      213: 5534345644273408358
+    second: escultura_espiral_17
+  - first:
+      213: -6951041964304042639
+    second: escultura_espiral_18
+  - first:
+      213: 1637648668633938691
+    second: escultura_espiral_19
+  - first:
+      213: -1674060485545121794
+    second: escultura_espiral_20
+  - first:
+      213: -8002000199881279195
+    second: escultura_espiral_21
+  - first:
+      213: -4193282703156794443
+    second: escultura_espiral_22
+  - first:
+      213: -5201790633011990703
+    second: escultura_espiral_23
+  - first:
+      213: -4883185739934789498
+    second: escultura_espiral_24
+  - first:
+      213: 4939818229312975731
+    second: escultura_espiral_25
+  - first:
+      213: 1845607273006352192
+    second: escultura_espiral_26
+  - first:
+      213: 7706960358826113979
+    second: escultura_espiral_27
+  - first:
+      213: -784190583463998622
+    second: escultura_espiral_28
+  - first:
+      213: 8983801457106264462
+    second: escultura_espiral_29
+  - first:
+      213: 1132748477723725853
+    second: escultura_espiral_30
+  - first:
+      213: 2717713481227284230
+    second: escultura_espiral_31
+  - first:
+      213: -3221281384242177802
+    second: escultura_espiral_32
+  - first:
+      213: 4755966640634186805
+    second: escultura_espiral_33
+  - first:
+      213: 1888327333135919461
+    second: escultura_espiral_34
+  - first:
+      213: -9030748767700572122
+    second: escultura_espiral_35
+  - first:
+      213: 8336087633122377510
+    second: escultura_espiral_36
+  - first:
+      213: 4096257599099052336
+    second: escultura_espiral_37
+  - first:
+      213: -7915470891534819172
+    second: escultura_espiral_38
+  - first:
+      213: 2876001367152669470
+    second: escultura_espiral_39
+  - first:
+      213: -7841972392276090080
+    second: escultura_espiral_40
+  - first:
+      213: 1647963887395845236
+    second: escultura_espiral_41
+  - first:
+      213: -376740754382956415
+    second: escultura_espiral_42
+  - first:
+      213: 2540030773056490452
+    second: escultura_espiral_43
+  - first:
+      213: 3678833139281588559
+    second: escultura_espiral_44
+  - first:
+      213: -477592416000593777
+    second: escultura_espiral_45
+  - first:
+      213: -4552376123711191629
+    second: escultura_espiral_46
+  - first:
+      213: -9220893309236742915
+    second: escultura_espiral_47
+  - first:
+      213: -3752765801581626772
+    second: escultura_espiral_48
+  - first:
+      213: 5451316147595382381
+    second: escultura_espiral_49
+  - first:
+      213: 333616122942334103
+    second: escultura_espiral_50
+  - first:
+      213: 8089444589068535446
+    second: escultura_espiral_51
+  - first:
+      213: -1147118531188834899
+    second: escultura_espiral_52
+  - first:
+      213: 658947183988931572
+    second: escultura_espiral_53
+  - first:
+      213: -8299977916166322068
+    second: escultura_espiral_54
+  - first:
+      213: 8221624483793542801
+    second: escultura_espiral_55
+  - first:
+      213: 2333285319695329927
+    second: escultura_espiral_56
+  - first:
+      213: -3956907368589365902
+    second: escultura_espiral_57
+  - first:
+      213: 1982594869905726534
+    second: escultura_espiral_58
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 1
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 180
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationMethod: 0
+  spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: escultura_espiral_0
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 1677
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c078f924f91f2560800000000000000
+      internalID: 7291074858202984646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_1
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 1657
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91e8c7d0987f09a00800000000000000
+      internalID: 761380505034460697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 927
+        height: 1652
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43005fea7f17ad110800000000000000
+      internalID: 1286465952173850676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_3
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 1639
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 390ad0fe445a5ea20800000000000000
+      internalID: 3091058434746720403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_4
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 1524
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eaa08e51ac340bb90800000000000000
+      internalID: -7228202866699662674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_5
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1270
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa9bcc047d415bd10800000000000000
+      internalID: 2140640112622221738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_6
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 1250
+        width: 10
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ea60a8e430013030800000000000000
+      internalID: 3472557014920489697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1144
+        width: 5
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a07098e260fc3880800000000000000
+      internalID: -8629758478349471581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_8
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 1120
+        width: 31
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53af0a58c57c899d0800000000000000
+      internalID: -2767242770826331595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_9
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 1106
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49791689781304ac0800000000000000
+      internalID: -3873041221091747948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_10
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 1114
+        width: 11
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d05f5bb7f7a0aecc0800000000000000
+      internalID: -3681118202769312499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_11
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 1049
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0df63194a48136f10800000000000000
+      internalID: 2261678145202778064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_12
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 1009
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a3c10fcfcda99590800000000000000
+      internalID: -7666905782578723935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_13
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 1001
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 275f72d87237fc660800000000000000
+      internalID: 7408266525756880242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_14
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 1002
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1eb500deb07b0a920800000000000000
+      internalID: 2999598613677497313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_15
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 1002
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcd1862508e896f90800000000000000
+      internalID: -6959875067334877749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_16
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 966
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63829b9f943248490800000000000000
+      internalID: -7745026658541164490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_17
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 883
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 669952f8a02fdcc40800000000000000
+      internalID: 5534345644273408358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_18
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 883
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 175f2d26920f88f90800000000000000
+      internalID: -6951041964304042639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_19
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 840
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30b31d899c81ab610800000000000000
+      internalID: 1637648668633938691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_20
+      rect:
+        serializedVersion: 2
+        x: 827
+        y: 843
+        width: 9
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef7a092abda84c8e0800000000000000
+      internalID: -1674060485545121794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_21
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 805
+        width: 6
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 529b871f63f23f090800000000000000
+      internalID: -8002000199881279195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_22
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 800
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bbac8339977ec5c0800000000000000
+      internalID: -4193282703156794443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_23
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 810
+        width: 18
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15fad53caf68fc7b0800000000000000
+      internalID: -5201790633011990703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_24
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 769
+        width: 35
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6801fe611707b3cb0800000000000000
+      internalID: -4883185739934789498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_25
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 791
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 373f23dd182cd8440800000000000000
+      internalID: 4939818229312975731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_26
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 793
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 047cb6e490aec9910800000000000000
+      internalID: 1845607273006352192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_27
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 795
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbbf8d5fc9f94fa60800000000000000
+      internalID: 7706960358826113979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_28
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 785
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26b0c64b1defd15f0800000000000000
+      internalID: -784190583463998622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_29
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 743
+        width: 8
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e81a477b3dfdcac70800000000000000
+      internalID: 8983801457106264462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_30
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 758
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d10569a2db458bf00800000000000000
+      internalID: 1132748477723725853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_31
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 769
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60fa7d9130247b520800000000000000
+      internalID: 2717713481227284230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_32
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 707
+        width: 12
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f89aaae5a5bb43d0800000000000000
+      internalID: -3221281384242177802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_33
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 721
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53ccb922676900240800000000000000
+      internalID: 4755966640634186805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_34
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 723
+        width: 12
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5692a3764bfa43a10800000000000000
+      internalID: 1888327333135919461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_35
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 707
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 628296db7d55ca280800000000000000
+      internalID: -9030748767700572122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_36
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 681
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62f39cc298bbfa370800000000000000
+      internalID: 8336087633122377510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_37
+      rect:
+        serializedVersion: 2
+        x: 894
+        y: 540
+        width: 13
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0312bce5594d8d830800000000000000
+      internalID: 4096257599099052336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_38
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 514
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c906f108929962290800000000000000
+      internalID: -7915470891534819172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_39
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 514
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e133ca6710c99e720800000000000000
+      internalID: 2876001367152669470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_40
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 352
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 023a6f368a7bb2390800000000000000
+      internalID: -7841972392276090080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_41
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 370
+        width: 12
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 474b6ee9c6ebed610800000000000000
+      internalID: 1647963887395845236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_42
+      rect:
+        serializedVersion: 2
+        x: 878
+        y: 360
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 188579aa74c85caf0800000000000000
+      internalID: -376740754382956415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_43
+      rect:
+        serializedVersion: 2
+        x: 787
+        y: 322
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4dbc79ac780004320800000000000000
+      internalID: 2540030773056490452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_44
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 322
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4170d6bf37dd0330800000000000000
+      internalID: 3678833139281588559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_45
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 320
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f803dd06a304f59f0800000000000000
+      internalID: -477592416000593777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_46
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 296
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b58936f806b2d0c0800000000000000
+      internalID: -4552376123711191629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_47
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 272
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df4fa2fb36ec80080800000000000000
+      internalID: -9220893309236742915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_48
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 194
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6a3e7fe26f7bebc0800000000000000
+      internalID: -3752765801581626772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_49
+      rect:
+        serializedVersion: 2
+        x: 851
+        y: 167
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6e06c76727f6ab40800000000000000
+      internalID: 5451316147595382381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_50
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 131
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7942253a81e31a400800000000000000
+      internalID: 333616122942334103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_51
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 144
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 696c2a97efa734070800000000000000
+      internalID: 8089444589068535446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_52
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 95
+        width: 9
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dadb83906cd9410f0800000000000000
+      internalID: -1147118531188834899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_53
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 95
+        width: 7
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4fb776bf8fc052900800000000000000
+      internalID: 658947183988931572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_54
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 113
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c68c1577f0e80dc80800000000000000
+      internalID: -8299977916166322068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_55
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 115
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19e1b2178e3191270800000000000000
+      internalID: 8221624483793542801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_56
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 41
+        width: 15
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78ae210d2ae716020800000000000000
+      internalID: 2333285319695329927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_57
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 53
+        width: 7
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27dea1e76bd3619c0800000000000000
+      internalID: -3956907368589365902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: escultura_espiral_58
+      rect:
+        serializedVersion: 2
+        x: 855
+        y: 47
+        width: 18
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64c1e3aa787938b10800000000000000
+      internalID: 1982594869905726534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      escultura_espiral_0: 7291074858202984646
+      escultura_espiral_1: 761380505034460697
+      escultura_espiral_10: -3681118202769312499
+      escultura_espiral_11: 2261678145202778064
+      escultura_espiral_12: -7666905782578723935
+      escultura_espiral_13: 7408266525756880242
+      escultura_espiral_14: 2999598613677497313
+      escultura_espiral_15: -6959875067334877749
+      escultura_espiral_16: -7745026658541164490
+      escultura_espiral_17: 5534345644273408358
+      escultura_espiral_18: -6951041964304042639
+      escultura_espiral_19: 1637648668633938691
+      escultura_espiral_2: 1286465952173850676
+      escultura_espiral_20: -1674060485545121794
+      escultura_espiral_21: -8002000199881279195
+      escultura_espiral_22: -4193282703156794443
+      escultura_espiral_23: -5201790633011990703
+      escultura_espiral_24: -4883185739934789498
+      escultura_espiral_25: 4939818229312975731
+      escultura_espiral_26: 1845607273006352192
+      escultura_espiral_27: 7706960358826113979
+      escultura_espiral_28: -784190583463998622
+      escultura_espiral_29: 8983801457106264462
+      escultura_espiral_3: 3091058434746720403
+      escultura_espiral_30: 1132748477723725853
+      escultura_espiral_31: 2717713481227284230
+      escultura_espiral_32: -3221281384242177802
+      escultura_espiral_33: 4755966640634186805
+      escultura_espiral_34: 1888327333135919461
+      escultura_espiral_35: -9030748767700572122
+      escultura_espiral_36: 8336087633122377510
+      escultura_espiral_37: 4096257599099052336
+      escultura_espiral_38: -7915470891534819172
+      escultura_espiral_39: 2876001367152669470
+      escultura_espiral_4: -7228202866699662674
+      escultura_espiral_40: -7841972392276090080
+      escultura_espiral_41: 1647963887395845236
+      escultura_espiral_42: -376740754382956415
+      escultura_espiral_43: 2540030773056490452
+      escultura_espiral_44: 3678833139281588559
+      escultura_espiral_45: -477592416000593777
+      escultura_espiral_46: -4552376123711191629
+      escultura_espiral_47: -9220893309236742915
+      escultura_espiral_48: -3752765801581626772
+      escultura_espiral_49: 5451316147595382381
+      escultura_espiral_5: 2140640112622221738
+      escultura_espiral_50: 333616122942334103
+      escultura_espiral_51: 8089444589068535446
+      escultura_espiral_52: -1147118531188834899
+      escultura_espiral_53: 658947183988931572
+      escultura_espiral_54: -8299977916166322068
+      escultura_espiral_55: 8221624483793542801
+      escultura_espiral_56: 2333285319695329927
+      escultura_espiral_57: -3956907368589365902
+      escultura_espiral_58: 1982594869905726534
+      escultura_espiral_6: 3472557014920489697
+      escultura_espiral_7: -8629758478349471581
+      escultura_espiral_8: -2767242770826331595
+      escultura_espiral_9: -3873041221091747948
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
