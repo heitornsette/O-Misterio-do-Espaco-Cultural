@@ -36,6 +36,16 @@ Ao concluir o puzzle das pinturas, a última obra se encaixa no nicho e a câmer
 
 As três pinturas — litoral de Mucuripe, serra de Baturité e sertão — foram criadas como obras fictícias originais. Os fundos e as pinturas ficam em `Assets/Art/CC03`; seis efeitos e trechos musicais em WAV ficam em `Assets/Audio/CC03`. A cena reutiliza as animações do segurança, a fonte e a vinheta de CC01. Os espaços de voz permanecem prontos para gravação em `CC03CutsceneController`.
 
+## Cutscene CC04 — Passagem silenciosa
+
+- Cena: `Assets/Scenes/CC04_Passagem_Silenciosa.unity`
+- Duração: 9 segundos.
+- Construção: no Unity, use **Misterio → Build CC04 - Passagem silenciosa**.
+
+Depois de recolher as peças do acervo sem assustar Moema, o segurança recua sem tocar nos cacos, passa por trás dela e segue para o elevador de serviço. Moema continua entretida com um objeto próximo; o segurança faz um gesto discreto de silêncio antes de entrar no elevador. As portas se fecham com Moema visível pela fresta e o indicador refletido no metal. A cena inclui legendas, luz e sombras do holofote, brilho sutil nos cacos, passos abafados, rangido leve e motor do elevador. `ControlsLocked` é liberado ao final e `onCutsceneFinished` permite ligar a sequência à próxima etapa.
+
+O fundo do acervo e os efeitos em pixel art ficam em `Assets/Art/CC04`; os seis sons WAV ficam em `Assets/Audio/CC04`. A cena reutiliza as animações do segurança, o sprite de Moema, a fonte e a vinheta já presentes no projeto. Os campos de voz ficam prontos para gravação em `CC04CutsceneController`.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
