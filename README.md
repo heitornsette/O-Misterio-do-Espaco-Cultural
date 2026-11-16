@@ -119,6 +119,17 @@ O relógio global chega a 06:00 e congela; a cena mostra o trabalho pendente no 
 
 A cena reutiliza os fundos, esculturas e marcas do térreo (CC02), obras e galeria (CC03), acervo e animação de Moema (CC04/CC04A), além do rádio (CC08). As fontes e os reaproveitamentos estão listados em `Documentation/ArtSource/CC09/README.md`. Os campos de narração e fala da curadoria ficam prontos para gravação; a versão atual usa legendas e ambiências/efeitos locais.
 
+## Cutscene CC10 — A última sala ainda no escuro
+
+- Cena: `Assets/Scenes/CC10_A_Ultima_Sala_Ainda_no_Escuro.unity`
+- Duração: 15 segundos; final alternativo quando o relógio chega a 06:00 no puzzle elétrico.
+- Construção: no Unity, use **Misterio → Build CC10 - A última sala ainda no escuro**.
+- Revisão: use **Misterio → Review → Arm CC10 frame capture** e entre em Play Mode. A captura produz 901 quadros, de 0 a 15 segundos em passos de 1/60 s.
+
+A cena mostra o circuito aberto, a obra intacta sob a luz natural e sem os focos elétricos, o aviso pelo rádio e a curadoria aguardando na entrada. O segurança fecha a tampa do painel sem tocar nos fios; o resultado mantém as outras áreas seguras e adia a revisão do Salão Principal, com opções para tentar novamente ou voltar ao menu. `CC10CutsceneController` expõe `SetGlobalClock`, `PlayCutscene`, `RetrySameAttempt` e eventos para pausar a partida, reiniciar o puzzle e retornar ao menu.
+
+O salão, o circuito, a obra e o rádio reaproveitam arte das CC05/CC06/CC08. A fachada e a equipe são os sprites da chegada matinal da CC08. A tampa fechada em pixel art é específica da CC10; não há gravações de voz para esta cena, então as falas permanecem legendadas e os campos aceitam os clipes quando forem fornecidos. Fontes, áudio e novos sprites estão anotados em `Documentation/ArtSource/CC10/README.md`.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
