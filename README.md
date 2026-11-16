@@ -96,6 +96,18 @@ A cena reutiliza o salão do térreo, a galeria e a arte de Moema; as três escu
 
 Para revisar quadro a quadro, use **Misterio → Review → Arm CC07 frame capture** e entre em Play Mode. A captura gera 901 imagens em `Library/CC07ReviewFrames/sequence`, de 0 a 15 segundos em passos de 1/60 s. As falas estão legendadas; os campos de voz permanecem prontos para gravação.
 
+## Cutscene CC08 — A abertura do dia
+
+- Cena: `Assets/Scenes/CC08_A_Abertura_do_Dia.unity`
+- Duração: 25 segundos.
+- Construção: no Unity, use **Misterio → Build CC08 - A abertura do dia**.
+
+Após o circuito ser restaurado antes das 06:00, uma elipse leva o relógio global a 06:00 sem consumir tempo de jogo. A equipe de curadoria chega ao amanhecer; as portas de vidro deslizam e revelam o saguão pronto. A curadora confirma a inauguração com o segurança, que ajusta o rádio e retoma a postura profissional. No gramado, a mariposa pousa perto de Moema, que finalmente descansa. Os cinco planos seguem o roteiro, com legendas, ambientes, passos, abertura das portas, clique do rádio e acento musical final.
+
+O jardim em camadas, o saguão, o reitor, as curadoras e o ciclo de voo da mariposa vêm dos materiais compartilhados no Drive; as referências e a origem estão anotadas em `Documentation/ArtSource/CC08`. A cena reutiliza as animações do segurança e de Moema. Os assets específicos de arte e ambiência ficam em `Assets/Art/CC08` e `Assets/Audio/CC08`; passos, porta, rádio, asas e xilofone reutilizam áudio das cenas anteriores. Os campos de voz ficam prontos para gravação em `CC08CutsceneController`.
+
+Para revisar a cena quadro a quadro no Editor, use **Misterio → Review → Arm CC08 frame capture** e entre em Play Mode. A captura gera 1.501 imagens em `Library/CC08ReviewFrames/sequence`, de 0 a 25 segundos em passos de 1/60 s.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
