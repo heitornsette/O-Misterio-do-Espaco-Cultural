@@ -89,34 +89,36 @@ namespace Misterio.EditorTools
             rootRect.sizeDelta = new Vector2(360f, 420f);
             rootRect.anchoredPosition = new Vector2(0f, -320f);
 
-            var ivory = new Color(0.925f, 0.91f, 0.87f, 1f);     // #ece8de
-            var cream = new Color(0.988f, 0.964f, 0.866f, 1f);   // #fcf6de
-            var gold = new Color(0.733f, 0.533f, 0.396f, 1f);    // #bb8865
-            var light = new Color(0.808f, 0.784f, 0.737f, 1f);   // #cec8bc
-            var muted = new Color(0.620f, 0.435f, 0.250f, 1f);   // #9b6540
+            // Night-blue/moonlight family from paleta_misterio (same family as moth glow and lantern).
+            var silver = new Color(0.871f, 0.882f, 0.914f, 1f);  // #dee1e9
+            var moon = new Color(0.914f, 0.973f, 0.992f, 1f);    // #e9f8fd
+            var steel = new Color(0.459f, 0.624f, 0.749f, 1f);   // #759fbf
+            var silverDim = new Color(0.776f, 0.800f, 0.867f, 1f); // #c6ccdd
+            var slate = new Color(0.490f, 0.541f, 0.675f, 1f);   // #7d8aac
+            var glow = new Color(0.557f, 0.757f, 0.855f, 1f);    // #8ec1da
 
-            var title = MakeCreditsText(rootRect, "Title", 30, 46, 320, 15, ivory, TextAnchor.MiddleCenter, true);
+            var title = MakeCreditsText(rootRect, "Title", 30, 46, 320, 15, silver, TextAnchor.MiddleCenter, true);
             title.text = "O MISTÉRIO DO\nESPAÇO CULTURAL";
             var titleShadow = title.gameObject.AddComponent<Shadow>();
             titleShadow.effectColor = new Color(0.165f, 0.2f, 0.357f, 0.9f); // #2a335b
             titleShadow.effectDistance = new Vector2(1f, -1f);
 
-            MakeCreditsText(rootRect, "Subtitle", 82, 14, 220, 8, muted, TextAnchor.MiddleCenter, false).text = "uma produção";
+            MakeCreditsText(rootRect, "Subtitle", 82, 14, 220, 8, slate, TextAnchor.MiddleCenter, false).text = "uma produção";
 
-            MakeCreditsText(rootRect, "Section - Equipe", 108, 16, 220, 10, gold, TextAnchor.MiddleCenter, true).text = "EQUIPE";
-            MakeCreditsText(rootRect, "Savas", 128, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "Savas Neto — código e cutscenes";
-            MakeCreditsText(rootRect, "Levi", 146, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "Levi de Pontes — ambientação, efeitos sonoros e visuais";
-            MakeCreditsText(rootRect, "Heitor", 164, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "Heitor Sette — arte e roteiro";
-            MakeCreditsText(rootRect, "Natalia", 182, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "Natalia Pacheco — desenvolvimento de cenários";
+            MakeCreditsText(rootRect, "Section - Equipe", 108, 16, 220, 10, steel, TextAnchor.MiddleCenter, true).text = "EQUIPE";
+            MakeCreditsText(rootRect, "Savas", 128, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "Savas Neto — código e cutscenes";
+            MakeCreditsText(rootRect, "Levi", 146, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "Levi de Pontes — ambientação, efeitos sonoros e visuais";
+            MakeCreditsText(rootRect, "Heitor", 164, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "Heitor Sette — arte e roteiro";
+            MakeCreditsText(rootRect, "Natalia", 182, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "Natalia Pacheco — desenvolvimento de cenários";
 
-            MakeCreditsText(rootRect, "Section - Disciplina", 212, 16, 220, 10, gold, TextAnchor.MiddleCenter, true).text = "DISCIPLINA";
-            MakeCreditsText(rootRect, "Course", 232, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "N394-50 — Computação Gráfica e Realidade Virtual";
-            MakeCreditsText(rootRect, "University", 250, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "Universidade de Fortaleza · 2026";
+            MakeCreditsText(rootRect, "Section - Disciplina", 212, 16, 220, 10, steel, TextAnchor.MiddleCenter, true).text = "DISCIPLINA";
+            MakeCreditsText(rootRect, "Course", 232, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "N394-50 — Computação Gráfica e Realidade Virtual";
+            MakeCreditsText(rootRect, "University", 250, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "Universidade de Fortaleza · 2026";
 
-            MakeCreditsText(rootRect, "Section - Orientacao", 280, 16, 220, 10, gold, TextAnchor.MiddleCenter, true).text = "ORIENTAÇÃO";
-            MakeCreditsText(rootRect, "Professor", 300, 14, 340, 9, light, TextAnchor.MiddleCenter, false).text = "Prof. Thiago Narak";
+            MakeCreditsText(rootRect, "Section - Orientacao", 280, 16, 220, 10, steel, TextAnchor.MiddleCenter, true).text = "ORIENTAÇÃO";
+            MakeCreditsText(rootRect, "Professor", 300, 14, 340, 9, silverDim, TextAnchor.MiddleCenter, false).text = "Prof. Thiago Narak";
 
-            var thanks = MakeCreditsText(rootRect, "Thanks", 340, 20, 320, 12, gold, TextAnchor.MiddleCenter, true);
+            var thanks = MakeCreditsText(rootRect, "Thanks", 340, 20, 320, 12, steel, TextAnchor.MiddleCenter, true);
             thanks.text = "OBRIGADO POR JOGAR";
             var thanksShadow = thanks.gameObject.AddComponent<Shadow>();
             thanksShadow.effectColor = new Color(0.165f, 0.2f, 0.357f, 0.8f);
@@ -125,7 +127,7 @@ namespace Misterio.EditorTools
             var hint = MakeText(canvas.transform, "Skip hint",
                 new Vector2(0.5f, 0f), new Vector2(0.5f, 0f),
                 new Vector2(-120f, 8f), new Vector2(120f, 20f),
-                8, TextAnchor.MiddleCenter, muted);
+                8, TextAnchor.MiddleCenter, slate);
             hint.text = "clique ou ESC para pular";
             hint.raycastTarget = false;
             hint.enabled = false;
@@ -133,11 +135,11 @@ namespace Misterio.EditorTools
             var endCard = MakeText(canvas.transform, "End card - O misterio continua",
                 new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
                 new Vector2(-160f, -16f), new Vector2(160f, 16f),
-                13, TextAnchor.MiddleCenter, cream);
+                13, TextAnchor.MiddleCenter, moon);
             endCard.text = "O MISTÉRIO CONTINUA...";
             endCard.fontStyle = FontStyle.Bold;
             var endShadow = endCard.gameObject.AddComponent<Shadow>();
-            endShadow.effectColor = new Color(0.733f, 0.533f, 0.396f, 0.85f);
+            endShadow.effectColor = new Color(0.557f, 0.757f, 0.855f, 0.85f); // #8ec1da glow
             endShadow.effectDistance = new Vector2(1f, -1f);
             endCard.raycastTarget = false;
             endCard.enabled = false;
