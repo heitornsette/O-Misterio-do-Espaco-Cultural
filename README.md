@@ -84,6 +84,18 @@ A cena reutiliza o quarto andar, o painel e a obra da CC05. O sprite da mariposa
 
 Para revisar a cena quadro a quadro, use **Misterio → Review → Arm CC06 frame capture** e entre em Play Mode. A captura produz 721 imagens em `Library/CC06ReviewFrames/sequence`, de 0 a 12 segundos em passos de 1/60 s. As falas estão legendadas e os campos de voz permanecem prontos para gravação.
 
+## Cutscene CC07 — A trilha de Moema
+
+- Cena: `Assets/Scenes/CC07_A_Trilha_de_Moema.unity`
+- Duração: 15 segundos.
+- Construção: no Unity, use **Misterio → Build CC07 - A trilha de Moema**.
+
+A mariposa que atravessa o salão leva o segurança a reconstruir a sequência: a porta de serviço ficou aberta, Moema esbarrou nas esculturas durante o percurso e uma pintura escorregou da parede. No quarto andar, ela tenta alcançar o inseto junto ao cabo frouxo; o conector se solta, as luzes apagam e Moema corre assustada. A lembrança termina no salão restaurado: Moema sai pela basculante, a mariposa a acompanha e o segurança entende que não houve intenção. A sequência preserva o tom acidental e mantém congelados os relógios e temporizadores da partida.
+
+A cena reutiliza o salão do térreo, a galeria e a arte de Moema; as três esculturas vieram do pacote compartilhado no Drive. O sprite da mariposa veio de `Assets/Art/Characters/Mariposa_Base.png`. A moldura, o conector solto, o tratamento âmbar das lembranças, as legendas e os detalhes sonoros completam os planos sem revelar a mariposa como uma ameaça.
+
+Para revisar quadro a quadro, use **Misterio → Review → Arm CC07 frame capture** e entre em Play Mode. A captura gera 901 imagens em `Library/CC07ReviewFrames/sequence`, de 0 a 15 segundos em passos de 1/60 s. As falas estão legendadas; os campos de voz permanecem prontos para gravação.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
