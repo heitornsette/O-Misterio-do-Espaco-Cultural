@@ -108,6 +108,17 @@ O jardim em camadas, o saguão, o reitor, as curadoras e o ciclo de voo da marip
 
 Para revisar a cena quadro a quadro no Editor, use **Misterio → Review → Arm CC08 frame capture** e entre em Play Mode. A captura gera 1.501 imagens em `Library/CC08ReviewFrames/sequence`, de 0 a 25 segundos em passos de 1/60 s.
 
+## Cutscene CC09 — A abertura precisa esperar
+
+- Cena: `Assets/Scenes/CC09_A_Abertura_Precisa_Esperar.unity`
+- Duração: 14 segundos; três variações para o térreo, a galeria e o acervo.
+- Construção: no Unity, use **Misterio → Build CC09 - A abertura precisa esperar**.
+- Revisão: use **Misterio → Review → Arm CC09 frame capture (three floors)** e entre em Play Mode. A captura gera 2.523 imagens em `Library/CC09ReviewFrames`, 841 por andar a 60 quadros por segundo.
+
+O relógio global chega a 06:00 e congela; a cena mostra o trabalho pendente no andar escolhido, o segurança avisa a curadoria pelo rádio e a inauguração é adiada com opções para tentar de novo ou voltar ao menu. `CC09CutsceneController` permite escolher a variação com `SetIncompleteFloor(1..3)` ou `SetFloorVariant` antes de `PlayCutscene`.
+
+A cena reutiliza os fundos, esculturas e marcas do térreo (CC02), obras e galeria (CC03), acervo e animação de Moema (CC04/CC04A), além do rádio (CC08). As fontes e os reaproveitamentos estão listados em `Documentation/ArtSource/CC09/README.md`. Os campos de narração e fala da curadoria ficam prontos para gravação; a versão atual usa legendas e ambiências/efeitos locais.
+
 ## Arte e fontes
 
 - Sprites do segurança, Moema e paleta: `Assets/Art/Characters` e `Assets/Art/Palette`.
