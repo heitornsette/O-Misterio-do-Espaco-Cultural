@@ -57,7 +57,15 @@ namespace Misterio.Gameplay
 
         public override void Interact(GuardActor actor)
         {
-            hud?.ShowHint(plaqueText, 8f);
+            // The HUD is created at runtime by the floor, so it is resolved on first use instead of
+            // relying on a binding step that a rebuilt scene could silently lose.
+            if (hud == null) hud = Object.FindAnyObjectByType<HudView>();
+            if (hud == null)
+            {
+                Debug.LogWarning("[Plaque] no HUD found; clue not shown: " + plaqueText);
+                return;
+            }
+            hud.ShowHint(plaqueText, 8f);
         }
     }
 }
