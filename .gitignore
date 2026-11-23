@@ -31,3 +31,8 @@
 *.bak
 sysinfo.txt
 
+# Unity crash dumps: generated on abnormal shutdown, never part of the project.
+mono_crash.*.blob
+crashlytics-build.properties
+
+
