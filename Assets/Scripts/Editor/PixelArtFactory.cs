@@ -41,6 +41,39 @@ namespace Misterio.EditorTools
         public static Sprite Build(string assetName, int width, int height, Func<int, int, Color> painter,
                                    float pixelsPerUnit = 128f)
         {
+            string path = "Assets/Art/Gameplay/" + assetName + ".png";
+            FloorSceneKit.CreateFolder("Assets/Art/Gameplay");
+
+            // Reuse an existing asset instead of rewriting it. Rewriting a texture that a scene
+            // already references during a build invalidates the sprite and corrupts the scene, so
+            // the file is only generated when it is missing.
+            if (!File.Exists(path)) WriteTexture(path, width, height, painter);
+
+            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
+            if (importer == null || importer.textureType != TextureImporterType.Sprite ||
+                importer.spritePixelsPerUnit != pixelsPerUnit)
+            {
+                if (importer != null)
+                {
+                    importer.textureType = TextureImporterType.Sprite;
+                    importer.spriteImportMode = SpriteImportMode.Single;
+                    importer.filterMode = FilterMode.Point;
+                    importer.textureCompression = TextureImporterCompression.Uncompressed;
+                    importer.spritePixelsPerUnit = pixelsPerUnit;
+                    importer.alphaIsTransparency = true;
+                    importer.mipmapEnabled = false;
+                    importer.SaveAndReimport();
+                }
+            }
+
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            if (sprite == null)
+                throw new InvalidOperationException("Sprite not importable after writing: " + path);
+            return sprite;
+        }
+
+        static void WriteTexture(string path, int width, int height, Func<int, int, Color> painter)
+        {
             var texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
             var pixels = new Color[width * height];
             for (int y = 0; y < height; y++)
@@ -51,25 +84,9 @@ namespace Misterio.EditorTools
             texture.wrapMode = TextureWrapMode.Clamp;
             texture.Apply();
 
-            string path = "Assets/Art/Gameplay/" + assetName + ".png";
-            FloorSceneKit.CreateFolder("Assets/Art/Gameplay");
             File.WriteAllBytes(path, texture.EncodeToPNG());
             UnityEngine.Object.DestroyImmediate(texture);
-            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
-
-            var importer = AssetImporter.GetAtPath(path) as TextureImporter;
-            if (importer != null)
-            {
-                importer.textureType = TextureImporterType.Sprite;
-                importer.spriteImportMode = SpriteImportMode.Single;
-                importer.filterMode = FilterMode.Point;
-                importer.textureCompression = TextureImporterCompression.Uncompressed;
-                importer.spritePixelsPerUnit = pixelsPerUnit;
-                importer.alphaIsTransparency = true;
-                importer.mipmapEnabled = false;
-                importer.SaveAndReimport();
-            }
-            return AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceSynchronousImport);
         }
 
         // ---------------------------------------------------------------- statues

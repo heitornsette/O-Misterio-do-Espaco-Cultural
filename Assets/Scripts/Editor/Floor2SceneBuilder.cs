@@ -76,9 +76,9 @@ namespace Misterio.EditorTools
 
             // The two clues are readable plaques on the gallery walls, as the design document asks.
             FloorSceneKit.AddPlaque("Clue1", new Vector2(-1.35f, 0.02f),
-                "Acervo — a obra de paleta quente fica à direita de todas.", 0.30f);
+                "Acervo: a obra de paleta quente fica a direita de todas.", 0.30f);
             FloorSceneKit.AddPlaque("Clue2", new Vector2(1.35f, 0.02f),
-                "Acervo — a tela do litoral fica ao lado da obra mais antiga.", 0.30f);
+                "Acervo: a tela do litoral fica ao lado da obra mais antiga.", 0.30f);
 
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
             if (audio.ambient.clip != null) audio.ambient.Play();
