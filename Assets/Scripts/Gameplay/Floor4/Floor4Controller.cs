@@ -157,6 +157,29 @@ namespace Misterio.Gameplay
                 : "Gire os conduítes até a energia chegar ao painel.");
         }
 
+        /// <summary>Development only: aligns every conduit so the route capture can move on.</summary>
+        protected override void AutoCompleteForCapture()
+        {
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    var cell = new Vector2Int(x, y);
+                    byte wanted = solvedMasks[y * width + x];
+                    if (wanted == 0) continue;
+                    int guard = 0;
+                    while (circuit.Get(cell).Mask != wanted && guard < 4)
+                    {
+                        circuit.Turn(cell);
+                        guard++;
+                    }
+                }
+            }
+            SyncViews();
+            UpdateCounter();
+            CompleteFloor();
+        }
+
         protected override string HintForFloor() =>
             "Siga o caminho da fonte até o painel: cada peça precisa apontar para a vizinha.";
     }

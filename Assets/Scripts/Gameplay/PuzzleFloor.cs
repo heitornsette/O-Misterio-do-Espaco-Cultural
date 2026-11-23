@@ -114,8 +114,13 @@ namespace Misterio.Gameplay
             GameFlow.EnsureExists().GoToNext();
         }
 
-        protected virtual Font LoadFont()
-        {
+        /// <summary>
+        /// Development only: solves the floor immediately so the automated route capture can walk
+        /// the whole game in the built player. Never called in a normal run.
+        /// </summary>
+        protected virtual void AutoCompleteForCapture() => CompleteFloor();
+
+        protected virtual Font LoadFont()        {
             var font = Resources.Load<Font>("RobotoMono-Bold");
             if (font != null) return font;
 #if UNITY_EDITOR

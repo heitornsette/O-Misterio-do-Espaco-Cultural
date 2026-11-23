@@ -48,10 +48,11 @@ namespace Misterio.Core
 
             unityEvent.AddListener(() =>
             {
+                Debug.Log("[Router] onCutsceneFinished fired for " + sceneName + " at t=" + Time.timeSinceLevelLoad.ToString("F2"));
                 GameSession.Instance?.SetClockRunning(false);
                 GameFlow.Instance?.Load(next);
             });
-            Debug.Log("[Router] " + sceneName + " -> " + next);
+            Debug.Log("[Router] " + sceneName + " -> " + next + " (listener armed)");
             return true;
         }
 

@@ -23,6 +23,20 @@ namespace Misterio.Core
             }
             instance = this;
 
+            // The night must keep running even when the window loses focus; without this the
+            // clock and the cutscenes freeze as soon as the player alt-tabs.
+            Application.runInBackground = true;
+            Application.targetFrameRate = 60;
+
+            // Development only: -startscene <name> opens any scene directly, which makes it possible
+            // to validate the time-out endings and the credits in the built player.
+            string requested = ReadArgument("-startscene");
+            if (!string.IsNullOrEmpty(requested) && gameObject.scene.name != requested)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(requested);
+                return;
+            }
+
             GameSession.EnsureExists();
             var flow = GameFlow.Instance;
             if (flow == null)
@@ -36,11 +50,24 @@ namespace Misterio.Core
                 GameSession.Instance.ResetRun();
 
             SceneRouter.WireCutscene(gameObject.scene.name);
+
+            // The development capture helper only activates when the player is launched with
+            // -autoshot; it stays inert in a normal run.
+            if (gameObject.GetComponent<AutoCapture>() == null)
+                gameObject.AddComponent<AutoCapture>();
         }
 
         void OnDestroy()
         {
             if (instance == this) instance = null;
+        }
+
+        static string ReadArgument(string name)
+        {
+            var args = System.Environment.GetCommandLineArgs();
+            for (int i = 0; i < args.Length - 1; i++)
+                if (args[i] == name) return args[i + 1];
+            return null;
         }
     }
 }

@@ -219,6 +219,14 @@ namespace Misterio.Gameplay
                 : "Recolha as peças do acervo sem ser visto por Moema.");
         }
 
+        /// <summary>Development only: collects every piece so the route capture can move on.</summary>
+        protected override void AutoCompleteForCapture()
+        {
+            for (int i = 0; i < TotalPieces; i++) Collect(i);
+            UpdateCounter();
+            CompleteFloor();
+        }
+
         protected override string HintForFloor() =>
             "Observe o giro de Moema: o cone mostra exatamente até onde ela vê.";
     }

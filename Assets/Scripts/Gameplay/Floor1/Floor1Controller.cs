@@ -225,6 +225,18 @@ namespace Misterio.Gameplay
                 : "Devolva as estátuas às marcações no piso.");
         }
 
+        /// <summary>Development only: solves the statues so the route capture can move on.</summary>
+        protected override void AutoCompleteForCapture()
+        {
+            var solution = SokobanSolver.Solve(board);
+            if (solution != null)
+                foreach (var step in solution) board.TryMove(step);
+            RefreshBlockers();
+            SyncViews();
+            UpdateCounter();
+            CompleteFloor();
+        }
+
         protected override string HintForFloor()
         {
             if (board == null) return "Empurre as estátuas até as marcações.";

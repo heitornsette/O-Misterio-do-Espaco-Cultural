@@ -215,6 +215,17 @@ namespace Misterio.Gameplay
                 Hud.SetObjective("Leia as placas e pendure cada quadro no gancho certo.");
         }
 
+        /// <summary>Development only: hangs every painting in the right place.</summary>
+        protected override void AutoCompleteForCapture()
+        {
+            for (int slot = 0; slot < Solution.Length; slot++) puzzle.Place(Solution[slot], slot);
+            carried = -1;
+            if (carriedView != null) carriedView.enabled = false;
+            SyncViews();
+            UpdateCounter();
+            CompleteFloor();
+        }
+
         protected override string HintForFloor() =>
             "Leia as placas: duas pistas bastam para descobrir a ordem certa.";
 
