@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Exterior_Chegada.unity
+    guid: 22416b28354b604cea3fdf6bf14621d8
+  - enabled: 1
     path: Assets/Scenes/CC01_A_Madrugada_Comeca.unity
     guid: c95da522dc24fb582989319b4c062adc
   - enabled: 1

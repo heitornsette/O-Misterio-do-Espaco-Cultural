@@ -48,13 +48,25 @@ namespace Misterio.EditorTools
             return target.GetType().GetProperty(name, Any)?.GetValue(target);
         }
 
-        /// <summary>Opens a scene and runs the same lifecycle the engine would.</summary>
+        /// <summary>
+        /// Opens a scene and runs the lifecycle in the order the engine uses: every Awake first,
+        /// then every Start. Running them per-object would let a floor's Awake clear the registry
+        /// before its interactables had a chance to enable.
+        /// </summary>
         static void Open(string sceneName)
         {
             EditorSceneManager.OpenScene("Assets/Scenes/" + sceneName + ".unity", OpenSceneMode.Single);
+
             var behaviours = Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            // The engine enables objects before Awake, so mirror that first.
+            foreach (var behaviour in behaviours)
+                if (behaviour != null && behaviour.isActiveAndEnabled)
+                    behaviour.SendMessage("OnEnable", SendMessageOptions.DontRequireReceiver);
+
             foreach (var behaviour in behaviours)
                 if (behaviour != null) Call(behaviour, "Awake");
+
             foreach (var behaviour in behaviours)
                 if (behaviour != null) Call(behaviour, "Start");
         }
@@ -76,7 +88,13 @@ namespace Misterio.EditorTools
 
             var plaques = new List<PlaqueInteractable>(
                 Object.FindObjectsByType<PlaqueInteractable>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-            if (plaques.Count < 2) return "FAILED: expected 2 plaques, found " + plaques.Count;
+            if (plaques.Count < 2)
+            {
+                // Report what is actually in the scene so a regression is diagnosable.
+                var names = new List<string>();
+                foreach (var found in plaques) names.Add(found == null ? "<destroyed>" : found.name);
+                return "FAILED: expected 2 plaques, found " + plaques.Count + " [" + string.Join(", ", names) + "]";
+            }
 
             int readable = 0;
             var seen = new List<string>();

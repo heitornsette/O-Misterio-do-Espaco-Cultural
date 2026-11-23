@@ -74,6 +74,16 @@ namespace Misterio.Core
         /// <summary>Dev-only: solves the current floor so the whole route can be captured.</summary>
         static void AutoPlay()
         {
+            // The outdoor approach has no puzzle: it ends by walking to the entrance, so the
+            // capture simply moves the guard there.
+            foreach (var exterior in UnityEngine.Object.FindObjectsByType<Misterio.Gameplay.ExteriorScene>(
+                         FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (exterior == null) continue;
+                Debug.Log("[AutoPlay] finishing " + exterior.GetType().Name);
+                exterior.SkipToEntrance();
+            }
+
             // PuzzleFloor is abstract, so the check is by base type rather than by name.
             foreach (var floor in UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {

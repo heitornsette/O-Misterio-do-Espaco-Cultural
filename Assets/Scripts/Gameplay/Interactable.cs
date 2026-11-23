@@ -34,7 +34,15 @@ namespace Misterio.Gameplay
 
         public virtual void SetHighlighted(bool highlighted) { }
 
-        /// <summary>Clears the registry; used when a floor is rebuilt or a scene reloads.</summary>
-        public static void ClearRegistry() => All.Clear();
+        /// <summary>
+        /// Drops entries that Unity destroyed, without clearing the live ones. The registry is
+        /// rebuilt lazily because OnEnable order is not guaranteed relative to a floor's Awake, and
+        /// clearing it there would silently unregister objects that had already enabled.
+        /// </summary>
+        public static void PruneRegistry()
+        {
+            for (int i = All.Count - 1; i >= 0; i--)
+                if (All[i] == null) All.RemoveAt(i);
+        }
     }
 }

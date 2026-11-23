@@ -31,7 +31,9 @@ namespace Misterio.Gameplay
         {
             Session = GameSession.EnsureExists();
             Guard = FindAnyObjectByType<GuardActor>();
-            Interactable.ClearRegistry();
+            // Only stale entries are dropped: clearing the list here would unregister objects whose
+            // OnEnable already ran before this Awake, which silently hid interactables.
+            Interactable.PruneRegistry();
         }
 
         protected virtual void Start()

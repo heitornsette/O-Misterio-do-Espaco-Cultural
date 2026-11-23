@@ -94,11 +94,19 @@ namespace Misterio.Gameplay
             if (keyboard != null && keyboard.enterKey.wasPressedThisFrame) StartCoroutine(EnterBuilding());
         }
 
+        /// <summary>
+        /// Development only: walks the guard to the entrance so an automated run can cross the
+        /// approach without a player. Never called in a normal session.
+        /// </summary>
+        public void SkipToEntrance()
+        {
+            if (guard != null) guard.Teleport(new Vector2(entranceX, guard.Position.y));
+        }
+
         IEnumerator EnterBuilding()
         {
             if (entering) yield break;
-            entering = true;
-            if (guard != null) guard.CanMove = false;
+            entering = true;            if (guard != null) guard.CanMove = false;
             hud.SetPrompt(string.Empty);
             hud.ShowHint("Entrando no Espaço Cultural...", 2f);
             session.SetClockRunning(false);
