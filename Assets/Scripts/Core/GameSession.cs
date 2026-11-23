@@ -1,33 +1,21 @@
 using System;
+using Misterio.Puzzles;
 using UnityEngine;
 
 namespace Misterio.Core
 {
     /// <summary>
-    /// Persistent state for one playthrough: the global clock (02:00 -> 06:00), the time credit
-    /// earned by solving puzzles early, and which floors are already restored.
+    /// Persistent state for one playthrough: the night clock (rules live in NightClock, which is
+    /// unit tested), the time credit, which floors are restored and what the archive run carries.
     /// The clock freezes during cutscenes; callers simply stop ticking it.
     /// </summary>
     [DisallowMultipleComponent]
     public sealed class GameSession : MonoBehaviour
     {
-        public const float StartFictionMinutes = 0f;    // 02:00
-        public const float DawnFictionMinutes = 240f;   // 06:00
-        public const float FictionMinutesPerSecond = 0.25f; // 15 fiction minutes per real minute
-
-        public const float CreditPerFloorCap = 30f;
-        public const float CreditTotalCap = 120f;
-        public const float FloorTargetSeconds = 240f;
-
         public static GameSession Instance { get; private set; }
 
-        public float FictionMinutes { get; private set; }
-        public float CreditSeconds { get; private set; }
-        public bool ClockRunning { get; private set; }
-        public bool ReachedDawn => FictionMinutes >= DawnFictionMinutes;
-
+        readonly NightClock clock = new NightClock();
         readonly bool[] solvedFloors = new bool[5];
-        int collectedPieces;
 
         /// <summary>Raised whenever the clock, the credit or a floor flag changes.</summary>
         public event Action Changed;
@@ -35,7 +23,19 @@ namespace Misterio.Core
         /// <summary>Raised once, when the clock reaches 06:00.</summary>
         public event Action DawnReached;
 
-        public int CollectedPieces => collectedPieces;
+        // The caps are re-exposed so callers keep a single source of truth.
+        public const float CreditPerFloorCap = NightClock.CreditPerFloorCap;
+        public const float CreditTotalCap = NightClock.CreditTotalCap;
+        public const float FloorTargetSeconds = NightClock.FloorTargetSeconds;
+        public const float FictionMinutesPerSecond = NightClock.FictionMinutesPerSecond;
+        public const float DawnFictionMinutes = NightClock.DawnFictionMinutes;
+        public const float StartFictionMinutes = NightClock.StartFictionMinutes;
+
+        public float FictionMinutes => clock.FictionMinutes;
+        public float CreditSeconds => clock.CreditSeconds;
+        public bool ClockRunning => clock.Running;
+        public bool ReachedDawn => clock.ReachedDawn;
+        public int CollectedPieces { get; private set; }
 
         /// <summary>Which floor was being played when the clock reached 06:00 (0 when none).</summary>
         public int TimedOutFloor { get; private set; }
@@ -43,16 +43,12 @@ namespace Misterio.Core
         /// <summary>Floor that must be resumed after a failure cutscene (0 when none).</summary>
         public int ResumeFloor { get; private set; }
 
-        public void MarkTimedOut(int floor) => TimedOutFloor = floor;
+        /// <summary>
+        /// Bitmask of the archive pieces already collected. It survives the CC04A failure cutscene,
+        /// so being seen costs time and position but never the pieces the player already recovered.
+        /// </summary>
+        public int ArchivePieces { get; private set; }
 
-        public void RequestResumeFloor(int floor) => ResumeFloor = floor;
-
-        public int ConsumeResumeFloor()
-        {
-            int floor = ResumeFloor;
-            ResumeFloor = 0;
-            return floor;
-        }
         public int SolvedCount
         {
             get
@@ -72,7 +68,7 @@ namespace Misterio.Core
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            FictionMinutes = StartFictionMinutes;
+            clock.Reset();
         }
 
         void OnDestroy()
@@ -82,14 +78,12 @@ namespace Misterio.Core
 
         public void ResetRun()
         {
-            FictionMinutes = StartFictionMinutes;
-            CreditSeconds = 0f;
-            collectedPieces = 0;
+            clock.Reset();
+            CollectedPieces = 0;
             ArchivePieces = 0;
             TimedOutFloor = 0;
             ResumeFloor = 0;
             for (int i = 0; i < solvedFloors.Length; i++) solvedFloors[i] = false;
-            ClockRunning = false;
             Changed?.Invoke();
         }
 
@@ -100,31 +94,24 @@ namespace Misterio.Core
         {
             if (floor <= 0 || floor >= solvedFloors.Length || solvedFloors[floor]) return;
             solvedFloors[floor] = true;
-            AddCredit(Mathf.Max(0f, FloorTargetSeconds - Mathf.Max(0f, elapsedInFloor)));
+            clock.AwardFloorCredit(elapsedInFloor);
             Changed?.Invoke();
         }
 
         public void AddCredit(float seconds)
         {
-            if (seconds <= 0f) return;
-            float room = Mathf.Min(CreditPerFloorCap, CreditTotalCap - CreditSeconds);
-            CreditSeconds = Mathf.Clamp(CreditSeconds + Mathf.Min(seconds, room), 0f, CreditTotalCap);
+            clock.AddCredit(seconds);
             Changed?.Invoke();
         }
 
         public void CollectPiece(int amount = 1)
         {
-            collectedPieces = Mathf.Max(0, collectedPieces + amount);
+            CollectedPieces = Mathf.Max(0, CollectedPieces + amount);
             Changed?.Invoke();
         }
 
-        /// <summary>
-        /// Bitmask of the archive pieces already collected. It survives the CC04A failure cutscene,
-        /// so being seen costs time and position but never the pieces the player already recovered.
-        /// </summary>
-        public int ArchivePieces { get; private set; }
-
-        public bool HasArchivePiece(int index) => index >= 0 && index < 32 && (ArchivePieces & (1 << index)) != 0;
+        public bool HasArchivePiece(int index) =>
+            index >= 0 && index < 32 && (ArchivePieces & (1 << index)) != 0;
 
         public void SetArchivePiece(int index, bool collected)
         {
@@ -135,47 +122,39 @@ namespace Misterio.Core
 
         public void SetClockRunning(bool running)
         {
-            ClockRunning = running;
+            clock.Running = running;
+            Changed?.Invoke();
         }
 
-        /// <summary>Advances the night. A second of credit pauses a second of the clock.</summary>
+        public void MarkTimedOut(int floor) => TimedOutFloor = floor;
+
+        public void RequestResumeFloor(int floor) => ResumeFloor = floor;
+
+        public int ConsumeResumeFloor()
+        {
+            int floor = ResumeFloor;
+            ResumeFloor = 0;
+            return floor;
+        }
+
+        /// <summary>Advances the night through the tested rules and forwards the dawn event.</summary>
         public void Tick(float deltaTime)
         {
-            if (!ClockRunning || deltaTime <= 0f) return;
-            if (ReachedDawn) return;
-
-            float remaining = deltaTime;
-            if (CreditSeconds > 0f)
-            {
-                float spend = Mathf.Min(CreditSeconds, remaining);
-                CreditSeconds -= spend;
-                remaining -= spend;
-                Changed?.Invoke();
-            }
-            if (remaining <= 0f) return;
-
-            float before = FictionMinutes;
-            FictionMinutes = Mathf.Min(DawnFictionMinutes, FictionMinutes + remaining * FictionMinutesPerSecond);
-            if (FictionMinutes != before) Changed?.Invoke();
-            if (before < DawnFictionMinutes && FictionMinutes >= DawnFictionMinutes) DawnReached?.Invoke();
+            float creditBefore = clock.CreditSeconds;
+            bool dawn = clock.Tick(deltaTime);
+            if (!Mathf.Approximately(creditBefore, clock.CreditSeconds)) Changed?.Invoke();
+            if (dawn) DawnReached?.Invoke();
         }
 
         /// <summary>Skips ahead without consuming play time (used by the dawn cutscenes).</summary>
         public void JumpToDawn()
         {
-            if (ReachedDawn) return;
-            FictionMinutes = DawnFictionMinutes;
+            if (!clock.JumpToDawn()) return;
             Changed?.Invoke();
             DawnReached?.Invoke();
         }
 
-        public string ClockText()
-        {
-            int totalMinutes = 120 + Mathf.FloorToInt(FictionMinutes);
-            int hours = (totalMinutes / 60) % 24;
-            int minutes = totalMinutes % 60;
-            return hours.ToString("00") + ":" + minutes.ToString("00");
-        }
+        public string ClockText() => clock.ClockText();
 
         /// <summary>Creates the session on demand so any scene can be played in isolation.</summary>
         public static GameSession EnsureExists()
