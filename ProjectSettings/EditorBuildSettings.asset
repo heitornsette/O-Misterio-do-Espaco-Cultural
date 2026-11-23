@@ -9,23 +9,32 @@ EditorBuildSettings:
     path: Assets/Scenes/CC01_A_Madrugada_Comeca.unity
     guid: c95da522dc24fb582989319b4c062adc
   - enabled: 1
-    path: Assets/Scenes/Gameplay_Prototype.unity
-    guid: d6d58d03ad14690489748b1e64835e83
+    path: Assets/Scenes/Floor1_Estatuas.unity
+    guid: 93517980c995f85188277acec9af63d8
   - enabled: 1
     path: Assets/Scenes/CC02_Acesso_a_Galeria.unity
     guid: 8858c6263c0b33d1497ba86d0eb62549
   - enabled: 1
+    path: Assets/Scenes/Floor2_Galeria.unity
+    guid: 97bf9ca78bc5021a29f84457db00b3af
+  - enabled: 1
     path: Assets/Scenes/CC03_A_Galeria_Reorganizada.unity
     guid: 8b205cbe90a201288a2b6d0e78d3de39
   - enabled: 1
-    path: Assets/Scenes/CC04_Passagem_Silenciosa.unity
-    guid: a8898485ecd59ab158cc81aba40fefee
+    path: Assets/Scenes/Floor3_Acervo.unity
+    guid: 4647a550e846044b89995d3ba68e946e
   - enabled: 1
     path: Assets/Scenes/CC04A_Alerta_de_Moema.unity
     guid: a877fdc315a3c3ceea7c9948ae552a5e
   - enabled: 1
+    path: Assets/Scenes/CC04_Passagem_Silenciosa.unity
+    guid: a8898485ecd59ab158cc81aba40fefee
+  - enabled: 1
     path: Assets/Scenes/CC05_A_Obra_no_Escuro.unity
     guid: 87a71b6022a8f0ae7b77e511c6f7b0a8
+  - enabled: 1
+    path: Assets/Scenes/Floor4_Salao.unity
+    guid: d781830dd406fd476b1379b2cac72380
   - enabled: 1
     path: Assets/Scenes/CC06_A_Energia_Retorna.unity
     guid: ce854afb614034d3b97375ca153b8bb2
@@ -44,5 +53,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 32944a5fdef0555b18b3011cf981a226
+  - enabled: 0
+    path: Assets/Scenes/Gameplay_Prototype.unity
+    guid: d6d58d03ad14690489748b1e64835e83
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
