@@ -122,9 +122,14 @@ namespace Misterio.Gameplay
             if (statue < 0) return;
 
             var result = board.TryMove(step);
-            if (result == SokobanMoveResult.Blocked) return;
+            if (result == SokobanMoveResult.Blocked)
+            {
+                FloorSfx.Instance?.Error();
+                return;
+            }
 
             cooldown = pushCooldown;
+            FloorSfx.Instance?.Push();
             Guard.Teleport(WorldOf(board.Player));
             RefreshBlockers();
             SyncViews();
@@ -136,6 +141,7 @@ namespace Misterio.Gameplay
                 warnCooldown = 3f;
                 Hud.ShowHint("Essa estátua ficou sem saída. Z desfaz o empurrão.", 5f);
             }
+            if (board.IsSolved()) FloorSfx.Instance?.Confirm();
         }
 
         void RefreshBlockers()

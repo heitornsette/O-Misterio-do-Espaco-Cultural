@@ -1,13 +1,13 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace Misterio.Core
 {
     /// <summary>
     /// Connects each cutscene controller to the route without editing every scene by hand:
     /// the finish event of the controller found in the scene is appended with a jump to the next
-    /// scene, and the clock is frozen while the cutscene plays.
+    /// scene, the clock is frozen while the cutscene plays, and the current night time is handed to
+    /// the scenes that display it.
     /// </summary>
     public static class SceneRouter
     {
@@ -15,8 +15,8 @@ namespace Misterio.Core
         public static bool IsFirstScene(string sceneName) => sceneName == GameFlow.Cutscene01;
 
         /// <summary>
-        /// Finds the cutscene controller in the active scene and appends the routing call to its
-        /// onCutsceneFinished event. Returns false when the scene has no controller.
+        /// Finds the cutscene controller in the active scene, feeds it the current state and appends
+        /// the routing call to its onCutsceneFinished event.
         /// </summary>
         public static bool WireCutscene(string sceneName)
         {
@@ -25,6 +25,8 @@ namespace Misterio.Core
 
             var session = GameSession.EnsureExists();
             session.SetClockRunning(false);
+
+            FeedState(controller, session);
 
             var field = controller.GetType().GetField("onCutsceneFinished",
                 System.Reflection.BindingFlags.Instance |
@@ -37,7 +39,7 @@ namespace Misterio.Core
                 return false;
             }
 
-            string next = GameFlow.NextInChain(sceneName);
+            string next = ResolveNext(sceneName, session);
             if (string.IsNullOrEmpty(next))
             {
                 Debug.Log("[Router] " + sceneName + " is the last scene on the route.");
@@ -51,6 +53,38 @@ namespace Misterio.Core
             });
             Debug.Log("[Router] " + sceneName + " -> " + next);
             return true;
+        }
+
+        /// <summary>
+        /// Sends the clock (and, for CC09, the floor that ran out of time) to the controller so the
+        /// cutscenes show the real night time instead of a placeholder.
+        /// </summary>
+        static void FeedState(MonoBehaviour controller, GameSession session)
+        {
+            var clock = controller.GetType().GetMethod("SetGlobalClock");
+            if (clock != null && clock.GetParameters().Length == 1)
+                clock.Invoke(controller, new object[] { session.ClockText() });
+
+            var floor = controller.GetType().GetMethod("SetIncompleteFloor");
+            if (floor != null && floor.GetParameters().Length == 1)
+                floor.Invoke(controller, new object[] { Mathf.Clamp(session.TimedOutFloor, 1, 3) });
+        }
+
+        /// <summary>
+        /// After a failure cutscene the game returns to the floor that was interrupted; otherwise it
+        /// follows the success chain.
+        /// </summary>
+        static string ResolveNext(string sceneName, GameSession session)
+        {
+            if (sceneName == GameFlow.Cutscene04A)
+            {
+                int resume = session.ConsumeResumeFloor();
+                if (resume == 3) return GameFlow.Floor3;
+                if (resume == 2) return GameFlow.Floor2;
+                if (resume == 1) return GameFlow.Floor1;
+                if (resume == 4) return GameFlow.Floor4;
+            }
+            return GameFlow.NextInChain(sceneName);
         }
 
         static MonoBehaviour FindCutsceneController()

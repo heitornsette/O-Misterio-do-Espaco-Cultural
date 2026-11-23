@@ -89,10 +89,11 @@ namespace Misterio.Gameplay
         {
             if (Guard != null) Guard.CanMove = false;
             Hud?.SetPrompt(string.Empty);
+            Session.MarkTimedOut(floorNumber);
             yield return new WaitForSeconds(0.6f);
             // The main hall has its own ending; the other floors share the postponement cutscene.
             string scene = floorNumber >= 4 ? GameFlow.Cutscene10 : GameFlow.Cutscene09;
-            GameFlow.Instance?.Load(scene);
+            GameFlow.EnsureExists().Load(scene);
         }
 
         /// <summary>Marks the floor solved and moves on after a short beat.</summary>
@@ -110,7 +111,7 @@ namespace Misterio.Gameplay
         IEnumerator SolvedRoutine()
         {
             yield return new WaitForSeconds(solvedPause);
-            GameFlow.Instance?.GoToNext();
+            GameFlow.EnsureExists().GoToNext();
         }
 
         protected virtual Font LoadFont()

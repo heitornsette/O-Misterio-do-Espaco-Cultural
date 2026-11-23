@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Misterio.Core;
 using Misterio.Puzzles.Floor3;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -46,7 +47,6 @@ namespace Misterio.Gameplay
 
         [Header("Detection")]
         [SerializeField] LineRenderer sightCone;
-        [SerializeField, Min(0.5f)] float alertPause = 1.1f;
         [SerializeField, Min(0.2f)] float graceAfterAlert = 1.6f;
 
         StealthPatrol patrol;
@@ -55,7 +55,6 @@ namespace Misterio.Gameplay
         float graceTimer;
         bool alertActive;
         int alerts;
-        Vector2 guardStart;
 
         public int CollectedPieces => collected.Count;
         public int TotalPieces => piecePoints != null ? piecePoints.Length : 0;
@@ -72,21 +71,31 @@ namespace Misterio.Gameplay
         protected override void OnFloorReady()
         {
             patrol = new StealthPatrol(patrolPoints, patrolSpeed, viewDistance, halfAngleDegrees, 0.35f);
-            guardStart = Guard.Position;
 
             blockers.AddRange(caseBlockers);
             Guard.Configure(new Rect(-1.75f, -0.95f, 3.5f, 1.45f), blockers);
+
+            // Pieces recovered before the CC04A alert stay recovered when the floor resumes.
+            for (int i = 0; i < TotalPieces; i++)
+                if (Session.HasArchivePiece(i)) collected.Add(i);
 
             for (int i = 0; i < pieceViews.Length && i < piecePoints.Length; i++)
             {
                 if (pieceViews[i] == null) continue;
                 var piece = pieceViews[i].gameObject.AddComponent<PieceInteractable>();
                 piece.Bind(this, i);
+                if (collected.Contains(i)) pieceViews[i].gameObject.SetActive(false);
             }
 
             SyncViews();
             UpdateCounter();
-            Hud.ShowHint("Moema patrulha em círculo. Espere ela virar de costas.", 7f);
+            // A short grace on entry (and on every return from the alert cutscene) prevents an
+            // instant re-detection while the player is still reading the HUD.
+            graceTimer = graceAfterAlert;
+            if (collected.Count > 0)
+                Hud.ShowHint("Você voltou ao corredor. As peças que já recolheu continuam com você.", 6f);
+            else
+                Hud.ShowHint("Moema patrulha em círculo. Espere ela virar de costas.", 7f);
         }
 
         protected override void OnFloorTick(float deltaTime)
@@ -151,29 +160,20 @@ namespace Misterio.Gameplay
             Guard.CanMove = false;
             Guard.CanInteract = false;
             Hud.SetPrompt(string.Empty);
-            Hud.ShowHint("Moema percebeu! Você voltou ao início do corredor.", 4f);
+            FloorSfx.Instance?.Error();
 
-            // The short alert beat stands in for the CC04A cutscene inside the floor.
+            // The short alert beat is the CC04A cutscene: it shows Moema reacting and then returns
+            // to this floor with the pieces already collected still in hand.
+            Session.RequestResumeFloor(3);
+            Session.SetClockRunning(false);
             if (moemaView != null)
             {
                 var renderer = moemaView.GetComponent<SpriteRenderer>();
                 if (renderer != null) renderer.color = new Color(1f, 0.82f, 0.72f, 1f);
             }
 
-            yield return new WaitForSeconds(alertPause);
-
-            if (moemaView != null)
-            {
-                var renderer = moemaView.GetComponent<SpriteRenderer>();
-                if (renderer != null) renderer.color = Color.white;
-            }
-
-            Guard.Teleport(guardStart);
-            graceTimer = graceAfterAlert;
-            alertActive = false;
-            Guard.CanMove = true;
-            Guard.CanInteract = true;
-            UpdateCounter();
+            yield return new WaitForSeconds(0.35f);
+            GameFlow.EnsureExists().Load(GameFlow.Cutscene04A);
         }
 
         public void Collect(int pieceIndex)
@@ -184,7 +184,9 @@ namespace Misterio.Gameplay
             if (pieceViews != null && pieceIndex < pieceViews.Length && pieceViews[pieceIndex] != null)
                 pieceViews[pieceIndex].gameObject.SetActive(false);
 
+            Session.SetArchivePiece(pieceIndex, true);
             Session.CollectPiece();
+            FloorSfx.Instance?.Pickup();
             UpdateCounter();
             NoteProgress();
             if (collected.Count >= TotalPieces) CompleteFloor();

@@ -63,6 +63,7 @@ namespace Misterio.EditorTools
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.35f, -0.75f));
 
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
+            FloorSceneKit.AddSfx();
             if (audio.ambient.clip != null) audio.ambient.Play();
 
             var controllerObject = new GameObject("Andar 2 - Controlador");

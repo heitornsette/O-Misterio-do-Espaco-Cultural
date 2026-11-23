@@ -36,6 +36,23 @@ namespace Misterio.Core
         public event Action DawnReached;
 
         public int CollectedPieces => collectedPieces;
+
+        /// <summary>Which floor was being played when the clock reached 06:00 (0 when none).</summary>
+        public int TimedOutFloor { get; private set; }
+
+        /// <summary>Floor that must be resumed after a failure cutscene (0 when none).</summary>
+        public int ResumeFloor { get; private set; }
+
+        public void MarkTimedOut(int floor) => TimedOutFloor = floor;
+
+        public void RequestResumeFloor(int floor) => ResumeFloor = floor;
+
+        public int ConsumeResumeFloor()
+        {
+            int floor = ResumeFloor;
+            ResumeFloor = 0;
+            return floor;
+        }
         public int SolvedCount
         {
             get
@@ -68,6 +85,9 @@ namespace Misterio.Core
             FictionMinutes = StartFictionMinutes;
             CreditSeconds = 0f;
             collectedPieces = 0;
+            ArchivePieces = 0;
+            TimedOutFloor = 0;
+            ResumeFloor = 0;
             for (int i = 0; i < solvedFloors.Length; i++) solvedFloors[i] = false;
             ClockRunning = false;
             Changed?.Invoke();
@@ -96,6 +116,21 @@ namespace Misterio.Core
         {
             collectedPieces = Mathf.Max(0, collectedPieces + amount);
             Changed?.Invoke();
+        }
+
+        /// <summary>
+        /// Bitmask of the archive pieces already collected. It survives the CC04A failure cutscene,
+        /// so being seen costs time and position but never the pieces the player already recovered.
+        /// </summary>
+        public int ArchivePieces { get; private set; }
+
+        public bool HasArchivePiece(int index) => index >= 0 && index < 32 && (ArchivePieces & (1 << index)) != 0;
+
+        public void SetArchivePiece(int index, bool collected)
+        {
+            if (index < 0 || index >= 32) return;
+            if (collected) ArchivePieces |= 1 << index;
+            else ArchivePieces &= ~(1 << index);
         }
 
         public void SetClockRunning(bool running)

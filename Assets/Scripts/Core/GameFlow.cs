@@ -48,6 +48,19 @@ namespace Misterio.Core
             BuildFadeCanvas();
         }
 
+        /// <summary>
+        /// Returns the flow, creating it when a scene is played on its own. Floors call this so the
+        /// route keeps working even if the scene was opened directly in the Editor.
+        /// </summary>
+        public static GameFlow EnsureExists()
+        {
+            if (Instance != null) return Instance;
+            var existing = FindAnyObjectByType<GameFlow>();
+            if (existing != null) return existing;
+            var host = new GameObject("GameFlow");
+            return host.AddComponent<GameFlow>();
+        }
+
         void OnDestroy()
         {
             if (Instance == this) Instance = null;

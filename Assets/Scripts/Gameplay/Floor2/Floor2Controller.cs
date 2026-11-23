@@ -111,6 +111,7 @@ namespace Misterio.Gameplay
             carried = paintingIndex;
             if (carriedView != null) carriedView.enabled = true;
             SetGuardSpeed(baseSpeed * carryingSpeedMultiplier);
+            FloorSfx.Instance?.Pickup();
             SyncViews();
             UpdateCounter();
             NoteProgress();
@@ -139,12 +140,21 @@ namespace Misterio.Gameplay
 
             if (puzzle.IsSolved())
             {
+                FloorSfx.Instance?.Confirm();
                 Hud.ShowHint("Clique magnético: o último quadro se encaixou.", 4f);
             }
-            else if (puzzle.IsCorrectAt(slot) && hintCooldown <= 0f)
+            else if (puzzle.IsCorrectAt(slot))
             {
-                hintCooldown = 2.5f;
-                Hud.ShowHint("Encaixe firme — esse quadro está no lugar certo.", 3f);
+                FloorSfx.Instance?.Confirm();
+                if (hintCooldown <= 0f)
+                {
+                    hintCooldown = 2.5f;
+                    Hud.ShowHint("Encaixe firme — esse quadro está no lugar certo.", 3f);
+                }
+            }
+            else
+            {
+                FloorSfx.Instance?.Error();
             }
         }
 

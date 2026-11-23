@@ -109,10 +109,16 @@ namespace Misterio.Gameplay
 
         void TurnCurrent()
         {
-            if (!circuit.Turn(cursor)) return;
+            if (!circuit.Turn(cursor))
+            {
+                FloorSfx.Instance?.Locked();
+                return;
+            }
+            FloorSfx.Instance?.Turn();
             SyncViews();
             UpdateCounter();
             NoteProgress();
+            if (circuit.IsSolved()) FloorSfx.Instance?.Confirm();
         }
 
         public Vector2 WorldOf(Vector2Int cell) =>

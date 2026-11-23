@@ -252,5 +252,35 @@ namespace Misterio.EditorTools
             effects.volume = 0.5f;
             return (ambient, effects);
         }
+
+        /// <summary>
+        /// Creates the shared gameplay sound kit using the cutscene effects, so the floors sound like
+        /// the videos without any new audio asset.
+        /// </summary>
+        public static FloorSfx AddSfx()
+        {
+            var host = new GameObject("Efeitos de gameplay");
+            var source = host.AddComponent<AudioSource>();
+            source.playOnAwake = false;
+            var sfx = host.AddComponent<FloorSfx>();
+
+            var serialized = new SerializedObject(sfx);
+            serialized.FindProperty("source").objectReferenceValue = source;
+            Assign(serialized, "push", "Assets/Audio/CC02/cc02_estatua_assenta.wav");
+            Assign(serialized, "confirm", "Assets/Audio/CC02/cc02_confirmacao.wav");
+            Assign(serialized, "error", "Assets/Audio/CC02/cc02_trava_escada.wav");
+            Assign(serialized, "pickup", "Assets/Audio/CC03/cc03_clique_magnetico.wav");
+            Assign(serialized, "turn", "Assets/Audio/CC05/cc05_estalo_eletrico.wav");
+            Assign(serialized, "locked", "Assets/Audio/CC02/cc02_trava_escada.wav");
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            return sfx;
+        }
+
+        static void Assign(SerializedObject serialized, string field, string clipPath)
+        {
+            var property = serialized.FindProperty(field);
+            if (property == null) return;
+            property.objectReferenceValue = AssetDatabase.LoadAssetAtPath<AudioClip>(clipPath);
+        }
     }
 }
