@@ -258,9 +258,11 @@ namespace Misterio.EditorTools
         }
 
         /// <summary>A readable plaque the guard can inspect; shows its text in the HUD.</summary>
-        public static PlaqueInteractable AddPlaque(string name, Vector2 position, string text, float scale = 0.30f)
+        public static PlaqueInteractable AddPlaque(string id, Vector2 position, string text, float scale = 0.30f)
         {
-            var sprite = PixelArtFactory.Build("placa_" + name.ToLowerInvariant().Replace(' ', '_'), 22, 16, (x, y) =>
+            // The sprite asset name is built from a caller-supplied id only, so no user-facing text
+            // ever reaches a path or an asset name.
+            var sprite = PixelArtFactory.Build("placa_" + id, 22, 16, (x, y) =>
             {
                 bool border = x <= 1 || y <= 1 || x >= 20 || y >= 14;
                 if (border) return PixelArtFactory.Brown1;
@@ -270,12 +272,16 @@ namespace Misterio.EditorTools
                 return PixelArtFactory.Grey2;
             });
 
-            var view = MakeSprite("Placa - " + name, sprite, position, 12);
+            var view = MakeSprite("Placa - " + id, sprite, position, 12);
             view.transform.localScale = new Vector3(scale, scale, 1f);
             var plaque = view.gameObject.AddComponent<PlaqueInteractable>();
             var serialized = new SerializedObject(plaque);
-            serialized.FindProperty("plaqueText").stringValue = text;
-            serialized.ApplyModifiedPropertiesWithoutUndo();
+            var property = serialized.FindProperty("plaqueText");
+            if (property != null)
+            {
+                property.stringValue = text;
+                serialized.ApplyModifiedPropertiesWithoutUndo();
+            }
             return plaque;
         }
 
