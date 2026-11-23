@@ -236,6 +236,49 @@ namespace Misterio.EditorTools
             return renderer;
         }
 
+        /// <summary>Adds the soft vignette the cutscenes use, keeping the floors visually consistent.</summary>
+        public static SpriteRenderer AddVignette(Camera camera)
+        {
+            var sprite = PixelArtFactory.Vignette();
+            var host = new GameObject("Vinheta");
+            var renderer = host.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+            renderer.sortingOrder = 200;
+            host.transform.position = new Vector3(camera.transform.position.x, camera.transform.position.y, -1f);
+
+            Vector3 size = sprite.bounds.size;
+            float cameraHeight = camera.orthographicSize * 2f;
+            float cameraWidth = cameraHeight * camera.aspect;
+            if (size.x > 0.001f && size.y > 0.001f)
+            {
+                float scale = Mathf.Max(cameraWidth / size.x, cameraHeight / size.y);
+                host.transform.localScale = new Vector3(scale, scale, 1f);
+            }
+            return renderer;
+        }
+
+        /// <summary>A readable plaque the guard can inspect; shows its text in the HUD.</summary>
+        public static PlaqueInteractable AddPlaque(string name, Vector2 position, string text, float scale = 0.30f)
+        {
+            var sprite = PixelArtFactory.Build("placa_" + name.ToLowerInvariant().Replace(' ', '_'), 22, 16, (x, y) =>
+            {
+                bool border = x <= 1 || y <= 1 || x >= 20 || y >= 14;
+                if (border) return PixelArtFactory.Brown1;
+                if (y >= 12) return PixelArtFactory.Brown3;
+                // A few bright marks that read as engraved text.
+                if (y >= 4 && y <= 10 && (x + y * 3) % 5 != 0) return PixelArtFactory.Cream2;
+                return PixelArtFactory.Grey2;
+            });
+
+            var view = MakeSprite("Placa - " + name, sprite, position, 12);
+            view.transform.localScale = new Vector3(scale, scale, 1f);
+            var plaque = view.gameObject.AddComponent<PlaqueInteractable>();
+            var serialized = new SerializedObject(plaque);
+            serialized.FindProperty("plaqueText").stringValue = text;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            return plaque;
+        }
+
         /// <summary>Adds the night ambience and a one-shot effect source, reusing cutscene audio.</summary>
         public static (AudioSource ambient, AudioSource effects) AddAudio(string ambiencePath)
         {
@@ -272,6 +315,7 @@ namespace Misterio.EditorTools
             Assign(serialized, "pickup", "Assets/Audio/CC03/cc03_clique_magnetico.wav");
             Assign(serialized, "turn", "Assets/Audio/CC05/cc05_estalo_eletrico.wav");
             Assign(serialized, "locked", "Assets/Audio/CC02/cc02_trava_escada.wav");
+            Assign(serialized, "step", "Assets/Audio/CC03/cc03_passos_no_piso.wav");
             serialized.ApplyModifiedPropertiesWithoutUndo();
             return sfx;
         }

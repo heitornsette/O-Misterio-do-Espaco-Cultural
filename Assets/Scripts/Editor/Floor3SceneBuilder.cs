@@ -45,9 +45,9 @@ namespace Misterio.EditorTools
                 new Rect(0.85f, 0.55f, 0.55f, 0.22f)
             };
 
-            var boardSprite = FloorSceneKit.MakePlaceholder("tabua_solta_placeholder", new Color(0.42f, 0.30f, 0.20f), 24, 12);
-            var pieceSprite = FloorSceneKit.MakePlaceholder("peca_acervo_placeholder", new Color(0.85f, 0.80f, 0.62f), 16, 16);
-            var caseSprite = FloorSceneKit.MakePlaceholder("vitrine_placeholder", new Color(0.20f, 0.30f, 0.45f, 0.55f), 40, 20);
+            var boardSprite = PixelArtFactory.LooseBoard();
+            var pieceSprite = PixelArtFactory.ArchivePiece();
+            var caseSprite = PixelArtFactory.DisplayCase();
 
             var boardViews = new Transform[boards.Length];
             for (int i = 0; i < boards.Length; i++)
@@ -55,7 +55,7 @@ namespace Misterio.EditorTools
                 var rect = boards[i];
                 var view = FloorSceneKit.MakeSprite("Tábua solta " + (i + 1), boardSprite,
                     new Vector2(rect.x + rect.width * 0.5f, rect.y + rect.height * 0.5f), 3);
-                view.transform.localScale = new Vector3(0.55f, 0.55f, 1f);
+                view.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 boardViews[i] = view.transform;
             }
 
@@ -64,20 +64,20 @@ namespace Misterio.EditorTools
                 var rect = cases[i];
                 var view = FloorSceneKit.MakeSprite("Vitrine " + (i + 1), caseSprite,
                     new Vector2(rect.x + rect.width * 0.5f, rect.y + rect.height * 0.5f), 5);
-                view.transform.localScale = new Vector3(0.85f, 0.75f, 1f);
+                view.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
             }
 
             var pieceViews = new Transform[pieces.Length];
             for (int i = 0; i < pieces.Length; i++)
             {
                 var view = FloorSceneKit.MakeSprite("Peça " + (i + 1), pieceSprite, pieces[i], 9);
-                view.transform.localScale = new Vector3(0.6f, 0.6f, 1f);
+                view.transform.localScale = new Vector3(0.55f, 0.55f, 1f);
                 pieceViews[i] = view.transform;
             }
 
             var moemaSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Characters/Moema_Base.png");
             if (moemaSprite == null)
-                moemaSprite = FloorSceneKit.MakePlaceholder("moema_placeholder", new Color(0.72f, 0.70f, 0.64f), 26, 52);
+                moemaSprite = PixelArtFactory.Build("moema_fallback", 26, 52, (x, y) => new Color(0.72f, 0.70f, 0.64f, 1f));
             var moema = FloorSceneKit.MakeSprite("Moema - patrulha", moemaSprite, patrol[0], 11);
             moema.transform.localScale = new Vector3(0.42f, 0.42f, 1f);
 
@@ -85,18 +85,19 @@ namespace Misterio.EditorTools
             var cone = coneObject.AddComponent<LineRenderer>();
             cone.useWorldSpace = true;
             cone.positionCount = 3;
-            cone.startWidth = 0.012f;
-            cone.endWidth = 0.012f;
+            cone.startWidth = 0.014f;
+            cone.endWidth = 0.014f;
             cone.material = new Material(Shader.Find("Sprites/Default"));
-            cone.startColor = new Color(1f, 0.85f, 0.55f, 0.30f);
-            cone.endColor = new Color(1f, 0.85f, 0.55f, 0.05f);
+            cone.startColor = new Color(1f, 0.85f, 0.55f, 0.34f);
+            cone.endColor = new Color(1f, 0.85f, 0.55f, 0.06f);
             cone.sortingOrder = 12;
 
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.45f, 0.72f));
+            FloorSceneKit.AddVignette(camera);
 
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
-            FloorSceneKit.AddSfx();
             if (audio.ambient.clip != null) audio.ambient.Play();
+            FloorSceneKit.AddSfx();
 
             var controllerObject = new GameObject("Andar 3 - Controlador");
             var controller = controllerObject.AddComponent<Floor3Controller>();

@@ -583,5 +583,49 @@ namespace Misterio.Puzzles.Tests
             Assert.AreEqual(first.Position.x, second.Position.x, 0.0001f);
             Assert.AreEqual(first.Position.y, second.Position.y, 0.0001f);
         }
+
+        [Test]
+        public void NoiseTurnsThePatrolTowardsTheSource()
+        {
+            var patrol = Patrol();
+            patrol.Tick(0.1f); // facing +x
+            Vector2 before = patrol.Position;
+
+            // Noise behind and above: she must turn towards it and stop walking.
+            patrol.Distract(new Vector2(0f, 1f), 1.5f);
+            Assert.IsTrue(patrol.IsDistracted);
+            Assert.Less(patrol.Facing.x, 0.01f, "Facing should turn away from +x.");
+            Assert.Greater(patrol.Facing.y, 0.9f, "Facing should point at the noise.");
+
+            patrol.Tick(0.2f);
+            Assert.AreEqual(before.x, patrol.Position.x, 0.0001f);
+            Assert.AreEqual(before.y, patrol.Position.y, 0.0001f);
+        }
+
+        [Test]
+        public void DistractionExpiresAndThePatrolResumes()
+        {
+            var patrol = Patrol();
+            patrol.Distract(new Vector2(0f, 1f), 0.5f);
+            Assert.IsTrue(patrol.IsDistracted);
+
+            for (int i = 0; i < 12; i++) patrol.Tick(0.05f); // 0.6 s
+            Assert.IsFalse(patrol.IsDistracted);
+
+            Vector2 before = patrol.Position;
+            for (int i = 0; i < 10; i++) patrol.Tick(0.05f);
+            Assert.AreNotEqual(before.x, patrol.Position.x, "The patrol should walk again after the noise.");
+        }
+
+        [Test]
+        public void DistractionAtTheSameSpotDoesNotChangeFacing()
+        {
+            var patrol = Patrol();
+            patrol.Tick(0.1f);
+            Vector2 facing = patrol.Facing;
+            patrol.Distract(patrol.Position, 1f);
+            Assert.AreEqual(facing.x, patrol.Facing.x, 0.0001f);
+            Assert.AreEqual(facing.y, patrol.Facing.y, 0.0001f);
+        }
     }
 }

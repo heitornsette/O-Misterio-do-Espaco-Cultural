@@ -1,4 +1,5 @@
 using System.Collections;
+using Misterio.Puzzles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,22 +12,22 @@ namespace Misterio.Core
     /// </summary>
     public sealed class GameFlow : MonoBehaviour
     {
-        public const string Cutscene01 = "CC01_A_Madrugada_Comeca";
-        public const string Floor1 = "Floor1_Estatuas";
-        public const string Cutscene02 = "CC02_Acesso_a_Galeria";
-        public const string Floor2 = "Floor2_Galeria";
-        public const string Cutscene03 = "CC03_A_Galeria_Reorganizada";
-        public const string Floor3 = "Floor3_Acervo";
-        public const string Cutscene04 = "CC04_Passagem_Silenciosa";
-        public const string Cutscene04A = "CC04A_Alerta_de_Moema";
-        public const string Cutscene05 = "CC05_A_Obra_no_Escuro";
-        public const string Floor4 = "Floor4_Salao";
-        public const string Cutscene06 = "CC06_A_Energia_Retorna";
-        public const string Cutscene07 = "CC07_A_Trilha_de_Moema";
-        public const string Cutscene08 = "CC08_A_Abertura_do_Dia";
-        public const string Cutscene09 = "CC09_A_Abertura_Precisa_Esperar";
-        public const string Cutscene10 = "CC10_A_Ultima_Sala_Ainda_no_Escuro";
-        public const string Credits = "Credits";
+        public const string Cutscene01 = RouteRules.Cutscene01;
+        public const string Floor1 = RouteRules.Floor1;
+        public const string Cutscene02 = RouteRules.Cutscene02;
+        public const string Floor2 = RouteRules.Floor2;
+        public const string Cutscene03 = RouteRules.Cutscene03;
+        public const string Floor3 = RouteRules.Floor3;
+        public const string Cutscene04 = RouteRules.Cutscene04;
+        public const string Cutscene04A = RouteRules.Cutscene04A;
+        public const string Cutscene05 = RouteRules.Cutscene05;
+        public const string Floor4 = RouteRules.Floor4;
+        public const string Cutscene06 = RouteRules.Cutscene06;
+        public const string Cutscene07 = RouteRules.Cutscene07;
+        public const string Cutscene08 = RouteRules.Cutscene08;
+        public const string Cutscene09 = RouteRules.Cutscene09;
+        public const string Cutscene10 = RouteRules.Cutscene10;
+        public const string Credits = RouteRules.Credits;
 
         public static GameFlow Instance { get; private set; }
 
@@ -34,11 +35,7 @@ namespace Misterio.Core
         bool loading;
 
         /// <summary>Where the success route continues after each scene.</summary>
-        static readonly string[] SuccessChain =
-        {
-            Cutscene01, Floor1, Cutscene02, Floor2, Cutscene03, Floor3,
-            Cutscene04, Cutscene05, Floor4, Cutscene06, Cutscene07, Cutscene08, Credits
-        };
+        static readonly string[] SuccessChain = RouteRules.SuccessChain;
 
         void Awake()
         {
@@ -107,21 +104,28 @@ namespace Misterio.Core
         public void Load(string sceneName)
         {
             if (loading) return;
+            loading = true;
             StartCoroutine(LoadRoutine(sceneName));
         }
 
         IEnumerator LoadRoutine(string sceneName)
         {
-            loading = true;
+            Debug.Log("[Flow] loading " + sceneName + " (fade out)");
             yield return FadeTo(1f, 0.45f);
-            var session = GameSession.EnsureExists();
-            session.SetClockRunning(false);
+            GameSession.EnsureExists().SetClockRunning(false);
+
+            Debug.Log("[Flow] starting async load of " + sceneName);
             var operation = SceneManager.LoadSceneAsync(sceneName);
-            if (operation != null)
-                while (!operation.isDone) yield return null;
-            yield return null;
-            yield return FadeTo(0f, 0.45f);
+            if (operation == null)
+            {
+                Debug.LogError("[Flow] LoadSceneAsync returned null for " + sceneName);
+                loading = false;
+                yield break;
+            }
+            while (!operation.isDone) yield return null;
+            Debug.Log("[Flow] " + sceneName + " loaded");
             loading = false;
+            StartCoroutine(FadeTo(0f, 0.45f));
         }
 
         public IEnumerator FadeTo(float alpha, float duration)

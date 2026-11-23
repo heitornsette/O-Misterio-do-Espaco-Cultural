@@ -19,11 +19,13 @@ namespace Misterio.Puzzles.Floor3
         Vector2 facing;
         float waitTimer;
         readonly float waitAtWaypoint;
+        float distractedTimer;
 
         public Vector2 Position => position;
         public Vector2 Facing => facing;
         public float HalfAngleDegrees => halfAngleDegrees;
         public float ViewDistance => viewDistance;
+        public bool IsDistracted => distractedTimer > 0f;
 
         public StealthPatrol(Vector2[] waypoints, float speed, float viewDistance,
                              float halfAngleDegrees, float waitAtWaypoint = 0.4f)
@@ -42,6 +44,12 @@ namespace Misterio.Puzzles.Floor3
         public void Tick(float deltaTime)
         {
             if (waypoints.Length < 2 || deltaTime <= 0f) return;
+
+            if (distractedTimer > 0f)
+            {
+                distractedTimer = Mathf.Max(0f, distractedTimer - deltaTime);
+                return;
+            }
 
             if (waitTimer > 0f)
             {
@@ -65,6 +73,18 @@ namespace Misterio.Puzzles.Floor3
             {
                 position += facing * step;
             }
+        }
+
+        /// <summary>
+        /// A loose board makes noise: Moema stops and turns towards it. This is what makes the
+        /// boards a real hazard instead of scenery, and it is fully deterministic.
+        /// </summary>
+        public void Distract(Vector2 source, float seconds)
+        {
+            Vector2 toSource = source - position;
+            if (toSource.sqrMagnitude > 0.0001f) facing = toSource.normalized;
+            distractedTimer = Mathf.Max(distractedTimer, seconds);
+            waitTimer = 0f;
         }
 
         /// <summary>True when the point is inside the cone, in range and not hidden by an occluder.</summary>

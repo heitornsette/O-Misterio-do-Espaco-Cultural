@@ -28,11 +28,11 @@ namespace Misterio.EditorTools
 
             var statueSprites = new[]
             {
-                FloorSceneKit.MakePlaceholder("estatua_pescador_placeholder", new Color(0.66f, 0.46f, 0.28f), 28, 56),
-                FloorSceneKit.MakePlaceholder("estatua_rendeira_placeholder", new Color(0.72f, 0.52f, 0.32f), 28, 56),
-                FloorSceneKit.MakePlaceholder("estatua_vaqueiro_placeholder", new Color(0.60f, 0.42f, 0.26f), 28, 56)
+                PixelArtFactory.Statue("estatua_pescador", 1),
+                PixelArtFactory.Statue("estatua_rendeira", 2),
+                PixelArtFactory.Statue("estatua_vaqueiro", 3)
             };
-            var markSprite = FloorSceneKit.MakePlaceholder("marcacao_piso_placeholder", new Color(0.92f, 0.94f, 1f), 26, 16);
+            var markSprite = PixelArtFactory.PlacementMark();
 
             var statues = new Transform[3];
             var marks = new Transform[3];
@@ -45,7 +45,7 @@ namespace Misterio.EditorTools
             {
                 Vector2 markPosition = gridOrigin + new Vector2(markCells[i].x * cellSize.x, markCells[i].y * cellSize.y);
                 var mark = FloorSceneKit.MakeSprite("Marcação " + (i + 1), markSprite, markPosition, 4);
-                mark.transform.localScale = new Vector3(0.7f, 0.55f, 1f);
+                mark.transform.localScale = new Vector3(0.52f, 0.42f, 1f);
                 var markColor = mark.color;
                 markColor.a = 0.85f;
                 mark.color = markColor;
@@ -53,15 +53,16 @@ namespace Misterio.EditorTools
 
                 Vector2 statuePosition = gridOrigin + new Vector2(statueCells[i].x * cellSize.x, statueCells[i].y * cellSize.y);
                 var statue = FloorSceneKit.MakeSprite("Estátua " + (i + 1), statueSprites[i], statuePosition, 8);
-                statue.transform.localScale = new Vector3(0.42f, 0.42f, 1f);
+                statue.transform.localScale = new Vector3(0.36f, 0.36f, 1f);
                 statues[i] = statue.transform;
             }
 
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.28f, -0.48f));
+            FloorSceneKit.AddVignette(camera);
 
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
-            FloorSceneKit.AddSfx();
             if (audio.ambient.clip != null) audio.ambient.Play();
+            FloorSceneKit.AddSfx();
 
             var controllerObject = new GameObject("Andar 1 - Controlador");
             var controller = controllerObject.AddComponent<Floor1Controller>();

@@ -16,7 +16,11 @@ namespace Misterio.Core
 
         void Awake()
         {
-            if (instance != null && instance != this)
+            // The bootstrap is added to every scene, so the copy living in the scene that is
+            // unloaded must not destroy the one that just arrived. Keep the first instance alive
+            // and let the newer scene take over the wiring.
+            if (instance != null && instance != this && instance.gameObject.scene.isLoaded
+                && gameObject.scene.isLoaded && instance.gameObject.scene == gameObject.scene)
             {
                 Destroy(gameObject);
                 return;
@@ -28,10 +32,19 @@ namespace Misterio.Core
             Application.runInBackground = true;
             Application.targetFrameRate = 60;
 
+            // The development capture helper only activates when the player is launched with
+            // -autoshot; it stays inert in a normal run. It is added before any early return so
+            // -startscene also works.
+            if (AutoCapture.Instance == null)
+            {
+                var captureHost = new GameObject("Auto Capture");
+                captureHost.AddComponent<AutoCapture>();
+            }
+
             // Development only: -startscene <name> opens any scene directly, which makes it possible
             // to validate the time-out endings and the credits in the built player.
             string requested = ReadArgument("-startscene");
-            if (!string.IsNullOrEmpty(requested) && gameObject.scene.name != requested)
+            if (!string.IsNullOrEmpty(requested) && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != requested)
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene(requested);
                 return;
@@ -46,15 +59,10 @@ namespace Misterio.Core
             }
 
             if (startNewRunOnAwake && GameSession.Instance != null &&
-                SceneRouter.IsFirstScene(gameObject.scene.name))
+                SceneRouter.IsFirstScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name))
                 GameSession.Instance.ResetRun();
 
-            SceneRouter.WireCutscene(gameObject.scene.name);
-
-            // The development capture helper only activates when the player is launched with
-            // -autoshot; it stays inert in a normal run.
-            if (gameObject.GetComponent<AutoCapture>() == null)
-                gameObject.AddComponent<AutoCapture>();
+            SceneRouter.WireCutscene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         }
 
         void OnDestroy()

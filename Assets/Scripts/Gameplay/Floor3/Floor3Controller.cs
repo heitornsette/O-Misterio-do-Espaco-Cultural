@@ -55,6 +55,8 @@ namespace Misterio.Gameplay
         float graceTimer;
         bool alertActive;
         int alerts;
+        float noiseCooldown;
+        Vector2 lastGuardPosition;
 
         public int CollectedPieces => collected.Count;
         public int TotalPieces => piecePoints != null ? piecePoints.Length : 0;
@@ -89,6 +91,7 @@ namespace Misterio.Gameplay
 
             SyncViews();
             UpdateCounter();
+            lastGuardPosition = Guard.Position;
             // A short grace on entry (and on every return from the alert cutscene) prevents an
             // instant re-detection while the player is still reading the HUD.
             graceTimer = graceAfterAlert;
@@ -103,11 +106,13 @@ namespace Misterio.Gameplay
             if (alertActive) return;
 
             graceTimer = Mathf.Max(0f, graceTimer - deltaTime);
+            noiseCooldown = Mathf.Max(0f, noiseCooldown - deltaTime);
             patrol.Tick(deltaTime);
             if (moemaView != null)
                 moemaView.position = new Vector3(patrol.Position.x, patrol.Position.y, moemaView.position.z);
 
             UpdateSightCone();
+            CheckLooseBoard(deltaTime);
 
             if (graceTimer <= 0f && patrol.CanSee(Guard.Position, BuildOccluders()))
                 TriggerAlert();
@@ -127,6 +132,23 @@ namespace Misterio.Gameplay
                 flat[i * 4 + 3] = new Vector2(rect.xMin, rect.yMax);
             }
             return flat;
+        }
+
+        /// <summary>
+        /// A loose board creaks under the guard's feet and pulls Moema's attention towards him.
+        /// </summary>
+        void CheckLooseBoard(float deltaTime)
+        {
+            Vector2 position = Guard.Position;
+            bool moved = (position - lastGuardPosition).sqrMagnitude > 0.0000004f;
+            lastGuardPosition = position;
+            if (!moved || noiseCooldown > 0f) return;
+            if (!OnNoisyBoard()) return;
+
+            noiseCooldown = 2.2f;
+            patrol.Distract(position, 1.5f);
+            FloorSfx.Instance?.Turn();
+            Hud.ShowHint("A tábua rangeu. Moema virou para o barulho.", 3.5f);
         }
 
         void UpdateSightCone()

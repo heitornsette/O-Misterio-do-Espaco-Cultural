@@ -4,7 +4,10 @@ using UnityEngine;
 
 namespace Misterio.EditorTools
 {
-    /// <summary>Builds the gallery floor: three paintings, three hooks and the clue plaques.</summary>
+    /// <summary>
+    /// Builds the gallery floor: three paintings, three hooks and the clue plaques the player reads
+    /// to deduce the order.
+    /// </summary>
     public static class Floor2SceneBuilder
     {
         const string ScenePath = "Assets/Scenes/Floor2_Galeria.unity";
@@ -25,9 +28,9 @@ namespace Misterio.EditorTools
 
             var paintingSprites = new[]
             {
-                FloorSceneKit.MakePlaceholder("quadro_mare_placeholder", new Color(0.34f, 0.55f, 0.72f), 30, 22),
-                FloorSceneKit.MakePlaceholder("quadro_nevoa_placeholder", new Color(0.48f, 0.52f, 0.62f), 30, 22),
-                FloorSceneKit.MakePlaceholder("quadro_sertao_placeholder", new Color(0.78f, 0.56f, 0.28f), 30, 22)
+                PixelArtFactory.Painting("quadro_mare", PixelArtFactory.Motif.Coast),
+                PixelArtFactory.Painting("quadro_nevoa", PixelArtFactory.Motif.Mountain),
+                PixelArtFactory.Painting("quadro_sertao", PixelArtFactory.Motif.Backlands)
             };
 
             Vector2[] floorPoints =
@@ -43,7 +46,7 @@ namespace Misterio.EditorTools
             for (int i = 0; i < 3; i++)
             {
                 var view = FloorSceneKit.MakeSprite("Quadro no chão " + (i + 1), paintingSprites[i], floorPoints[i], 6);
-                view.transform.localScale = new Vector3(0.55f, 0.55f, 1f);
+                view.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 floorViews[i] = view.transform;
             }
 
@@ -51,20 +54,27 @@ namespace Misterio.EditorTools
             for (int i = 0; i < 3; i++)
             {
                 var hook = FloorSceneKit.MakeSprite("Gancho " + (i + 1), paintingSprites[i], hookPoints[i], 7);
-                hook.transform.localScale = new Vector3(0.55f, 0.55f, 1f);
+                hook.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
                 hook.enabled = false;
                 hooks[i] = hook.transform;
             }
 
             var carried = FloorSceneKit.MakeSprite("Quadro carregado", paintingSprites[0], new Vector2(0f, -0.1f), 20);
-            carried.transform.localScale = new Vector3(0.42f, 0.42f, 1f);
+            carried.transform.localScale = new Vector3(0.38f, 0.38f, 1f);
             carried.enabled = false;
 
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.35f, -0.75f));
+            FloorSceneKit.AddVignette(camera);
+
+            // The two clues are readable plaques on the gallery walls, as the design document asks.
+            FloorSceneKit.AddPlaque("Clue1", new Vector2(-1.35f, 0.02f),
+                "Acervo — a obra de paleta quente fica à direita de todas.", 0.30f);
+            FloorSceneKit.AddPlaque("Clue2", new Vector2(1.35f, 0.02f),
+                "Acervo — a tela do litoral fica ao lado da obra mais antiga.", 0.30f);
 
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
-            FloorSceneKit.AddSfx();
             if (audio.ambient.clip != null) audio.ambient.Play();
+            FloorSceneKit.AddSfx();
 
             var controllerObject = new GameObject("Andar 2 - Controlador");
             var controller = controllerObject.AddComponent<Floor2Controller>();

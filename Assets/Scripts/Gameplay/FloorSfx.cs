@@ -15,6 +15,7 @@ namespace Misterio.Gameplay
         [SerializeField] AudioClip pickup;
         [SerializeField] AudioClip turn;
         [SerializeField] AudioClip locked;
+        [SerializeField] AudioClip step;
 
         public static FloorSfx Instance { get; private set; }
 
@@ -36,6 +37,7 @@ namespace Misterio.Gameplay
         public void Pickup() => Play(pickup, 0.55f);
         public void Turn() => Play(turn, 0.35f);
         public void Locked() => Play(locked, 0.40f);
+        public void Step(float volume = 0.30f) => Play(step, volume);
 
         void Play(AudioClip clip, float volume)
         {

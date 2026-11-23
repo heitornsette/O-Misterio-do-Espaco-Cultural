@@ -20,6 +20,9 @@ namespace Misterio.Core
         static int shot;
         bool capturing;
         bool autoPlay;
+        static bool started;
+
+        public static AutoCapture Instance { get; private set; }
 
         void Awake()
         {
@@ -40,7 +43,20 @@ namespace Misterio.Core
             autoPlay = Array.IndexOf(args, "-autoplay") >= 0;
             outputDirectory = Path.IsPathRooted(folder) ? folder : Path.Combine(Application.persistentDataPath, folder);
             Directory.CreateDirectory(outputDirectory);
+
+            if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+            Instance = this;
+            // The helper must survive scene loads, otherwise the capture stops at the first
+            // transition and the route can never be validated end to end.
+            DontDestroyOnLoad(gameObject);
+            if (started) return;
+            started = true;
             StartCoroutine(Run());
+        }
+
+        void OnDestroy()
+        {
+            if (Instance == this) Instance = null;
         }
 
         IEnumerator Run()
@@ -58,15 +74,24 @@ namespace Misterio.Core
         /// <summary>Dev-only: solves the current floor so the whole route can be captured.</summary>
         static void AutoPlay()
         {
+            // PuzzleFloor is abstract, so the check is by base type rather than by name.
             foreach (var floor in UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 if (floor == null) continue;
-                if (floor.GetType().Name != "PuzzleFloor" && !floor.GetType().Name.EndsWith("Controller")) continue;
+                if (!(floor is Misterio.Gameplay.PuzzleFloor)) continue;
                 var solve = floor.GetType().GetMethod("AutoCompleteForCapture",
                     System.Reflection.BindingFlags.Instance |
                     System.Reflection.BindingFlags.Public |
                     System.Reflection.BindingFlags.NonPublic);
-                solve?.Invoke(floor, null);
+                if (solve != null)
+                {
+                    Debug.Log("[AutoPlay] solving " + floor.GetType().Name);
+                    solve.Invoke(floor, null);
+                }
+                else
+                {
+                    Debug.LogWarning("[AutoPlay] no AutoCompleteForCapture on " + floor.GetType().Name);
+                }
             }
         }
 

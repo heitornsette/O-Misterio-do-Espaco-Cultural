@@ -24,6 +24,8 @@ namespace Misterio.Gameplay
         protected bool TimedOut { get; private set; }
         protected float FloorElapsed { get; private set; }
         float idleSeconds;
+        Vector2 lastFootstepPosition;
+        float footstepTimer;
 
         protected virtual void Awake()
         {
@@ -42,12 +44,34 @@ namespace Misterio.Gameplay
             Hud = HudView.Create(LoadFont(), objectiveText);
             Session.SetClockRunning(true);
             Session.DawnReached += OnDawnReached;
+            if (Guard != null) lastFootstepPosition = Guard.Position;
             OnFloorReady();
         }
 
         protected virtual void OnDestroy()
         {
             if (Session != null) Session.DawnReached -= OnDawnReached;
+        }
+
+        /// <summary>
+        /// Plays a soft footstep while the guard walks, which makes the floors feel alive without
+        /// any new audio asset.
+        /// </summary>
+        void UpdateFootsteps(float delta)
+        {
+            if (Guard == null) return;
+            Vector2 position = Guard.Position;
+            bool walking = (position - lastFootstepPosition).sqrMagnitude > 0.0000004f;
+            lastFootstepPosition = position;
+            if (!walking)
+            {
+                footstepTimer = 0f;
+                return;
+            }
+            footstepTimer -= delta;
+            if (footstepTimer > 0f) return;
+            footstepTimer = 0.34f;
+            FloorSfx.Instance?.Step();
         }
 
         /// <summary>Called once the HUD and the session are ready; build the puzzle here.</summary>
@@ -67,6 +91,7 @@ namespace Misterio.Gameplay
             FloorElapsed += delta;
             Session.Tick(delta);
             OnFloorTick(delta);
+            UpdateFootsteps(delta);
 
             idleSeconds += delta;
             if (idleSeconds > 90f)

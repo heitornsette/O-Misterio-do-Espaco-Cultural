@@ -1,3 +1,4 @@
+using Misterio.Puzzles;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -50,7 +51,10 @@ namespace Misterio.Core
             {
                 Debug.Log("[Router] onCutsceneFinished fired for " + sceneName + " at t=" + Time.timeSinceLevelLoad.ToString("F2"));
                 GameSession.Instance?.SetClockRunning(false);
-                GameFlow.Instance?.Load(next);
+                var current = GameSession.Instance;
+                string target = ResolveNext(sceneName, current);
+                if (sceneName == GameFlow.Cutscene04A) current?.ConsumeResumeFloor();
+                GameFlow.Instance?.Load(target);
             });
             Debug.Log("[Router] " + sceneName + " -> " + next + " (listener armed)");
             return true;
@@ -73,19 +77,16 @@ namespace Misterio.Core
 
         /// <summary>
         /// After a failure cutscene the game returns to the floor that was interrupted; otherwise it
-        /// follows the success chain.
+        /// follows the success chain. Exposed so the routing rules can be tested without scenes.
         /// </summary>
-        static string ResolveNext(string sceneName, GameSession session)
+        public static string ResolveNext(string sceneName, GameSession session)
         {
-            if (sceneName == GameFlow.Cutscene04A)
+            if (sceneName == GameFlow.Cutscene04A && session != null)
             {
-                int resume = session.ConsumeResumeFloor();
-                if (resume == 3) return GameFlow.Floor3;
-                if (resume == 2) return GameFlow.Floor2;
-                if (resume == 1) return GameFlow.Floor1;
-                if (resume == 4) return GameFlow.Floor4;
+                string resume = RouteRules.ResumeTarget(session.ResumeFloor);
+                if (resume != null) return resume;
             }
-            return GameFlow.NextInChain(sceneName);
+            return RouteRules.NextAfter(sceneName);
         }
 
         static MonoBehaviour FindCutsceneController()

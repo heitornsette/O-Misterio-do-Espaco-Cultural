@@ -43,6 +43,11 @@ namespace Misterio.Gameplay
             scaler.matchWidthOrHeight = 0.5f;
             gameObject.AddComponent<GraphicRaycaster>();
 
+            // Soft panels behind the text keep it readable over any background, the way the
+            // cutscene subtitles already do. They are created first so they stay behind.
+            MakePanel(new Vector2(0f, 1f), new Vector2(28f, -28f), new Vector2(1000f, 118f), new Color(0.008f, 0.014f, 0.032f, 0.52f));
+            MakePanel(new Vector2(1f, 1f), new Vector2(-28f, -28f), new Vector2(392f, 118f), new Color(0.008f, 0.014f, 0.032f, 0.52f));
+
             clockText = MakeText("Clock", new Vector2(1f, 1f), new Vector2(-40f, -36f),
                                  new Vector2(320f, 56f), 40, TextAnchor.UpperRight, textColor);
             creditText = MakeText("Credit", new Vector2(1f, 1f), new Vector2(-40f, -92f),
@@ -61,6 +66,22 @@ namespace Misterio.Gameplay
             counterText.text = string.Empty;
             promptText.text = string.Empty;
             hintText.text = string.Empty;
+        }
+
+        /// <summary>A flat translucent panel used to keep HUD text readable.</summary>
+        void MakePanel(Vector2 anchor, Vector2 offset, Vector2 size, Color color)
+        {
+            var host = new GameObject("Painel", typeof(RectTransform));
+            host.transform.SetParent(transform, false);
+            var image = host.AddComponent<Image>();
+            image.color = color;
+            image.raycastTarget = false;
+            var rect = image.rectTransform;
+            rect.anchorMin = anchor;
+            rect.anchorMax = anchor;
+            rect.pivot = anchor;
+            rect.anchoredPosition = offset;
+            rect.sizeDelta = size;
         }
 
         Text MakeText(string name, Vector2 anchor, Vector2 offset, Vector2 size, int fontSize,
