@@ -19,6 +19,10 @@ namespace Misterio.Gameplay
         public virtual bool IsAvailable => isActiveAndEnabled;
         public string Prompt => promptText;
 
+        /// <summary>How far above the object the interaction marker floats.</summary>
+        [SerializeField, Min(0.02f)] float markerHeight = 0.30f;
+        public virtual float MarkerHeight => markerHeight;
+
         protected virtual void OnEnable()
         {
             if (!All.Contains(this)) All.Add(this);

@@ -60,6 +60,14 @@ namespace Misterio.EditorTools
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.28f, -0.48f));
             FloorSceneKit.AddVignette(camera);
 
+            // Ceiling cones over the marks and a warm pool at the entrance, plus grounded shadows.
+            var lights = FloorSceneKit.AddLighting(camera,
+                new[] { new Vector2(-0.35f, 0.62f), new Vector2(0.55f, 0.62f) },
+                new[] { new Vector2(-0.60f, -0.20f), new Vector2(0.35f, -0.30f) });
+            for (int i = 0; i < 3; i++)
+                FloorSceneKit.AddShadow(statues[i].position, 0.60f);
+            FloorSceneKit.AddAtmosphere(camera, lights, guard.transform);
+
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
             if (audio.ambient.clip != null) audio.ambient.Play();
             FloorSceneKit.AddSfx();

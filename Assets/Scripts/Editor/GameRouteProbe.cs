@@ -16,13 +16,20 @@ namespace Misterio.EditorTools
         const int Width = 1280;
         const int Height = 720;
 
-        static readonly string[] Route =
+        /// <summary>
+        /// Every scene the game can reach: the success chain plus the three ending cutscenes that are
+        /// not on it. Derived from the shared route data so the probe can never drift from the game.
+        /// </summary>
+        static string[] Route
         {
-            GameFlow.Cutscene01, GameFlow.Floor1, GameFlow.Cutscene02, GameFlow.Floor2,
-            GameFlow.Cutscene03, GameFlow.Floor3, GameFlow.Cutscene04A, GameFlow.Cutscene04,
-            GameFlow.Cutscene05, GameFlow.Floor4, GameFlow.Cutscene06, GameFlow.Cutscene07,
-            GameFlow.Cutscene08, GameFlow.Cutscene09, GameFlow.Cutscene10, GameFlow.Credits
-        };
+            get
+            {
+                var scenes = new List<string>(Misterio.Puzzles.RouteRules.SuccessChain);
+                foreach (string extra in new[] { GameFlow.Cutscene04A, GameFlow.Cutscene09, GameFlow.Cutscene10 })
+                    if (!scenes.Contains(extra)) scenes.Add(extra);
+                return scenes.ToArray();
+            }
+        }
 
         [MenuItem("Misterio/Probe Full Route (capture every scene)")]
         public static void Probe()

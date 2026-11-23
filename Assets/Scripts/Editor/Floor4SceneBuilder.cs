@@ -71,6 +71,12 @@ namespace Misterio.EditorTools
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.85f, -0.20f));
             FloorSceneKit.AddVignette(camera);
 
+            // The hall is dark except for the work light and the panel glow.
+            var lights = FloorSceneKit.AddLighting(camera,
+                new[] { new Vector2(-1.40f, 0.70f), new Vector2(0.45f, 0.70f) },
+                new[] { new Vector2(-0.40f, -0.15f), new Vector2(0.60f, -0.15f) });
+            FloorSceneKit.AddAtmosphere(camera, lights, guard.transform);
+
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
             if (audio.ambient.clip != null) audio.ambient.Play();
             FloorSceneKit.AddSfx();

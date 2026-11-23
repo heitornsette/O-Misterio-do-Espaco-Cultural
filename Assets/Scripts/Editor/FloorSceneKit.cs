@@ -285,6 +285,75 @@ namespace Misterio.EditorTools
             return plaque;
         }
 
+        /// <summary>
+        /// Adds the painted lighting layer the cutscenes use: ceiling cones, ambient pools and an
+        /// object shadow under each prop. Returns the light views so the atmosphere can flicker them.
+        /// </summary>
+        public static List<SpriteRenderer> AddLighting(Camera camera, Vector2[] conePositions,
+                                                       Vector2[] poolPositions, int order = 40)
+        {
+            var coneSprite = LightArtFactory.SpotlightCone();
+            var poolSprite = LightArtFactory.AmbientPool();
+            var lights = new List<SpriteRenderer>();
+
+            foreach (var position in poolPositions)
+            {
+                var pool = MakeSprite("Poça de luz", poolSprite, position, order - 1);
+                pool.transform.localScale = new Vector3(0.9f, 0.9f, 1f);
+                lights.Add(pool);
+            }
+
+            foreach (var position in conePositions)
+            {
+                var cone = MakeSprite("Facho de luz", coneSprite, position, order);
+                cone.transform.localScale = new Vector3(0.75f, 0.75f, 1f);
+                lights.Add(cone);
+            }
+
+            return lights;
+        }
+
+        /// <summary>A hard elliptical shadow that grounds a prop on the floor.</summary>
+        public static SpriteRenderer AddShadow(Vector2 position, float scale = 0.55f, int order = 2)
+        {
+            var shadow = MakeSprite("Sombra", LightArtFactory.ObjectShadow(),
+                                    position + new Vector2(0f, -0.04f), order);
+            shadow.transform.localScale = new Vector3(scale, scale, 1f);
+            return shadow;
+        }
+
+        /// <summary>Scatters dust motes and returns the atmosphere component driving them.</summary>
+        public static FloorAtmosphere AddAtmosphere(Camera camera, List<SpriteRenderer> lights,
+                                                    Transform breathe, int count = 26)
+        {
+            var moteSprite = LightArtFactory.DustMote();
+            var motes = new List<FloorAtmosphere.Mote>();
+            float halfWidth = camera.orthographicSize * camera.aspect;
+            float halfHeight = camera.orthographicSize;
+            var random = new System.Random(20261123);
+
+            for (int i = 0; i < count; i++)
+            {
+                float x = camera.transform.position.x + (float)(random.NextDouble() * 2 - 1) * halfWidth * 0.92f;
+                float y = camera.transform.position.y + (float)(random.NextDouble() * 2 - 1) * halfHeight * 0.85f;
+                var view = MakeSprite("Poeira " + i, moteSprite, new Vector2(x, y), 30);
+                view.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
+                motes.Add(new FloorAtmosphere.Mote
+                {
+                    View = view,
+                    Start = view.transform.position,
+                    Speed = 0.03f + (float)random.NextDouble() * 0.05f,
+                    Amplitude = 0.05f + (float)random.NextDouble() * 0.12f,
+                    Phase = (float)random.NextDouble()
+                });
+            }
+
+            var host = new GameObject("Atmosfera");
+            var atmosphere = host.AddComponent<FloorAtmosphere>();
+            atmosphere.Configure(motes, lights, breathe);
+            return atmosphere;
+        }
+
         /// <summary>Adds the night ambience and a one-shot effect source, reusing cutscene audio.</summary>
         public static (AudioSource ambient, AudioSource effects) AddAudio(string ambiencePath)
         {

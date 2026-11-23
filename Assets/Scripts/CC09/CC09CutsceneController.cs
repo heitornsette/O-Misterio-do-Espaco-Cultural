@@ -199,9 +199,31 @@ namespace Misterio.Cutscenes
             Begin();
         }
 
-        public void RetrySameFloor() => Begin();
+        /// <summary>
+        /// Returns to the floor that ran out of time so the player can try that floor again, instead
+        /// of replaying this cutscene.
+        /// </summary>
+        public void RetrySameFloor()
+        {
+            var session = Misterio.Core.GameSession.Instance;
+            string floor = Misterio.Puzzles.RouteRules.ResumeTarget(session != null ? session.TimedOutFloor : 0);
+            if (!string.IsNullOrEmpty(floor) && Misterio.Core.GameFlow.Instance != null)
+            {
+                Misterio.Core.GameFlow.Instance.Load(floor);
+                return;
+            }
+            // Fallback for a scene opened on its own: replay the cutscene.
+            Begin();
+        }
 
-        public void ReturnToMenu() => onReturnToMenu?.Invoke();
+        /// <summary>Starts the whole night again. There is no menu scene, so this is the exit path.</summary>
+        public void ReturnToMenu()
+        {
+            onReturnToMenu?.Invoke();
+            if (Misterio.Core.GameFlow.Instance == null) return;
+            Misterio.Core.GameSession.Instance?.ResetRun();
+            Misterio.Core.GameFlow.Instance.Load(Misterio.Core.GameFlow.Exterior);
+        }
 
 #if UNITY_EDITOR
         public void PrepareEditorFrameReviewCapture()

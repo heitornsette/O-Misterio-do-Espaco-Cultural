@@ -15,6 +15,7 @@ namespace Misterio.EditorTools
         /// <summary>Play order: the success route plus the two time-out endings.</summary>
         static readonly string[] Order =
         {
+            GameFlow.Exterior,
             GameFlow.Cutscene01,
             GameFlow.Floor1,
             GameFlow.Cutscene02,

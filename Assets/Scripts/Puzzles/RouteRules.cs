@@ -8,6 +8,7 @@ namespace Misterio.Puzzles
     /// </summary>
     public static class RouteRules
     {
+        public const string Exterior = "Exterior_Chegada";
         public const string Cutscene01 = "CC01_A_Madrugada_Comeca";
         public const string Floor1 = "Floor1_Estatuas";
         public const string Cutscene02 = "CC02_Acesso_a_Galeria";
@@ -28,7 +29,7 @@ namespace Misterio.Puzzles
         /// <summary>The success route, in play order.</summary>
         public static readonly string[] SuccessChain =
         {
-            Cutscene01, Floor1, Cutscene02, Floor2, Cutscene03, Floor3,
+            Exterior, Cutscene01, Floor1, Cutscene02, Floor2, Cutscene03, Floor3,
             Cutscene04, Cutscene05, Floor4, Cutscene06, Cutscene07, Cutscene08, Credits
         };
 

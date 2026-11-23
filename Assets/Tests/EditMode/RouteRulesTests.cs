@@ -16,6 +16,7 @@ namespace Misterio.Puzzles.Tests
         [Test]
         public void SuccessChainAlternatesCutscenesAndFloors()
         {
+            Assert.AreEqual("CC01_A_Madrugada_Comeca", RouteRules.NextAfter("Exterior_Chegada"));
             Assert.AreEqual("Floor1_Estatuas", RouteRules.NextAfter("CC01_A_Madrugada_Comeca"));
             Assert.AreEqual("CC02_Acesso_a_Galeria", RouteRules.NextAfter("Floor1_Estatuas"));
             Assert.AreEqual("Floor2_Galeria", RouteRules.NextAfter("CC02_Acesso_a_Galeria"));
@@ -28,6 +29,22 @@ namespace Misterio.Puzzles.Tests
             Assert.AreEqual("CC07_A_Trilha_de_Moema", RouteRules.NextAfter("CC06_A_Energia_Retorna"));
             Assert.AreEqual("CC08_A_Abertura_do_Dia", RouteRules.NextAfter("CC07_A_Trilha_de_Moema"));
             Assert.AreEqual("Credits", RouteRules.NextAfter("CC08_A_Abertura_do_Dia"));
+        }
+
+        [Test]
+        public void TheNightStartsOutsideTheBuilding()
+        {
+            // The player crosses the campus first, which is what gives the night room to breathe.
+            Assert.AreEqual("Exterior_Chegada", RouteRules.SuccessChain[0]);
+            Assert.AreEqual("CC01_A_Madrugada_Comeca", RouteRules.NextAfter("Exterior_Chegada"));
+        }
+
+        [Test]
+        public void EverySceneOnTheChainExists()
+        {
+            foreach (string scene in RouteRules.SuccessChain)
+                Assert.IsTrue(System.IO.File.Exists("Assets/Scenes/" + scene + ".unity"),
+                              "Missing scene on the route: " + scene);
         }
 
         [Test]
@@ -72,10 +89,16 @@ namespace Misterio.Puzzles.Tests
         }
 
         [Test]
-        public void FirstSceneIsTheOpening()
+        public void TheRouteHasOneExteriorAndThirteenSteps()
         {
-            Assert.AreEqual("CC01_A_Madrugada_Comeca", RouteRules.SuccessChain[0]);
+            int exteriors = 0;
+            foreach (var scene in RouteRules.SuccessChain)
+                if (scene.StartsWith("Exterior")) exteriors++;
+            Assert.AreEqual(1, exteriors, "The approach appears once, before the opening cutscene.");
+            Assert.AreEqual(14, RouteRules.SuccessChain.Length);
         }
+
+
 
         [Test]
         public void FailureInTheArchiveReturnsToTheArchive()

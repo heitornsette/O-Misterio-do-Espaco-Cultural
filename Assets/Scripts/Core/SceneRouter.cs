@@ -13,7 +13,8 @@ namespace Misterio.Core
     public static class SceneRouter
     {
         /// <summary>The very first scene of the game, which starts a fresh run.</summary>
-        public static bool IsFirstScene(string sceneName) => sceneName == GameFlow.Cutscene01;
+        public static bool IsFirstScene(string sceneName) =>
+            sceneName == GameFlow.Exterior || sceneName == GameFlow.Cutscene01;
 
         /// <summary>
         /// Finds the cutscene controller in the active scene, feeds it the current state and appends

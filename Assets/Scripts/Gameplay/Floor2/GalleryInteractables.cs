@@ -12,6 +12,7 @@ namespace Misterio.Gameplay
         {
             floor = owner;
             slot = index;
+            promptText = "Pendurar quadro";
         }
 
         public override Vector2 InteractPoint => transform.position;
@@ -34,6 +35,7 @@ namespace Misterio.Gameplay
         {
             floor = owner;
             index = paintingIndex;
+            promptText = "Pegar quadro";
         }
 
         public override void Interact(GuardActor actor)
@@ -53,6 +55,7 @@ namespace Misterio.Gameplay
         {
             hud = target;
             plaqueText = text;
+            promptText = "Ler placa";
         }
 
         public override void Interact(GuardActor actor)

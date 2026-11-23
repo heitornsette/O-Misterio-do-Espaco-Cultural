@@ -66,6 +66,14 @@ namespace Misterio.EditorTools
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.35f, -0.75f));
             FloorSceneKit.AddVignette(camera);
 
+            // Moonlight falls from the windows, so the pools sit under the hooks.
+            var lights = FloorSceneKit.AddLighting(camera,
+                new[] { new Vector2(-0.95f, 0.60f), new Vector2(0.02f, 0.60f), new Vector2(0.98f, 0.60f) },
+                new[] { new Vector2(-0.60f, -0.25f), new Vector2(0.60f, -0.25f) });
+            for (int i = 0; i < 3; i++)
+                FloorSceneKit.AddShadow(floorViews[i].position, 0.52f);
+            FloorSceneKit.AddAtmosphere(camera, lights, guard.transform);
+
             // The two clues are readable plaques on the gallery walls, as the design document asks.
             FloorSceneKit.AddPlaque("Clue1", new Vector2(-1.35f, 0.02f),
                 "Acervo — a obra de paleta quente fica à direita de todas.", 0.30f);

@@ -95,6 +95,14 @@ namespace Misterio.EditorTools
             var guard = FloorSceneKit.AddGuard(new Vector2(-1.45f, 0.72f));
             FloorSceneKit.AddVignette(camera);
 
+            // A single swinging ceiling light over the patrol path, plus pools by the cases.
+            var lights = FloorSceneKit.AddLighting(camera,
+                new[] { new Vector2(-0.65f, 0.75f), new Vector2(0.95f, 0.75f) },
+                new[] { new Vector2(-0.65f, -0.15f), new Vector2(0.95f, -0.15f) });
+            for (int i = 0; i < pieceViews.Length; i++)
+                FloorSceneKit.AddShadow(pieceViews[i].position, 0.34f);
+            FloorSceneKit.AddAtmosphere(camera, lights, guard.transform);
+
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
             if (audio.ambient.clip != null) audio.ambient.Play();
             FloorSceneKit.AddSfx();

@@ -12,6 +12,7 @@ namespace Misterio.Core
     /// </summary>
     public sealed class GameFlow : MonoBehaviour
     {
+        public const string Exterior = RouteRules.Exterior;
         public const string Cutscene01 = RouteRules.Cutscene01;
         public const string Floor1 = RouteRules.Floor1;
         public const string Cutscene02 = RouteRules.Cutscene02;

@@ -12,6 +12,7 @@ namespace Misterio.Gameplay
         {
             floor = owner;
             index = pieceIndex;
+            promptText = "Recolher peça";
         }
 
         public override void Interact(GuardActor actor)

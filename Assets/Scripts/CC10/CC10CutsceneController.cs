@@ -166,13 +166,26 @@ namespace Misterio.Cutscenes
             Begin();
         }
 
+        /// <summary>Returns to the main hall so the circuit can be attempted again.</summary>
         public void RetrySameAttempt()
         {
             onRetryRequested?.Invoke();
+            if (Misterio.Core.GameFlow.Instance != null)
+            {
+                Misterio.Core.GameFlow.Instance.Load(Misterio.Core.GameFlow.Floor4);
+                return;
+            }
             Begin();
         }
 
-        public void ReturnToMenu() => onReturnToMenu?.Invoke();
+        /// <summary>Starts the whole night again. There is no menu scene, so this is the exit path.</summary>
+        public void ReturnToMenu()
+        {
+            onReturnToMenu?.Invoke();
+            if (Misterio.Core.GameFlow.Instance == null) return;
+            Misterio.Core.GameSession.Instance?.ResetRun();
+            Misterio.Core.GameFlow.Instance.Load(Misterio.Core.GameFlow.Exterior);
+        }
 
 #if UNITY_EDITOR
         public void PrepareEditorFrameReviewCapture()

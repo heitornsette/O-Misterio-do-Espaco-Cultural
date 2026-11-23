@@ -41,11 +41,24 @@ namespace Misterio.Gameplay
             if (Session == null) Session = GameSession.EnsureExists();
             if (Guard == null) Guard = FindAnyObjectByType<GuardActor>();
 
-            Hud = HudView.Create(LoadFont(), objectiveText);
+            var font = LoadFont();
+            Hud = HudView.Create(font, objectiveText);
+            PauseMenu.Create(font);
+            InteractionFeedback.Create(LoadMarkerSprite(), Hud, Guard);
+
             Session.SetClockRunning(true);
             Session.DawnReached += OnDawnReached;
             if (Guard != null) lastFootstepPosition = Guard.Position;
             OnFloorReady();
+        }
+
+        Sprite LoadMarkerSprite()
+        {
+#if UNITY_EDITOR
+            var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/Gameplay/marcador_interagir.png");
+            if (sprite != null) return sprite;
+#endif
+            return null;
         }
 
         protected virtual void OnDestroy()
