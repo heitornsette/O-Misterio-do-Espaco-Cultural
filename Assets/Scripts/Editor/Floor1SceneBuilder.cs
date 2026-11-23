@@ -30,18 +30,29 @@ namespace Misterio.EditorTools
             {
                 PixelArtFactory.Statue("estatua_pescador", 1),
                 PixelArtFactory.Statue("estatua_rendeira", 2),
-                PixelArtFactory.Statue("estatua_vaqueiro", 3)
+                PixelArtFactory.Statue("estatua_vaqueiro", 3),
+                PixelArtFactory.Statue("estatua_cantador", 4),
+                PixelArtFactory.Statue("estatua_ceramista", 5)
             };
             var markSprite = PixelArtFactory.PlacementMark();
 
-            var statues = new Transform[3];
-            var marks = new Transform[3];
-            Vector2[] statueCells = { new Vector2(4f, 2f), new Vector2(6f, 4f), new Vector2(3f, 5f) };
-            Vector2[] markCells = { new Vector2(7f, 2f), new Vector2(8f, 4f), new Vector2(5f, 5f) };
+            var statues = new Transform[5];
+            var marks = new Transform[5];
+            // Must mirror Floor1Controller.StatueCells and TargetCells.
+            Vector2[] statueCells =
+            {
+                new Vector2(7f, 2f), new Vector2(9f, 4f), new Vector2(8f, 6f),
+                new Vector2(3f, 4f), new Vector2(6f, 5f)
+            };
+            Vector2[] markCells =
+            {
+                new Vector2(8f, 2f), new Vector2(9f, 5f), new Vector2(6f, 6f),
+                new Vector2(4f, 5f), new Vector2(7f, 4f)
+            };
             Vector2 gridOrigin = new Vector2(-1.75f, -0.88f);
             Vector2 cellSize = new Vector2(0.24f, 0.2f);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < statueSprites.Length; i++)
             {
                 Vector2 markPosition = gridOrigin + new Vector2(markCells[i].x * cellSize.x, markCells[i].y * cellSize.y);
                 var mark = FloorSceneKit.MakeSprite("Marcação " + (i + 1), markSprite, markPosition, 4);
@@ -64,7 +75,7 @@ namespace Misterio.EditorTools
             var lights = FloorSceneKit.AddLighting(camera,
                 new[] { new Vector2(-0.35f, 0.62f), new Vector2(0.55f, 0.62f) },
                 new[] { new Vector2(-0.60f, -0.20f), new Vector2(0.35f, -0.30f) });
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < statues.Length; i++)
                 FloorSceneKit.AddShadow(statues[i].position, 0.60f);
             FloorSceneKit.AddAtmosphere(camera, lights, guard.transform);
 

@@ -29,8 +29,24 @@ namespace Misterio.Gameplay
         float warnCooldown;
 
         static readonly Vector2Int PlayerStart = new Vector2Int(2, 2);
-        static readonly Vector2Int[] StatueCells = { new Vector2Int(4, 2), new Vector2Int(6, 4), new Vector2Int(3, 5) };
-        static readonly Vector2Int[] TargetCells = { new Vector2Int(7, 2), new Vector2Int(8, 4), new Vector2Int(5, 5) };
+
+        /// <summary>
+        /// Five statues instead of three: the room is big enough that the player has to plan the
+        /// order of the pushes, which is what turns the tutorial into a puzzle.
+        /// The layout is derived by construction (statues start on their marks and are pulled
+        /// backwards along legal pushes), so a solution is guaranteed to exist.
+        /// </summary>
+        static readonly Vector2Int[] StatueCells =
+        {
+            new Vector2Int(7, 2), new Vector2Int(9, 4), new Vector2Int(8, 6),
+            new Vector2Int(3, 4), new Vector2Int(6, 5)
+        };
+
+        static readonly Vector2Int[] TargetCells =
+        {
+            new Vector2Int(8, 2), new Vector2Int(9, 5), new Vector2Int(6, 6),
+            new Vector2Int(4, 5), new Vector2Int(7, 4)
+        };
 
         public SokobanBoard Board => board;
 

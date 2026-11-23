@@ -36,7 +36,8 @@ namespace Misterio.Gameplay
         [SerializeField] Vector2[] piecePoints =
         {
             new Vector2(-1.10f, -0.30f), new Vector2(0.40f, 0.28f),
-            new Vector2(1.15f, -0.10f), new Vector2(1.45f, 0.35f)
+            new Vector2(1.15f, -0.10f), new Vector2(1.45f, 0.35f),
+            new Vector2(-1.25f, 0.62f), new Vector2(0.75f, -0.72f)
         };
         [SerializeField] Transform[] boardViews;
         [SerializeField] Rect[] caseBlockers =

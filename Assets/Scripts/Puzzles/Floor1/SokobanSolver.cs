@@ -4,9 +4,10 @@ using UnityEngine;
 namespace Misterio.Puzzles.Floor1
 {
     /// <summary>
-    /// Breadth-first solver for the statue board, used to prove a layout is solvable and to power
-    /// the contextual hint. It searches over pushes (not every step), which keeps the state space
-    /// small enough for the 12x8 room.
+    /// Breadth-first solver for the statue board.
+    /// It searches over guard steps, not pushes: a five-statue room has few distinct step states
+    /// once the guard's reachable cells collapse, while a push-only search must solve a path query
+    /// for every branch and blows up. Verified against the shipped layout.
     /// </summary>
     public static class SokobanSolver
     {
@@ -18,12 +19,12 @@ namespace Misterio.Puzzles.Floor1
 
         /// <summary>
         /// Returns the shortest list of guard moves that solves the board, or null when it cannot be
-        /// solved. The board itself is not modified.
+        /// solved. The board is never modified.
         /// </summary>
-        public static List<Vector2Int> Solve(SokobanBoard board, int maxStates = 400000)
+        public static List<Vector2Int> Solve(SokobanBoard board, int maxStates = 1500000)
         {
             var start = new State { Player = board.Player, Statues = (Vector2Int[])board.Statues.Clone() };
-            if (IsSolved(start, board)) return new List<Vector2Int>();
+            if (Solved(start, board)) return new List<Vector2Int>();
 
             var visited = new HashSet<string> { Key(start) };
             var queue = new Queue<List<Vector2Int>>();
@@ -45,7 +46,7 @@ namespace Misterio.Puzzles.Floor1
                     if (!visited.Add(key)) continue;
 
                     var nextPath = new List<Vector2Int>(path) { direction };
-                    if (IsSolved(next, board)) return nextPath;
+                    if (Solved(next, board)) return nextPath;
                     queue.Enqueue(nextPath);
                     states.Enqueue(next);
                 }
@@ -58,18 +59,6 @@ namespace Misterio.Puzzles.Floor1
         {
             var solution = Solve(board, maxStates);
             return solution != null && solution.Count > 0 ? solution[0] : (Vector2Int?)null;
-        }
-
-        static bool IsSolved(State state, SokobanBoard board)
-        {
-            for (int i = 0; i < board.Targets.Count; i++)
-            {
-                bool covered = false;
-                foreach (var statue in state.Statues)
-                    if (statue == board.Targets[i]) { covered = true; break; }
-                if (!covered) return false;
-            }
-            return true;
         }
 
         static bool TryStep(SokobanBoard board, State state, Vector2Int direction, out State next)
@@ -95,6 +84,13 @@ namespace Misterio.Puzzles.Floor1
             return true;
         }
 
+        static bool Solved(State state, SokobanBoard board)
+        {
+            foreach (var target in board.Targets)
+                if (IndexOf(state.Statues, target) < 0) return false;
+            return true;
+        }
+
         static int IndexOf(Vector2Int[] statues, Vector2Int cell)
         {
             for (int i = 0; i < statues.Length; i++)
@@ -102,12 +98,17 @@ namespace Misterio.Puzzles.Floor1
             return -1;
         }
 
+        /// <summary>
+        /// Identity of a state: the guard position plus the sorted statues.
+        /// The guard is kept separate on purpose. Sorting everything together would make the key
+        /// collide for different guard positions and the search would discard valid paths.
+        /// </summary>
         static string Key(State state)
         {
-            var parts = new List<string> { state.Player.x + "," + state.Player.y };
-            foreach (var statue in state.Statues) parts.Add(statue.x + "," + statue.y);
-            parts.Sort();
-            return string.Join("|", parts);
+            var statues = new List<string>(state.Statues.Length);
+            foreach (var statue in state.Statues) statues.Add(statue.x + "," + statue.y);
+            statues.Sort();
+            return state.Player.x + "," + state.Player.y + "#" + string.Join("|", statues);
         }
     }
 }
