@@ -16,9 +16,9 @@ namespace Misterio.EditorTools
         {
             var camera = FloorSceneKit.NewDioramaScene(
                 "Andar 4 - Salão Principal",
-                new Color(0.02f, 0.025f, 0.06f),
-                1.10f,
-                new Vector2(0f, 0.02f),
+                new Color(0.025f, 0.03f, 0.075f),
+                1.92f,
+                new Vector2(-2.48f, 0.10f),
                 "Camera - Andar 4 (384x216)");
 
             FloorSceneKit.AddBackground(camera, BackgroundPath, "Salão - fundo");
