@@ -1,6 +1,59 @@
 # O Mistério do Espaço Cultural
 
-Projeto Unity 2D criado do zero para o jogo.
+Jogo 2D de exploração e puzzles feito em Unity: o segurança noturno precisa reorganizar
+o acervo do Espaço Cultural antes da inauguração das 06h, investigando a bagunça que a
+Moema deixou sem querer.
+
+---
+
+## Como jogar
+
+### 1. Abrir o projeto
+
+Requer **Unity 6000.6.0f1** (o mesmo `ProjectVersion.txt`). Abra a pasta deste repositório
+pelo Unity Hub. As cenas não precisam ser montadas: todas já estão no projeto e nas Build
+Settings, na ordem do jogo.
+
+### 2. Gerar o executável
+
+No menu do editor: **Misterio → Build Linux Player**. O executável sai em
+`Build/Linux/MisterioDoEspacoCultural.x86_64` (essa pasta está no `.gitignore`, então cada
+clone precisa gerar a sua).
+
+Pela linha de comando, sem abrir a interface:
+
+```bash
+Unity -batchmode -quit -projectPath . \
+      -executeMethod Misterio.EditorTools.GameBuild.BuildLinux
+```
+
+### 3. Controles
+
+| Tecla | Ação |
+|---|---|
+| WASD / setas | Andar (oito direções) |
+| E | Interagir: ler placa, pegar ou pendurar quadro, recolher peça |
+| Setas + E | No painel de conduítes: mover o cursor e girar a peça |
+| Z | Desfazer (no andar das estátuas) |
+| R | Reiniciar o puzzle do andar |
+| ESC | Pausar: continuar ou recomeçar a noite |
+
+### 4. Rota
+
+`Exterior (chegada)` → CC01 → Térreo → CC02 → Galeria → CC03 → Acervo → CC04 → CC05 →
+Salão → CC06 → CC07 → CC08 → Epílogo → Créditos. Se o relógio chegar às 06:00 antes de o
+andar ser resolvido, a noite termina em CC09 (por andar) ou CC10 (no Salão).
+
+### 5. O que é gerado por código
+
+As quatro cenas jogáveis, o exterior e o epílogo são construídos por ferramentas do editor,
+para não dependerem de trabalho manual: **Misterio → Build All Playable Floors**,
+**Build Exterior - Chegada** e **Build Epilogue - Gramado**. A arte de gameplay é desenhada
+pixel a pixel por código, na paleta do projeto.
+
+---
+
+## Cutscene CC01 — A madrugada começa
 
 ## Cutscene CC01 — A madrugada começa
 
