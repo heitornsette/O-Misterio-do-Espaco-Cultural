@@ -1,0 +1,58 @@
+# Line endings are normalised in the repository and checked out for the host platform.
+# Without this, a Windows clone would rewrite every text file with CRLF, which Unity then reports
+# as a change to the scenes and settings and buries the real diff.
+* text=auto eol=lf
+
+# Unity serialises scenes and assets as text; keeping them LF stops needless churn.
+*.unity text eol=lf
+*.prefab text eol=lf
+*.asset text eol=lf
+*.mat text eol=lf
+*.meta text eol=lf
+*.controller text eol=lf
+*.anim text eol=lf
+*.overrideController text eol=lf
+*.physicMaterial text eol=lf
+*.physicsMaterial2D text eol=lf
+*.spriteatlas text eol=lf
+*.mask text eol=lf
+
+# Source and project files.
+*.cs text eol=lf
+*.shader text eol=lf
+*.cginc text eol=lf
+*.hlsl text eol=lf
+*.json text eol=lf
+*.asmdef text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.hex text eol=lf
+*.csv text eol=lf
+*.unitypackage binary
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.psd binary
+*.tga binary
+*.exr binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.mp4 binary
+*.mov binary
+*.ttf binary
+*.otf binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.bundle binary
+*.a binary
+*.pdf binary
+*.docx binary
+*.blend binary
+
+# Windows executables and Unity's build products are binary.
+*.exe binary
+*.pdb binary

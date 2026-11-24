@@ -16,16 +16,36 @@ Settings, na ordem do jogo.
 
 ### 2. Gerar o executável
 
-No menu do editor: **Misterio → Build Linux Player**. O executável sai em
-`Build/Linux/MisterioDoEspacoCultural.x86_64` (essa pasta está no `.gitignore`, então cada
-clone precisa gerar a sua).
+No menu do editor, escolha a plataforma da sua máquina:
 
-Pela linha de comando, sem abrir a interface:
+| Menu | Saída |
+|---|---|
+| **Misterio → Build Player (current platform)** | a plataforma em que o editor está rodando |
+| **Misterio → Build Windows Player** | `Build/Windows/MisterioDoEspacoCultural.exe` |
+| **Misterio → Build Linux Player** | `Build/Linux/MisterioDoEspacoCultural.x86_64` |
+
+A pasta `Build/` está no `.gitignore`, então cada clone gera a sua.
+
+Pela linha de comando, sem abrir a interface (no Windows, use `Unity.exe`):
 
 ```bash
 Unity -batchmode -quit -projectPath . \
-      -executeMethod Misterio.EditorTools.GameBuild.BuildLinux
+      -executeMethod Misterio.EditorTools.GameBuild.BuildPlayer
 ```
+
+### 2.1 Desenvolvendo no Windows
+
+O projeto é multiplataforma e não tem nada preso ao Linux: nenhuma biblioteca nativa, nenhum
+caminho absoluto e nenhum script de shell. Um desenvolvedor no Windows abre a pasta pelo Unity
+Hub e continua o trabalho normalmente, com o Play e os menus do editor funcionando igual.
+
+Duas observações práticas:
+
+- **Arte e cenas são geradas por código.** Os menus `Misterio → Build All Playable Floors`,
+  `Build Exterior - Chegada` e `Build Epilogue - Gramado` reconstroem os andares e as áreas
+  externas. Rodar de novo sobrescreve as cenas com o resultado dos scripts.
+- **O teste automatizado de jogabilidade** (`HumanPlaythrough.cs`, flags `-playtest` e
+  `-forcedawn`) roda no executável gerado, em qualquer sistema.
 
 ### 3. Controles
 

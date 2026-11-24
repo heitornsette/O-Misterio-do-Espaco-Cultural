@@ -229,7 +229,7 @@ namespace Misterio.EditorTools
             SetObject(controller, "effectsSource", effectsSource);
             SetObject(controller, "musicSource", musicSource);
             SetObject(controller, "exteriorAmbience", LoadAudio("Assets/Audio/CC08/cc08_ambiencia_exterior.wav"));
-            SetObject(controller, "lobbyAmbience", LoadAudio("Assets/Audio/CC08/cc08_ambiencia_saguão.wav"));
+            SetObject(controller, "lobbyAmbience", LoadAudio("Assets/Audio/CC08/cc08_ambiencia_saguao.wav"));
             SetObject(controller, "morningTheme", LoadAudio("Assets/Audio/CC02/cc02_xilofone_escadaria.wav"));
             SetObject(controller, "footsteps", LoadAudio("Assets/Audio/CC03/cc03_passos_no_piso.wav"));
             SetObject(controller, "doorOpening", LoadAudio("Assets/Audio/CC04/cc04_rangido_leve.wav"));
@@ -258,7 +258,7 @@ namespace Misterio.EditorTools
             ConfigureSpriteTexture(ArtPath + "/reitor_idle_sheet.png", 64f, true, new Vector2(0.5f, 0.039f));
             ConfigureSpriteTexture(ArtPath + "/mariposa_voo_sheet.png", 64f, true, new Vector2(0.5f, 0.5f));
             ConfigureAudio("Assets/Audio/CC08/cc08_ambiencia_exterior.wav");
-            ConfigureAudio("Assets/Audio/CC08/cc08_ambiencia_saguão.wav");
+            ConfigureAudio("Assets/Audio/CC08/cc08_ambiencia_saguao.wav");
         }
 
         static void ConfigureSpriteTexture(string path, float ppu, bool readable, Vector2 pivot)

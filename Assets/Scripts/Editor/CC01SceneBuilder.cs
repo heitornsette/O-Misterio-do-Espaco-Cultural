@@ -241,9 +241,18 @@ namespace Misterio.EditorTools
                 importer.alphaIsTransparency = true;
                 importer.SaveAndReimport();
             }
-            string fontSource = "/home/savas/Unity/Hub/Editor/6000.6.0f1/Editor/Data/Resources/Fonts/RobotoMono-Bold.ttf";
-            if (File.Exists(fontSource) && !File.Exists("Assets/Fonts/RobotoMono-Bold.ttf"))
-                File.Copy(fontSource, "Assets/Fonts/RobotoMono-Bold.ttf");
+            // The font ships with the project; this is only a fallback. Resolving it from the running
+            // editor keeps it working on Windows, macOS and Linux instead of one machine's install.
+            if (!File.Exists("Assets/Fonts/RobotoMono-Bold.ttf"))
+            {
+                string editorRoot = Path.GetDirectoryName(Path.GetDirectoryName(Application.dataPath));
+                string fontSource = Path.Combine(editorRoot, "Data/Resources/Fonts/RobotoMono-Bold.ttf");
+                if (File.Exists(fontSource))
+                    File.Copy(fontSource, "Assets/Fonts/RobotoMono-Bold.ttf");
+                else
+                    Debug.LogWarning("[CC01] RobotoMono-Bold.ttf missing from Assets/Fonts and from " +
+                                     fontSource + "; the titles will use the default font.");
+            }
             AssetDatabase.Refresh();
         }
 
