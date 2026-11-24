@@ -81,12 +81,10 @@ namespace Misterio.EditorTools
             var controllerObject = new GameObject("Andar 2 - Controlador");
             var controller = controllerObject.AddComponent<Floor2Controller>();
 
-            // The two clues are readable plaques on the gallery walls. The floor owns the text and
-            // each plaque only carries its index, which keeps the scene free of serialised strings.
-            var clueOne = FloorSceneKit.AddPlaque("Clue1", new Vector2(-1.35f, 0.02f), "", 0.30f);
-            clueOne.Bind(controller, 0);
-            var clueTwo = FloorSceneKit.AddPlaque("Clue2", new Vector2(1.35f, 0.02f), "", 0.30f);
-            clueTwo.Bind(controller, 1);
+            // The two clue plaques are plain sprites. The floor shows the clue when the guard walks
+            // close to them, so no extra component has to be serialised into the scene.
+            FloorSceneKit.AddCluePlaque("Clue1", new Vector2(-1.35f, 0.02f), 0.30f);
+            FloorSceneKit.AddCluePlaque("Clue2", new Vector2(1.35f, 0.02f), 0.30f);
             FloorSceneKit.ApplyField(controller, "floorNumber", 2);
             FloorSceneKit.ApplyField(controller, "objectiveText", "Leia as placas e pendure cada quadro no gancho certo.");
             FloorSceneKit.SetArray(controller, "hookViews", hooks);

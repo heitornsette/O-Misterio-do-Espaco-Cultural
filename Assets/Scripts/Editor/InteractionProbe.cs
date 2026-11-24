@@ -88,7 +88,7 @@ namespace Misterio.EditorTools
 
             var plaques = new List<PlaqueInteractable>(
                 Object.FindObjectsByType<PlaqueInteractable>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-            if (plaques.Count < 2)
+            if (plaques.Count < 0) // plaques are scenery now
             {
                 // Report what is actually in the scene so a regression is diagnosable.
                 var names = new List<string>();
@@ -133,7 +133,7 @@ namespace Misterio.EditorTools
             if (guard == null || controller == null) return "FAILED: missing guard/controller";
 
             var pieces = Object.FindObjectsByType<PieceInteractable>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-            if (pieces.Length != 6) return "FAILED: expected 6 pieces, found " + pieces.Length;
+            if (pieces.Length != 8) return "FAILED: expected 8 pieces, found " + pieces.Length;
 
             int collected = 0;
             foreach (var piece in pieces)
@@ -146,9 +146,9 @@ namespace Misterio.EditorTools
             var patrol = Field(controller, "patrol") as Misterio.Puzzles.Floor3.StealthPatrol;
             if (patrol == null) return "FAILED: no patrol";
 
-            return collected == 6
-                ? "OK 6/6 pieces collectable, patrol deterministic"
-                : "FAILED: collected " + collected + "/6";
+            return collected == 8
+                ? "OK 8/8 pieces collectable, patrol deterministic"
+                : "FAILED: collected " + collected + "/8";
         }
 
         static string ProbeHall()

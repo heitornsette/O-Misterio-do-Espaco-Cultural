@@ -26,6 +26,14 @@ namespace Misterio.Gameplay
         readonly List<Rect> blockers = new List<Rect>();
         float baseSpeed;
         float hintCooldown;
+        float clueReadCooldown;
+
+        [Header("Clue plaques")]
+        [SerializeField] Vector2[] cluePlaquePoints =
+        {
+            new Vector2(-1.35f, 0.02f), new Vector2(1.35f, 0.02f)
+        };
+        [SerializeField, Min(0.2f)] float clueReadRadius = 0.55f;
 
         public GalleryPuzzle Puzzle => puzzle;
         public int Carried => carried;
@@ -100,17 +108,38 @@ namespace Misterio.Gameplay
         protected override void OnFloorTick(float deltaTime)
         {
             hintCooldown = Mathf.Max(0f, hintCooldown - deltaTime);
+            clueReadCooldown = Mathf.Max(0f, clueReadCooldown - deltaTime);
+            UpdateClueProximity();
             var keyboard = Keyboard.current;
             if (keyboard != null && keyboard.qKey.wasPressedThisFrame && carried >= 0) DropCarried();
             if (puzzle != null && puzzle.IsSolved() && !Solved) CompleteFloor();
         }
 
-        /// <summary>Shows one of the two clues; the plaque only carries its index.</summary>
+        /// <summary>Shows one of the two clues; the plaques are scenery read by proximity.</summary>
         public void ReadClue(int index)
         {
             if (index < 0 || index >= Clues.Length) return;
             Hud.ShowHint(Clues[index], 8f);
             NoteProgress();
+        }
+
+        /// <summary>
+        /// The clue plaques are plain scenery, so the floor reveals their text when the guard walks
+        /// close. This keeps the scene free of extra components while making both clues reachable.
+        /// </summary>
+        void UpdateClueProximity()
+        {
+            if (cluePlaquePoints == null || cluePlaquePoints.Length == 0) return;
+            Vector2 position = Guard.Position;
+            for (int i = 0; i < cluePlaquePoints.Length; i++)
+            {
+                if (i >= Clues.Length) break;
+                if (Vector2.Distance(position, cluePlaquePoints[i]) > clueReadRadius) continue;
+                if (clueReadCooldown > 0f) return;
+                clueReadCooldown = 12f;
+                ReadClue(i);
+                return;
+            }
         }
 
         public void PickUp(int paintingIndex)

@@ -356,6 +356,27 @@ namespace Misterio.EditorTools
             return atmosphere;
         }
 
+        /// <summary>
+        /// A clue plaque drawn as plain scenery. The gallery floor reveals its text by proximity, so
+        /// no component is serialised into the scene: adding one here has corrupted the scene bundle
+        /// and crashed the player on load more than once.
+        /// </summary>
+        public static SpriteRenderer AddCluePlaque(string id, Vector2 position, float scale = 0.30f)
+        {
+            var sprite = PixelArtFactory.Build("placa_" + id, 22, 16, (x, y) =>
+            {
+                bool border = x <= 1 || y <= 1 || x >= 20 || y >= 14;
+                if (border) return PixelArtFactory.Brown1;
+                if (y >= 12) return PixelArtFactory.Brown3;
+                if (y >= 4 && y <= 10 && (x + y * 3) % 5 != 0) return PixelArtFactory.Cream2;
+                return PixelArtFactory.Grey2;
+            });
+
+            var view = MakeSprite("Placa - " + id, sprite, position, 12);
+            view.transform.localScale = new Vector3(scale, scale, 1f);
+            return view;
+        }
+
         /// <summary>Adds the night ambience and a one-shot effect source, reusing cutscene audio.</summary>
         public static (AudioSource ambient, AudioSource effects) AddAudio(string ambiencePath)
         {
