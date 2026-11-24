@@ -84,6 +84,14 @@ namespace Misterio.Core
                 exterior.SkipToEntrance();
             }
 
+            foreach (var epilogue in UnityEngine.Object.FindObjectsByType<Misterio.Gameplay.EpilogueScene>(
+                         FindObjectsInactive.Include, FindObjectsSortMode.None))
+            {
+                if (epilogue == null) continue;
+                Debug.Log("[AutoPlay] finishing " + epilogue.GetType().Name);
+                epilogue.SkipToTree();
+            }
+
             // PuzzleFloor is abstract, so the check is by base type rather than by name.
             foreach (var floor in UnityEngine.Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {

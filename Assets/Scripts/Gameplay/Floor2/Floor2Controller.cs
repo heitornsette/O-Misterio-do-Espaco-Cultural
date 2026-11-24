@@ -105,6 +105,14 @@ namespace Misterio.Gameplay
             if (puzzle != null && puzzle.IsSolved() && !Solved) CompleteFloor();
         }
 
+        /// <summary>Shows one of the two clues; the plaque only carries its index.</summary>
+        public void ReadClue(int index)
+        {
+            if (index < 0 || index >= Clues.Length) return;
+            Hud.ShowHint(Clues[index], 8f);
+            NoteProgress();
+        }
+
         public void PickUp(int paintingIndex)
         {
             if (carried == paintingIndex) return;

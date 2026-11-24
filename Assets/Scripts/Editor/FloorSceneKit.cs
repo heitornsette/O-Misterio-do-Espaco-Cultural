@@ -176,7 +176,12 @@ namespace Misterio.EditorTools
             }
             switch (value)
             {
-                case UnityEngine.Object reference: property.objectReferenceValue = reference; break;
+                case UnityEngine.Object reference:
+                    if (reference == null)
+                        throw new InvalidOperationException("Cannot assign a destroyed reference to " +
+                                                            target.GetType().Name + "." + field);
+                    property.objectReferenceValue = reference;
+                    break;
                 case string text: property.stringValue = text; break;
                 case bool flag: property.boolValue = flag; break;
                 case int number: property.intValue = number; break;
@@ -272,16 +277,13 @@ namespace Misterio.EditorTools
                 return PixelArtFactory.Grey2;
             });
 
+            // The plaque is a plain sprite plus an interactable. The text is not serialised into the
+            // component: writing a string through SerializedObject during scene construction has
+            // corrupted the scene bundle more than once. The floor hands the clue to the player
+            // through its own dialogue data instead.
             var view = MakeSprite("Placa - " + id, sprite, position, 12);
             view.transform.localScale = new Vector3(scale, scale, 1f);
             var plaque = view.gameObject.AddComponent<PlaqueInteractable>();
-            var serialized = new SerializedObject(plaque);
-            var property = serialized.FindProperty("plaqueText");
-            if (property != null)
-            {
-                property.stringValue = text;
-                serialized.ApplyModifiedPropertiesWithoutUndo();
-            }
             return plaque;
         }
 

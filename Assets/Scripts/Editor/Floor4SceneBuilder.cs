@@ -25,7 +25,7 @@ namespace Misterio.EditorTools
 
             Vector2 panelOrigin = new Vector2(-0.86f, -0.18f);
             Vector2 cellSize = new Vector2(0.28f, 0.24f);
-            int width = 6, height = 4;
+            int width = 6, height = 5;
 
             var bodySprite = PixelArtFactory.ConduitBody();
             var socketSprite = PixelArtFactory.ConduitSocket();
@@ -89,8 +89,8 @@ namespace Misterio.EditorTools
             FloorSceneKit.ApplyField(controller, "cellSize", cellSize);
             FloorSceneKit.ApplyField(controller, "width", width);
             FloorSceneKit.ApplyField(controller, "height", height);
-            FloorSceneKit.ApplyField(controller, "source", new Vector2Int(0, 1));
-            FloorSceneKit.ApplyField(controller, "target", new Vector2Int(5, 2));
+            FloorSceneKit.ApplyField(controller, "source", new Vector2Int(0, 2));
+            FloorSceneKit.ApplyField(controller, "target", new Vector2Int(5, 3));
             FloorSceneKit.ApplyField(controller, "cursorView", cursor.transform);
             FloorSceneKit.SetArray(controller, "tileViews", views);
 

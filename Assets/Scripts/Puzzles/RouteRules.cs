@@ -24,13 +24,14 @@ namespace Misterio.Puzzles
         public const string Cutscene08 = "CC08_A_Abertura_do_Dia";
         public const string Cutscene09 = "CC09_A_Abertura_Precisa_Esperar";
         public const string Cutscene10 = "CC10_A_Ultima_Sala_Ainda_no_Escuro";
+        public const string Epilogue = "Epilogue_Gramado";
         public const string Credits = "Credits";
 
         /// <summary>The success route, in play order.</summary>
         public static readonly string[] SuccessChain =
         {
             Exterior, Cutscene01, Floor1, Cutscene02, Floor2, Cutscene03, Floor3,
-            Cutscene04, Cutscene05, Floor4, Cutscene06, Cutscene07, Cutscene08, Credits
+            Cutscene04, Cutscene05, Floor4, Cutscene06, Cutscene07, Cutscene08, Epilogue, Credits
         };
 
         /// <summary>Next scene on the success route, or null at the end.</summary>

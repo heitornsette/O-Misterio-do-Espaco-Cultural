@@ -28,7 +28,8 @@ namespace Misterio.Puzzles.Tests
             Assert.AreEqual("CC06_A_Energia_Retorna", RouteRules.NextAfter("Floor4_Salao"));
             Assert.AreEqual("CC07_A_Trilha_de_Moema", RouteRules.NextAfter("CC06_A_Energia_Retorna"));
             Assert.AreEqual("CC08_A_Abertura_do_Dia", RouteRules.NextAfter("CC07_A_Trilha_de_Moema"));
-            Assert.AreEqual("Credits", RouteRules.NextAfter("CC08_A_Abertura_do_Dia"));
+            Assert.AreEqual("Epilogue_Gramado", RouteRules.NextAfter("CC08_A_Abertura_do_Dia"));
+            Assert.AreEqual("Credits", RouteRules.NextAfter("Epilogue_Gramado"));
         }
 
         [Test]
@@ -93,9 +94,9 @@ namespace Misterio.Puzzles.Tests
         {
             int exteriors = 0;
             foreach (var scene in RouteRules.SuccessChain)
-                if (scene.StartsWith("Exterior")) exteriors++;
+                if (scene == "Exterior_Chegada") exteriors++;
             Assert.AreEqual(1, exteriors, "The approach appears once, before the opening cutscene.");
-            Assert.AreEqual(14, RouteRules.SuccessChain.Length);
+            Assert.AreEqual(15, RouteRules.SuccessChain.Length);
         }
 
 

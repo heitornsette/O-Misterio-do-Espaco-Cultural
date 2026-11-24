@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/Exterior_Chegada.unity
-    guid: 22416b28354b604cea3fdf6bf14621d8
+    guid: 04c19d22c760d92ebaa3cbe2d1af73ad
   - enabled: 1
     path: Assets/Scenes/CC01_A_Madrugada_Comeca.unity
     guid: c95da522dc24fb582989319b4c062adc
@@ -48,11 +48,14 @@ EditorBuildSettings:
     path: Assets/Scenes/CC08_A_Abertura_do_Dia.unity
     guid: 3a074b350697f2ec485314a5bcd0aecb
   - enabled: 1
+    path: Assets/Scenes/Epilogue_Gramado.unity
+    guid: 0f9eeada4c06fb25291ddac487911f4f
+  - enabled: 1
     path: Assets/Scenes/CC09_A_Abertura_Precisa_Esperar.unity
     guid: bbc1e6b8315983851a0d1b3d4ddacd95
   - enabled: 1
     path: Assets/Scenes/CC10_A_Ultima_Sala_Ainda_no_Escuro.unity
-    guid: c3b2817178febd422a0a0f02332b6a9f
+    guid: c40a52fb07939764389fb755791ab598
   - enabled: 1
     path: Assets/Scenes/Credits.unity
     guid: 32944a5fdef0555b18b3011cf981a226

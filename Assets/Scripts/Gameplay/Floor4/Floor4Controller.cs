@@ -15,9 +15,9 @@ namespace Misterio.Gameplay
         [SerializeField] Vector2 panelOrigin = new Vector2(-0.72f, -0.18f);
         [SerializeField] Vector2 cellSize = new Vector2(0.28f, 0.24f);
         [SerializeField, Min(2)] int width = 6;
-        [SerializeField, Min(2)] int height = 4;
-        [SerializeField] Vector2Int source = new Vector2Int(0, 1);
-        [SerializeField] Vector2Int target = new Vector2Int(5, 2);
+        [SerializeField, Min(2)] int height = 5;
+        [SerializeField] Vector2Int source = new Vector2Int(0, 2);
+        [SerializeField] Vector2Int target = new Vector2Int(5, 3);
 
         [Header("Views")]
         [SerializeField] ConduitTileView[] tileViews;
@@ -31,17 +31,19 @@ namespace Misterio.Gameplay
         /// <summary>The energy route; the solved layout is derived from it, never hand-written.</summary>
         static readonly Vector2Int[] Route =
         {
-            new Vector2Int(0, 1), new Vector2Int(1, 1), new Vector2Int(2, 1),
-            new Vector2Int(2, 2), new Vector2Int(3, 2), new Vector2Int(4, 2),
-            new Vector2Int(5, 2)
+            new Vector2Int(0, 2), new Vector2Int(1, 2), new Vector2Int(2, 2),
+            new Vector2Int(2, 3), new Vector2Int(3, 3), new Vector2Int(4, 3),
+            new Vector2Int(5, 3)
         };
 
         /// <summary>Dead-end branches make the panel read like a real circuit without extra rules.</summary>
         static readonly Vector2Int[][] Branches =
         {
-            new[] { new Vector2Int(1, 1), new Vector2Int(1, 2), new Vector2Int(1, 3) },
-            new[] { new Vector2Int(3, 2), new Vector2Int(3, 3) },
-            new[] { new Vector2Int(4, 2), new Vector2Int(4, 3) }
+            new[] { new Vector2Int(1, 2), new Vector2Int(1, 3), new Vector2Int(1, 4) },
+            new[] { new Vector2Int(3, 3), new Vector2Int(3, 4) },
+            new[] { new Vector2Int(4, 3), new Vector2Int(4, 4) },
+            new[] { new Vector2Int(2, 2), new Vector2Int(2, 1) },
+            new[] { new Vector2Int(5, 3), new Vector2Int(5, 4) }
         };
 
         /// <summary>Fixed scramble, so the panel starts identical on every run.</summary>

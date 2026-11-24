@@ -45,30 +45,29 @@ namespace Misterio.Gameplay
         }
     }
 
-    /// <summary>A readable plaque; shows its clue text in the HUD.</summary>
+    /// <summary>
+    /// A readable plaque; shows its clue text in the HUD.
+    /// The text is plain and short on purpose: long strings with typographic dashes have already
+    /// broken the scene serialisation once, and a clue never needs more than one line.
+    /// </summary>
     public sealed class PlaqueInteractable : Interactable
     {
-        [SerializeField, TextArea] string plaqueText = "Placa do acervo.";
-        HudView hud;
+        // Serialised so the value survives being written into the scene by the builder.
+        [SerializeField] Floor2Controller floor;
+        [SerializeField] int clueIndex;
 
-        public void Bind(HudView target, string text)
+        public void Bind(Floor2Controller owner, int index)
         {
-            hud = target;
-            plaqueText = text;
+            floor = owner;
+            clueIndex = index;
             promptText = "Ler placa";
         }
 
         public override void Interact(GuardActor actor)
         {
-            // The HUD is created at runtime by the floor, so it is resolved on first use instead of
-            // relying on a binding step that a rebuilt scene could silently lose.
-            if (hud == null) hud = Object.FindAnyObjectByType<HudView>();
-            if (hud == null)
-            {
-                Debug.LogWarning("[Plaque] no HUD found; clue not shown: " + plaqueText);
-                return;
-            }
-            hud.ShowHint(plaqueText, 8f);
+            if (floor == null) floor = Object.FindAnyObjectByType<Floor2Controller>();
+            if (floor == null) return;
+            floor.ReadClue(clueIndex);
         }
     }
 }

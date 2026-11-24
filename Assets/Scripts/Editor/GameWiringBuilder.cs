@@ -29,6 +29,7 @@ namespace Misterio.EditorTools
             GameFlow.Cutscene06,
             GameFlow.Cutscene07,
             GameFlow.Cutscene08,
+            GameFlow.Epilogue,
             GameFlow.Cutscene09,
             GameFlow.Cutscene10,
             GameFlow.Credits

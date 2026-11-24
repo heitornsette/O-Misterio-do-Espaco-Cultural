@@ -69,6 +69,16 @@ namespace Misterio.Gameplay
 
             session.Tick(Time.deltaTime);
 
+            if (guard == null)
+            {
+                guard = FindAnyObjectByType<GuardActor>();
+                if (guard == null)
+                {
+                    if (Time.frameCount % 120 == 0) Debug.LogWarning("[Exterior] no guard found in scene");
+                    return;
+                }
+            }
+
             if (guard != null)
             {
                 // Keep the guard inside the strip and the camera following him.
@@ -86,7 +96,16 @@ namespace Misterio.Gameplay
                         cameraPosition.y, cameraPosition.z);
                 }
 
-                if (clampedX >= entranceX - 0.4f) StartCoroutine(EnterBuilding());
+                if (clampedX >= entranceX - 0.4f)
+                {
+                    Debug.Log("[Exterior] entrance reached at x=" + clampedX.ToString("F2") +
+                              " (entranceX=" + entranceX.ToString("F2") + ")");
+                    StartCoroutine(EnterBuilding());
+                }
+                else if (Time.frameCount % 60 == 0)
+                {
+                    Debug.Log("[Exterior] guard x=" + clampedX.ToString("F2") + " target=" + entranceX.ToString("F2"));
+                }
             }
 
             // A quick skip for players who just want to get inside.
@@ -100,7 +119,13 @@ namespace Misterio.Gameplay
         /// </summary>
         public void SkipToEntrance()
         {
-            if (guard != null) guard.Teleport(new Vector2(entranceX, guard.Position.y));
+            if (entering || guard == null)
+            {
+                Debug.Log("[Exterior] skip ignored: entering=" + entering + " guard=" + (guard != null));
+                return;
+            }
+            guard.Teleport(new Vector2(entranceX, guard.Position.y));
+            Debug.Log("[Exterior] skipped to x=" + guard.Position.x.ToString("F2") + " entranceX=" + entranceX.ToString("F2"));
         }
 
         IEnumerator EnterBuilding()

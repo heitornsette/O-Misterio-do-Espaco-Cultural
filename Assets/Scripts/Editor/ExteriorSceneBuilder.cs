@@ -53,7 +53,7 @@ namespace Misterio.EditorTools
 
             // Layer 5: lamps along the walk, at near depth so they sell the speed.
             var lampSprite = ExteriorArtFactory.LampPost();
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 13; i++)
             {
                 float x = -1.2f + i * 2.15f;
                 var lamp = FloorSceneKit.MakeSprite("Poste " + i, lampSprite, new Vector2(x, -0.78f), -10);
@@ -65,19 +65,19 @@ namespace Misterio.EditorTools
             }
 
             // The building the player is heading to.
-            var facade = FloorSceneKit.MakeSprite("Fachada", ExteriorArtFactory.Facade(), new Vector2(13.4f, -0.28f), 5);
+            var facade = FloorSceneKit.MakeSprite("Fachada", ExteriorArtFactory.Facade(), new Vector2(25.8f, -0.28f), 5);
             facade.transform.localScale = new Vector3(1.15f, 1.15f, 1f);
 
             // A soft halo in the doorway so the entrance reads as the goal.
             var doorway = FloorSceneKit.MakeSprite("Brilho da entrada", LightArtFactory.AmbientPool(),
-                                                  new Vector2(13.4f, -0.55f), 6);
+                                                  new Vector2(25.8f, -0.55f), 6);
             doorway.transform.localScale = new Vector3(0.9f, 0.7f, 1f);
             var doorColor = doorway.color;
             doorColor.a = 0.30f;
             doorway.color = doorColor;
 
             var guard = FloorSceneKit.AddGuard(new Vector2(-0.9f, -0.80f));
-            guard.Configure(new Rect(-1.95f, -0.95f, 15.6f, 0.30f), new List<Rect>());
+            guard.Configure(new Rect(-1.95f, -0.95f, 28.0f, 0.30f), new List<Rect>());
 
             // Dust and a light layer keep the outdoor scene from feeling flat.
             var lights = new List<SpriteRenderer> { doorway };
@@ -93,9 +93,9 @@ namespace Misterio.EditorTools
             FloorSceneKit.ApplyField(controller, "guard", guard);
             FloorSceneKit.ApplyField(controller, "cameraTransform", camera.transform);
             FloorSceneKit.ApplyField(controller, "worldLeft", -1.90f);
-            FloorSceneKit.ApplyField(controller, "worldRight", 13.0f);
+            FloorSceneKit.ApplyField(controller, "worldRight", 25.4f);
             FloorSceneKit.ApplyField(controller, "cameraOffset", 0.9f);
-            FloorSceneKit.ApplyField(controller, "entranceX", 12.6f);
+            FloorSceneKit.ApplyField(controller, "entranceX", 25.0f);
             FloorSceneKit.ApplyField(controller, "objectiveText", "Atravesse a praça e entre no Espaço Cultural.");
 
             FloorSceneKit.SaveAndRegister(ScenePath);

@@ -28,6 +28,7 @@ namespace Misterio.Core
         public const string Cutscene08 = RouteRules.Cutscene08;
         public const string Cutscene09 = RouteRules.Cutscene09;
         public const string Cutscene10 = RouteRules.Cutscene10;
+        public const string Epilogue = RouteRules.Epilogue;
         public const string Credits = RouteRules.Credits;
 
         public static GameFlow Instance { get; private set; }

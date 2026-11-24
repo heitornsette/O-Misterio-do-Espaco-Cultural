@@ -74,18 +74,19 @@ namespace Misterio.EditorTools
                 FloorSceneKit.AddShadow(floorViews[i].position, 0.52f);
             FloorSceneKit.AddAtmosphere(camera, lights, guard.transform);
 
-            // The two clues are readable plaques on the gallery walls, as the design document asks.
-            FloorSceneKit.AddPlaque("Clue1", new Vector2(-1.35f, 0.02f),
-                "Acervo: a obra de paleta quente fica a direita de todas.", 0.30f);
-            FloorSceneKit.AddPlaque("Clue2", new Vector2(1.35f, 0.02f),
-                "Acervo: a tela do litoral fica ao lado da obra mais antiga.", 0.30f);
-
             var audio = FloorSceneKit.AddAudio(AmbiencePath);
             if (audio.ambient.clip != null) audio.ambient.Play();
             FloorSceneKit.AddSfx();
 
             var controllerObject = new GameObject("Andar 2 - Controlador");
             var controller = controllerObject.AddComponent<Floor2Controller>();
+
+            // The two clues are readable plaques on the gallery walls. The floor owns the text and
+            // each plaque only carries its index, which keeps the scene free of serialised strings.
+            var clueOne = FloorSceneKit.AddPlaque("Clue1", new Vector2(-1.35f, 0.02f), "", 0.30f);
+            clueOne.Bind(controller, 0);
+            var clueTwo = FloorSceneKit.AddPlaque("Clue2", new Vector2(1.35f, 0.02f), "", 0.30f);
+            clueTwo.Bind(controller, 1);
             FloorSceneKit.ApplyField(controller, "floorNumber", 2);
             FloorSceneKit.ApplyField(controller, "objectiveText", "Leia as placas e pendure cada quadro no gancho certo.");
             FloorSceneKit.SetArray(controller, "hookViews", hooks);
