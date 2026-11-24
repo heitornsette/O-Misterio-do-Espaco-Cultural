@@ -43,6 +43,7 @@ namespace Misterio.Gameplay
             InteractionFeedback.Create(LoadMarker(), hud, guard);
             session.SetClockRunning(true);
             hud.ShowHint("Siga para a direita. A inauguração é às seis.", 7f);
+            guard?.ValidatePlacement(GetType().Name);
         }
 
         Font LoadFont()
@@ -102,13 +103,21 @@ namespace Misterio.Gameplay
                               " (entranceX=" + entranceX.ToString("F2") + ")");
                     StartCoroutine(EnterBuilding());
                 }
-                else if (Time.frameCount % 60 == 0)
+                else if (Time.frameCount % 120 == 0)
                 {
-                    Debug.Log("[Exterior] guard x=" + clampedX.ToString("F2") + " target=" + entranceX.ToString("F2"));
+                    Debug.Log("[Exterior] guard=" + guard.name + " pos=" + guard.Position.ToString("F3") +
+                              " clamped=" + clampedX.ToString("F2") + " free=" + guard.IsFree(guard.Position) +
+                              " canMove=" + guard.CanMove + " target=" + entranceX.ToString("F2"));
                 }
             }
 
             // A quick skip for players who just want to get inside.
+            if (PlaytestInput.Active)
+            {
+                if (PlaytestInput.InteractPressed) StartCoroutine(EnterBuilding());
+                return;
+            }
+
             var keyboard = Keyboard.current;
             if (keyboard != null && keyboard.enterKey.wasPressedThisFrame) StartCoroutine(EnterBuilding());
         }

@@ -83,7 +83,8 @@ namespace Misterio.EditorTools
             }
 
             var guard = FloorSceneKit.AddGuard(new Vector2(-0.9f, -0.82f));
-            guard.Configure(new Rect(-1.55f, -0.95f, 19.6f, 0.28f), new System.Collections.Generic.List<Rect>());
+            guard.Configure(new Rect(-1.55f, -0.95f, 19.6f, 0.55f), new System.Collections.Generic.List<Rect>());
+            FloorSceneKit.AssertGuardCanStand(guard, new Vector2(-0.9f, -0.82f));
 
             FloorSceneKit.AddAtmosphere(camera, lights, guard.transform, 18);
             FloorSceneKit.AddVignette(camera);
@@ -101,6 +102,7 @@ namespace Misterio.EditorTools
             FloorSceneKit.ApplyField(controller, "treeX", 15.6f);
             FloorSceneKit.ApplyField(controller, "objectiveText", "A inauguração começou. Atravesse o gramado.");
 
+            FloorSceneKit.EnsureBootstrap();
             FloorSceneKit.SaveAndRegister(ScenePath);
             Debug.Log("Epilogue (Gramado) built at " + ScenePath);
             EditorApplication.Exit(0);

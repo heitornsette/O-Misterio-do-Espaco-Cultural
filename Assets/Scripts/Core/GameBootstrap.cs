@@ -41,6 +41,13 @@ namespace Misterio.Core
                 captureHost.AddComponent<AutoCapture>();
             }
 
+            // The automated playthrough only spawns when the player is launched with -playtest.
+            if (Misterio.Gameplay.HumanPlaythrough.Instance == null && HasArgument("-playtest"))
+            {
+                var playtestHost = new GameObject("Human Playthrough");
+                playtestHost.AddComponent<Misterio.Gameplay.HumanPlaythrough>();
+            }
+
             // Development only: -startscene <name> opens any scene directly, which makes it possible
             // to validate the time-out endings and the credits in the built player.
             string requested = ReadArgument("-startscene");
@@ -68,6 +75,14 @@ namespace Misterio.Core
         void OnDestroy()
         {
             if (instance == this) instance = null;
+        }
+
+        static bool HasArgument(string name)
+        {
+            var args = System.Environment.GetCommandLineArgs();
+            for (int i = 0; i < args.Length; i++)
+                if (args[i] == name) return true;
+            return false;
         }
 
         static string ReadArgument(string name)

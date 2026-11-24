@@ -119,6 +119,12 @@ namespace Misterio.Gameplay
 
         void Update()
         {
+            if (PlaytestInput.Active)
+            {
+                if (PlaytestInput.PausePressed) Toggle();
+                return;
+            }
+
             var keyboard = Keyboard.current;
             if (keyboard == null) return;
 
@@ -133,8 +139,8 @@ namespace Misterio.Gameplay
             canvas.enabled = paused;
             Time.timeScale = paused ? 0f : 1f;
 
-            var session = GameSession.Instance;
-            if (session != null) session.SetClockRunning(!paused);
+            var session = GameSession.Instance != null ? GameSession.Instance : GameSession.EnsureExists();
+            session.SetClockRunning(!paused);
 
             // The floor stops reading input while paused.
             foreach (var actor in Object.FindObjectsByType<GuardActor>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -147,6 +153,17 @@ namespace Misterio.Gameplay
         void Continue()
         {
             if (paused) Toggle();
+        }
+
+        void OnDisable()
+        {
+            // A paused game must not survive the object: leaving timeScale at zero would freeze the
+            // next scene as well.
+            if (!paused) return;
+            paused = false;
+            Time.timeScale = 1f;
+            var session = GameSession.Instance;
+            if (session != null) session.SetClockRunning(false);
         }
 
         void Restart()

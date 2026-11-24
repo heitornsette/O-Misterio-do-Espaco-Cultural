@@ -8,6 +8,9 @@ namespace Misterio.Gameplay
         Floor2Controller floor;
         int slot;
 
+        /// <summary>Which hook this is; the array order of a scene query is not meaningful.</summary>
+        public int Slot => slot;
+
         public void Bind(Floor2Controller owner, int index)
         {
             floor = owner;
@@ -30,6 +33,9 @@ namespace Misterio.Gameplay
     {
         Floor2Controller floor;
         int index;
+
+        /// <summary>Which painting this is; the array order of a scene query is not meaningful.</summary>
+        public int PaintingIndex => index;
 
         public void Bind(Floor2Controller owner, int paintingIndex)
         {

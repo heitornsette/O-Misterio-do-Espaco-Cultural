@@ -33,7 +33,7 @@ namespace Misterio.EditorTools
                 new Vector2(-1.10f, -0.30f), new Vector2(0.40f, 0.28f),
                 new Vector2(1.15f, -0.10f), new Vector2(1.45f, 0.35f),
                 new Vector2(-1.25f, 0.62f), new Vector2(0.75f, -0.72f),
-                new Vector2(1.30f, 0.62f), new Vector2(-0.85f, -0.70f)
+                new Vector2(1.35f, 0.30f), new Vector2(-0.85f, -0.70f)
             };
             Rect[] boards =
             {
@@ -94,7 +94,7 @@ namespace Misterio.EditorTools
             cone.endColor = new Color(1f, 0.85f, 0.55f, 0.06f);
             cone.sortingOrder = 12;
 
-            var guard = FloorSceneKit.AddGuard(new Vector2(-1.45f, 0.72f));
+            var guard = FloorSceneKit.AddGuard(new Vector2(-1.45f, 0.20f));
             FloorSceneKit.AddVignette(camera);
 
             // A single swinging ceiling light over the patrol path, plus pools by the cases.

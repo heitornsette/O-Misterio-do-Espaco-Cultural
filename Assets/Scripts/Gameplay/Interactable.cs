@@ -39,6 +39,18 @@ namespace Misterio.Gameplay
         /// rebuilt lazily because OnEnable order is not guaranteed relative to a floor's Awake, and
         /// clearing it there would silently unregister objects that had already enabled.
         /// </summary>
+        /// <summary>
+        /// Replaces the registry contents. Used by editor tooling, where MonoBehaviour lifecycle
+        /// callbacks such as OnEnable are not driven by the player loop.
+        /// </summary>
+        public static void RebuildRegistry(IEnumerable<Interactable> items)
+        {
+            All.Clear();
+            if (items == null) return;
+            foreach (var item in items)
+                if (item != null) All.Add(item);
+        }
+
         public static void PruneRegistry()
         {
             for (int i = All.Count - 1; i >= 0; i--)

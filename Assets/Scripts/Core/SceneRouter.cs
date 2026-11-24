@@ -67,13 +67,41 @@ namespace Misterio.Core
         /// </summary>
         static void FeedState(MonoBehaviour controller, GameSession session)
         {
-            var clock = controller.GetType().GetMethod("SetGlobalClock");
-            if (clock != null && clock.GetParameters().Length == 1)
-                clock.Invoke(controller, new object[] { session.ClockText() });
+            try
+            {
+                var clock = controller.GetType().GetMethod("SetGlobalClock");
+                if (clock != null && clock.GetParameters().Length == 1)
+                    clock.Invoke(controller, new object[] { session.ClockText() });
 
-            var floor = controller.GetType().GetMethod("SetIncompleteFloor");
-            if (floor != null && floor.GetParameters().Length == 1)
-                floor.Invoke(controller, new object[] { Mathf.Clamp(session.TimedOutFloor, 1, 3) });
+                // The floor variant rebuilds the whole scene layout and needs every serialised
+                // reference in place. Pushing it before Awake finished threw a NullReference and
+                // aborted scene loading, so it is applied on the first frame instead.
+                var floor = controller.GetType().GetMethod("SetIncompleteFloor");
+                if (floor != null && floor.GetParameters().Length == 1 && session.TimedOutFloor > 0)
+                {
+                    int timedOut = Mathf.Clamp(session.TimedOutFloor, 1, 3);
+                    controller.StartCoroutine(ApplyFloorVariantNextFrame(controller, floor, timedOut));
+                }
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogWarning("[Router] could not feed cutscene state: " + error.Message);
+            }
+        }
+
+        static System.Collections.IEnumerator ApplyFloorVariantNextFrame(
+            MonoBehaviour controller, System.Reflection.MethodInfo method, int floor)
+        {
+            yield return null;
+            if (controller == null) yield break;
+            try
+            {
+                method.Invoke(controller, new object[] { floor });
+            }
+            catch (System.Exception error)
+            {
+                Debug.LogWarning("[Router] could not apply floor variant: " + error.Message);
+            }
         }
 
         /// <summary>

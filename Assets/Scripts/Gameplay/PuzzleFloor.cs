@@ -52,6 +52,7 @@ namespace Misterio.Gameplay
             Session.DawnReached += OnDawnReached;
             if (Guard != null) lastFootstepPosition = Guard.Position;
             OnFloorReady();
+            Guard?.ValidatePlacement(GetType().Name);
         }
 
         Sprite LoadMarkerSprite()

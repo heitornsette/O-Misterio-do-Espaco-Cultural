@@ -89,6 +89,19 @@ namespace Misterio.EditorTools
             return actor;
         }
 
+        /// <summary>
+        /// Fails the build when the guard spawns outside his own walkable area. A guard who cannot
+        /// stand cannot move, which silently freezes the whole scene.
+        /// </summary>
+        public static void AssertGuardCanStand(GuardActor guard, Vector2 spawn)
+        {
+            if (guard == null) throw new InvalidOperationException("Guard is null.");
+            if (!guard.IsFree(spawn))
+                throw new InvalidOperationException(
+                    "Guard spawns outside his walkable area at " + spawn.ToString("F2") +
+                    "; the scene would be unplayable.");
+        }
+
         public static Sprite LoadFrame(string prefix, int index) =>
             AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Art/CC01/" + prefix + "_" + index.ToString("00") + ".asset");
 
@@ -144,6 +157,17 @@ namespace Misterio.EditorTools
             string name = Path.GetFileName(path);
             if (!AssetDatabase.IsValidFolder(parent)) CreateFolder(parent);
             AssetDatabase.CreateFolder(parent, name);
+        }
+
+        /// <summary>
+        /// Adds the persistent bootstrap to the scene being built. Without it the scene has no route
+        /// wiring and no playtest host, which silently breaks the whole night from that point on.
+        /// </summary>
+        public static void EnsureBootstrap()
+        {
+            if (UnityEngine.Object.FindAnyObjectByType<Misterio.Core.GameBootstrap>() != null) return;
+            var host = new GameObject("Game Bootstrap");
+            host.AddComponent<Misterio.Core.GameBootstrap>();
         }
 
         public static void SaveAndRegister(string scenePath, bool buildSettings = true)

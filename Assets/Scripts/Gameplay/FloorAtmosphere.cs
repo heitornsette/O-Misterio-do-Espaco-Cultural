@@ -28,7 +28,25 @@ namespace Misterio.Gameplay
         [SerializeField] float breathingSpeed = 1.6f;
 
         Vector3 breathingBase;
+        Vector3 breathingApplied;
+        bool breathingCaptured;
         float time;
+
+        void Awake() => CaptureBreathingBase();
+
+
+
+        /// <summary>
+        /// The base position must be captured at runtime: Configure runs at build time in the editor
+        /// and its result is not serialised, so a player build would otherwise start from zero.
+        /// </summary>
+        void CaptureBreathingBase()
+        {
+            if (breathingTarget == null) return;
+            breathingBase = breathingTarget.localPosition;
+            breathingApplied = breathingBase;
+            breathingCaptured = true;
+        }
 
         public void Configure(List<Mote> dustMotes, List<SpriteRenderer> lightViews, Transform breathe)
         {
@@ -38,7 +56,8 @@ namespace Misterio.Gameplay
             foreach (var light in lights)
                 lightBaseAlpha.Add(light != null ? light.color.a : 0f);
             breathingTarget = breathe;
-            if (breathingTarget != null) breathingBase = breathingTarget.localPosition;
+            breathingCaptured = false;
+            CaptureBreathingBase();
         }
 
         void Update()
@@ -76,8 +95,18 @@ namespace Misterio.Gameplay
 
             if (breathingTarget != null)
             {
+                if (!breathingCaptured) CaptureBreathingBase();
+
+                // If the target is not where the breathing left it, the game moved it. Adopt that
+                // position; otherwise this would drag the guard back every frame and he could never
+                // walk anywhere.
+                if ((breathingTarget.localPosition - breathingApplied).sqrMagnitude > 0.0000001f)
+                    breathingBase = breathingTarget.localPosition - (breathingApplied - breathingBase);
+
                 float breath = Mathf.Sin(time * breathingSpeed) * breathingAmplitude;
-                breathingTarget.localPosition = breathingBase + new Vector3(0f, breath, 0f);
+                var pose = breathingBase + new Vector3(0f, breath, 0f);
+                breathingTarget.localPosition = pose;
+                breathingApplied = pose;
             }
         }
     }

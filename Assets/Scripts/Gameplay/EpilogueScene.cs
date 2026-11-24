@@ -42,6 +42,7 @@ namespace Misterio.Gameplay
             PauseMenu.Create(font);
             session.SetClockRunning(false);
             hud.ShowHint("Seis da manhã. A exposição está pronta.", 7f);
+            guard?.ValidatePlacement(GetType().Name);
         }
 
         Font LoadFont()
@@ -72,6 +73,12 @@ namespace Misterio.Gameplay
             }
 
             if (clampedX >= treeX - 0.5f) StartCoroutine(Finish());
+
+            if (PlaytestInput.Active)
+            {
+                if (PlaytestInput.InteractPressed) StartCoroutine(Finish());
+                return;
+            }
 
             var keyboard = Keyboard.current;
             if (keyboard != null && keyboard.enterKey.wasPressedThisFrame) StartCoroutine(Finish());

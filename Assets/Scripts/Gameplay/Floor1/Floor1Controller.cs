@@ -102,10 +102,22 @@ namespace Misterio.Gameplay
 
         void HandleEditKeys()
         {
-            var keyboard = Keyboard.current;
-            if (keyboard == null) return;
+            bool undoPressed;
+            bool resetPressed;
+            if (PlaytestInput.Active)
+            {
+                undoPressed = PlaytestInput.UndoPressed;
+                resetPressed = PlaytestInput.ResetPressed;
+            }
+            else
+            {
+                var keyboard = Keyboard.current;
+                if (keyboard == null) return;
+                undoPressed = keyboard.zKey.wasPressedThisFrame;
+                resetPressed = keyboard.rKey.wasPressedThisFrame;
+            }
 
-            if (keyboard.zKey.wasPressedThisFrame && board.CanUndo)
+            if (undoPressed && board.CanUndo)
             {
                 board.Undo();
                 Guard.Teleport(WorldOf(board.Player));
@@ -114,7 +126,7 @@ namespace Misterio.Gameplay
                 UpdateCounter();
                 NoteProgress();
             }
-            if (keyboard.rKey.wasPressedThisFrame)
+            if (resetPressed)
             {
                 board.Reset();
                 Guard.Teleport(WorldOf(board.Player));

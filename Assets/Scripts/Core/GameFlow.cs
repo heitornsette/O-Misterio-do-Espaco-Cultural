@@ -54,10 +54,20 @@ namespace Misterio.Core
         public static GameFlow EnsureExists()
         {
             if (Instance != null) return Instance;
+
             var existing = FindAnyObjectByType<GameFlow>();
-            if (existing != null) return existing;
+            if (existing != null)
+            {
+                Instance = existing;
+                return existing;
+            }
+
             var host = new GameObject("GameFlow");
-            return host.AddComponent<GameFlow>();
+            var created = host.AddComponent<GameFlow>();
+            // Awake is not called outside play mode, so the singleton is published here too.
+            Instance = created;
+            if (created.fadeImage == null) created.BuildFadeCanvas();
+            return created;
         }
 
         void OnDestroy()
@@ -103,8 +113,12 @@ namespace Misterio.Core
             Load(next);
         }
 
+        /// <summary>The last scene a caller asked to load; used by tests and probes.</summary>
+        public static string LastRequestedScene { get; private set; }
+
         public void Load(string sceneName)
         {
+            LastRequestedScene = sceneName;
             if (loading) return;
             loading = true;
             StartCoroutine(LoadRoutine(sceneName));

@@ -71,6 +71,26 @@ namespace Misterio.EditorTools
                 if (behaviour != null) Call(behaviour, "Start");
         }
 
+        /// <summary>
+        /// Drives the interaction the way a player does: press the key, let the guard resolve the
+        /// nearest target and use it. Calling Interactable.Interact directly hides the wiring bugs
+        /// that this whole probe exists to catch.
+        /// </summary>
+        static bool PressInteractThroughGuard(GuardActor guard)
+        {
+            if (guard == null) return false;
+            // Editor mode does not run OnEnable, so the registry is rebuilt from the scene.
+            Interactable.RebuildRegistry(
+                Object.FindObjectsByType<Interactable>(FindObjectsInactive.Exclude, FindObjectsSortMode.None));
+            PlaytestInput.Enable();
+            PlaytestInput.InteractPressed = true;
+            PlaytestInput.MarkPress();
+            Call(guard, "Update");
+            PlaytestInput.Clear();
+            PlaytestInput.Disable();
+            return true;
+        }
+
         static string HintText()
         {
             var hud = Object.FindAnyObjectByType<HudView>();
@@ -86,43 +106,47 @@ namespace Misterio.EditorTools
             var guard = Object.FindAnyObjectByType<GuardActor>();
             if (guard == null) return "FAILED: no guard";
 
-            var plaques = new List<PlaqueInteractable>(
-                Object.FindObjectsByType<PlaqueInteractable>(FindObjectsInactive.Include, FindObjectsSortMode.None));
-            if (plaques.Count < 0) // plaques are scenery now
-            {
-                // Report what is actually in the scene so a regression is diagnosable.
-                var names = new List<string>();
-                foreach (var found in plaques) names.Add(found == null ? "<destroyed>" : found.name);
-                return "FAILED: expected 2 plaques, found " + plaques.Count + " [" + string.Join(", ", names) + "]";
-            }
-
-            int readable = 0;
-            var seen = new List<string>();
-            foreach (var plaque in plaques)
-            {
-                plaque.Interact(guard);
-                string hint = HintText();
-                if (!string.IsNullOrEmpty(hint) && !hint.StartsWith("<"))
-                {
-                    readable++;
-                    seen.Add(hint.Substring(0, System.Math.Min(48, hint.Length)));
-                }
-            }
-
-            // The two clues must differ: identical text would mean one plaque overwrote the other.
-            bool distinct = plaques.Count < 2 || seen.Count < 2 || seen[0] != seen[1];
-
             var controller = Object.FindAnyObjectByType<Floor2Controller>();
-            int hooks = Object.FindObjectsByType<HookInteractable>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
-            int canvases = Object.FindObjectsByType<PaintingInteractable>(FindObjectsInactive.Include, FindObjectsSortMode.None).Length;
-
-            if (readable < 2) return "FAILED: only " + readable + "/2 plaques readable";
-            if (!distinct) return "FAILED: both plaques show the same text";
-            if (hooks != 3) return "FAILED: expected 3 hooks, found " + hooks;
-            if (canvases != 3) return "FAILED: expected 3 paintings, found " + canvases;
             if (controller == null) return "FAILED: no controller";
 
-            return "OK 2/2 clues readable, 3 hooks, 3 paintings, distinct texts";
+            // The clues are scenery read by proximity, so what matters is that the floor can show
+            // two distinct texts and that the plaque positions are inside the walkable area.
+
+            var points = Field(controller, "cluePlaquePoints") as Vector2[];
+            if (points == null || points.Length < 2) return "FAILED: plaque trigger points missing";
+            foreach (var point in points)
+                if (!guard.IsFree(point)) return "FAILED: plaque at " + point.ToString("F2") + " is unreachable";
+
+            Call(controller, "ReadClue", 0);
+            string first = HintText();
+            Call(controller, "ReadClue", 1);
+            string second = HintText();
+            if (string.IsNullOrEmpty(first) || string.IsNullOrEmpty(second))
+                return "FAILED: a clue produced no text";
+            if (first == second) return "FAILED: both clues show the same text";
+
+            int hooks = Object.FindObjectsByType<HookInteractable>(FindObjectsInactive.Exclude, FindObjectsSortMode.None).Length;
+            var paintings = Object.FindObjectsByType<PaintingInteractable>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            if (hooks != 3) return "FAILED: expected 3 hooks, found " + hooks;
+            if (paintings.Length != 3) return "FAILED: expected 3 paintings, found " + paintings.Length;
+
+            // Real-path check: stand on a painting and press the key.
+            guard.Teleport(paintings[0].InteractPoint);
+            PressInteractThroughGuard(guard);
+            Call(guard, "Update");
+            int carried = (int)Field(controller, "carried");
+            if (carried < 0) return "FAILED: pressing interact did not pick up a painting";
+
+            // Hang it through the same path and confirm the puzzle registers it.
+            var hookList = Object.FindObjectsByType<HookInteractable>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            guard.Teleport(hookList[0].InteractPoint);
+            PressInteractThroughGuard(guard);
+            Call(guard, "Update");
+            var puzzle = Field(controller, "puzzle") as Misterio.Puzzles.Floor2.GalleryPuzzle;
+            int placed = puzzle != null ? puzzle.PlacedCount() : -1;
+            if (placed != 1) return "FAILED: hanging through the key did not place a painting (placed=" + placed + ")";
+
+            return "OK 2 distinct clues reachable, 3 hooks, 3 paintings, pickup and hang via key work";
         }
 
         static string ProbeArchive()

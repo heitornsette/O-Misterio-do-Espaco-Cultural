@@ -123,11 +123,25 @@ namespace Misterio.Gameplay
         public void AddBlocker(Rect rect) => blockers.Add(rect);
         public void ClearBlockers() => blockers.Clear();
 
+        /// <summary>
+        /// Logs an error when the guard cannot stand where he is. A guard outside his own walkable
+        /// area cannot move at all, which freezes the whole scene, so this must be loud.
+        /// </summary>
+        public bool ValidatePlacement(string context)
+        {
+            if (IsFree(transform.position)) return true;
+            Debug.LogError("[Guard] cannot stand at " + Position.ToString("F2") + " in " + context +
+                           " (walkable " + walkable + "). The scene is unplayable.");
+            return false;
+        }
+
         public void Teleport(Vector2 position) => transform.position = new Vector3(position.x, position.y, transform.position.z);
 
         void Update()
         {
-            inputValue = moveAction != null ? Vector2.ClampMagnitude(moveAction.ReadValue<Vector2>(), 1f) : Vector2.zero;
+            inputValue = PlaytestInput.Active
+                ? Vector2.ClampMagnitude(PlaytestInput.Move, 1f)
+                : (moveAction != null ? Vector2.ClampMagnitude(moveAction.ReadValue<Vector2>(), 1f) : Vector2.zero);
             bool walking = CanMove && inputValue.sqrMagnitude > 0.01f;
 
             if (walking)
@@ -199,8 +213,16 @@ namespace Misterio.Gameplay
                 Nearest?.SetHighlighted(true);
             }
 
-            if (Nearest != null && CanInteract && interactAction != null && interactAction.WasPressedThisFrame())
-                Interacted?.Invoke(Nearest);
+            bool pressed = PlaytestInput.Active
+                ? PlaytestInput.InteractPressed
+                : interactAction != null && interactAction.WasPressedThisFrame();
+
+            if (Nearest == null || !CanInteract || !pressed) return;
+
+            // Actually use the object. The event alone did nothing: nothing in the project ever
+            // subscribed to it, so pressing the interact key was silently ignored in the real game.
+            Nearest.Interact(this);
+            Interacted?.Invoke(Nearest);
         }
 
         void UpdateSprite(bool walking)

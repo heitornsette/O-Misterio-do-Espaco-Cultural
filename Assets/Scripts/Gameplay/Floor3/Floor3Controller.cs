@@ -38,7 +38,7 @@ namespace Misterio.Gameplay
             new Vector2(-1.10f, -0.30f), new Vector2(0.40f, 0.28f),
             new Vector2(1.15f, -0.10f), new Vector2(1.45f, 0.35f),
             new Vector2(-1.25f, 0.62f), new Vector2(0.75f, -0.72f),
-            new Vector2(1.30f, 0.62f), new Vector2(-0.85f, -0.70f)
+            new Vector2(1.35f, 0.30f), new Vector2(-0.85f, -0.70f)
         };
         [SerializeField] Transform[] boardViews;
         [SerializeField] Rect[] caseBlockers =
@@ -77,7 +77,7 @@ namespace Misterio.Gameplay
             patrol = new StealthPatrol(patrolPoints, patrolSpeed, viewDistance, halfAngleDegrees, 0.35f);
 
             blockers.AddRange(caseBlockers);
-            Guard.Configure(new Rect(-1.75f, -0.95f, 3.5f, 1.45f), blockers);
+            Guard.Configure(new Rect(-1.75f, -0.95f, 3.5f, 1.80f), blockers);
 
             // Pieces recovered before the CC04A alert stay recovered when the floor resumes.
             for (int i = 0; i < TotalPieces; i++)

@@ -131,6 +131,9 @@ namespace Misterio.Gameplay
             }
         }
 
+        /// <summary>Current hint text; used by the automated playthrough to record what was shown.</summary>
+        public string VisibleHint => hintText != null ? hintText.text : string.Empty;
+
         public void SetObjective(string text)
         {
             if (objectiveText != null) objectiveText.text = text;

@@ -77,7 +77,8 @@ namespace Misterio.EditorTools
             doorway.color = doorColor;
 
             var guard = FloorSceneKit.AddGuard(new Vector2(-0.9f, -0.80f));
-            guard.Configure(new Rect(-1.95f, -0.95f, 28.0f, 0.30f), new List<Rect>());
+            guard.Configure(new Rect(-1.95f, -0.95f, 28.0f, 0.55f), new List<Rect>());
+            FloorSceneKit.AssertGuardCanStand(guard, new Vector2(-0.9f, -0.80f));
 
             // Dust and a light layer keep the outdoor scene from feeling flat.
             var lights = new List<SpriteRenderer> { doorway };
@@ -98,6 +99,7 @@ namespace Misterio.EditorTools
             FloorSceneKit.ApplyField(controller, "entranceX", 25.0f);
             FloorSceneKit.ApplyField(controller, "objectiveText", "Atravesse a praça e entre no Espaço Cultural.");
 
+            FloorSceneKit.EnsureBootstrap();
             FloorSceneKit.SaveAndRegister(ScenePath);
             Debug.Log("Exterior (Chegada) built at " + ScenePath);
             EditorApplication.Exit(0);

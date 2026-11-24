@@ -51,6 +51,12 @@ namespace Misterio.Gameplay
 
         public ConduitCircuit Circuit => circuit;
 
+        /// <summary>Current cursor cell; used by the automated playthrough to steer with keys.</summary>
+        public Vector2Int CursorForPlaytest => cursor;
+
+        /// <summary>The solved layout; used by the automated playthrough to know what to aim for.</summary>
+        public byte[] SolvedMasksForPlaytest => solvedMasks;
+
         protected override void Awake()
         {
             base.Awake();
@@ -88,16 +94,24 @@ namespace Misterio.Gameplay
 
         protected override void OnFloorTick(float deltaTime)
         {
-            var keyboard = Keyboard.current;
-            if (keyboard == null) return;
+            if (PlaytestInput.Active)
+            {
+                if (PlaytestInput.CursorStep != Vector2Int.zero) MoveCursor(PlaytestInput.CursorStep);
+                if (PlaytestInput.TurnPressed) TurnCurrent();
+            }
+            else
+            {
+                var keyboard = Keyboard.current;
+                if (keyboard == null) return;
 
-            if (keyboard.leftArrowKey.wasPressedThisFrame || keyboard.aKey.wasPressedThisFrame) MoveCursor(Vector2Int.left);
-            if (keyboard.rightArrowKey.wasPressedThisFrame || keyboard.dKey.wasPressedThisFrame) MoveCursor(Vector2Int.right);
-            if (keyboard.upArrowKey.wasPressedThisFrame || keyboard.wKey.wasPressedThisFrame) MoveCursor(Vector2Int.up);
-            if (keyboard.downArrowKey.wasPressedThisFrame || keyboard.sKey.wasPressedThisFrame) MoveCursor(Vector2Int.down);
+                if (keyboard.leftArrowKey.wasPressedThisFrame || keyboard.aKey.wasPressedThisFrame) MoveCursor(Vector2Int.left);
+                if (keyboard.rightArrowKey.wasPressedThisFrame || keyboard.dKey.wasPressedThisFrame) MoveCursor(Vector2Int.right);
+                if (keyboard.upArrowKey.wasPressedThisFrame || keyboard.wKey.wasPressedThisFrame) MoveCursor(Vector2Int.up);
+                if (keyboard.downArrowKey.wasPressedThisFrame || keyboard.sKey.wasPressedThisFrame) MoveCursor(Vector2Int.down);
 
-            if (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame)
-                TurnCurrent();
+                if (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame || keyboard.enterKey.wasPressedThisFrame)
+                    TurnCurrent();
+            }
 
             if (circuit.IsSolved() && !Solved) CompleteFloor();
         }

@@ -160,10 +160,19 @@ namespace Misterio.Core
         public static GameSession EnsureExists()
         {
             if (Instance != null) return Instance;
+
             var existing = FindAnyObjectByType<GameSession>();
-            if (existing != null) return existing;
+            if (existing != null)
+            {
+                Instance = existing;
+                return existing;
+            }
+
             var host = new GameObject("GameSession");
-            return host.AddComponent<GameSession>();
+            var created = host.AddComponent<GameSession>();
+            // Awake is not called outside play mode, so the singleton is published here too.
+            Instance = created;
+            return created;
         }
     }
 }
