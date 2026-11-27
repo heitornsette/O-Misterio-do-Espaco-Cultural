@@ -47,13 +47,29 @@ namespace EspacoCultural.Campus
         protected virtual Color GlobalLight => new Color(0.55f, 0.62f, 0.95f);
         protected virtual float GlobalIntensity => 0.6f;
         protected virtual IEnumerable<Rect> Blockers => new Rect[0];
-        protected virtual string Controls => "SETAS/WASD andar    E interagir    I itens    ESC pausa";
+        protected virtual string Controls => "SETAS/WASD andar    E interagir    I itens    M mapa    ESC pausa";
+
+        // ---- Mapa de viagem (estilo Punch Club) ----
+        /// <summary>Id do local no mapa (TravelMap.Places) onde o guarda está agora.</summary>
+        protected virtual string MapHere => null;
+        /// <summary>true dentro de prédio: escolher o próprio local no mapa = sair pela frente.</summary>
+        protected virtual bool MapInside => true;
+        /// <summary>Se a chegada é nesta mesma cena, posiciona o guarda e devolve true.</summary>
+        protected virtual bool ArriveInScene(string spawn) => false;
+        /// <summary>Faixa onde o centro da câmera pode ficar (x mínimo, x máximo).</summary>
+        protected virtual Vector2 CameraRange
+        {
+            get { float half = Px.W * 0.5f; return new Vector2(half, Mathf.Max(half, WorldWidth - half)); }
+        }
 
         // ---- Estado comum ----
         protected Walker player;
         protected FloorHUD hud;
         protected ChoiceMenu choice;
+        protected TravelMap map;
         protected Transform worldRoot;
+        /// <summary>Ponto de chegada usado ao abrir a cena (ex.: "chegada_bi_esq").</summary>
+        protected string spawnUsed;
         protected readonly List<Spot> spots = new List<Spot>();
         private PauseMenu pauseMenu;
         private RectTransform screen;
@@ -65,7 +81,8 @@ namespace EspacoCultural.Campus
 
         protected bool Locked =>
             transitioning || paused || hud == null || hud.PopupOpen || hud.Fading || hud.ClosedFrame == Time.frameCount ||
-            choice.Open || choice.ClosedFrame == Time.frameCount || resumedFrame == Time.frameCount;
+            choice.Open || choice.ClosedFrame == Time.frameCount || resumedFrame == Time.frameCount ||
+            (map != null && (map.Open || map.ClosedFrame == Time.frameCount));
 
         protected virtual void Start()
         {
@@ -81,7 +98,8 @@ namespace EspacoCultural.Campus
 
             BuildCanvas();
             string sp = GameState.ConsumeSpawn() ?? DefaultSpawn;
-            if (!SpawnPoints.TryGetValue(sp, out var start)) start = SpawnPoints[DefaultSpawn];
+            if (!SpawnPoints.TryGetValue(sp, out var start)) { sp = DefaultSpawn; start = SpawnPoints[DefaultSpawn]; }
+            spawnUsed = sp;
             player = Walker.Create(worldRoot, start, WalkArea);
             if (start.x > WorldWidth * 0.5f) player.Face(Vector2.left);
             player.blockers.AddRange(Blockers);
@@ -129,6 +147,8 @@ namespace EspacoCultural.Campus
             choice.Build(screen, fontTitle, fontBody);
             pauseMenu = screen.gameObject.AddComponent<PauseMenu>();
             pauseMenu.Build(screen, fontTitle, fontBody);
+            map = screen.gameObject.AddComponent<TravelMap>();
+            map.Build(screen, fontTitle, fontBody);
         }
 
         // ------------------------------------------------------------
@@ -149,6 +169,11 @@ namespace EspacoCultural.Campus
                     GameAudio.Sfx("sfx_menu_confirmar");
                     pauseMenu.Show(() => { paused = false; resumedFrame = Time.frameCount; Time.timeScale = 1f; },
                                    () => { paused = false; Time.timeScale = 1f; GoTo(FloorBase.MenuScene, null); });
+                    return;
+                }
+                if (k.mKey.wasPressedThisFrame)
+                {
+                    OpenMap();
                     return;
                 }
                 if (k.iKey.wasPressedThisFrame || k.tabKey.wasPressedThisFrame)
@@ -182,14 +207,15 @@ namespace EspacoCultural.Campus
         {
             if (cam == null || player == null) return;
             float half = Px.W * 0.5f;
-            float x = Mathf.Clamp(player.transform.position.x, half, Mathf.Max(half, WorldWidth - half));
+            var range = CameraRange;
+            float x = Mathf.Clamp(player.transform.position.x, range.x, Mathf.Max(range.x, range.y));
             cam.transform.position = new Vector3(Mathf.Round(x), Px.H * 0.5f, -10f);
             float shift = x - half;
             foreach (var p in parallax)
                 if (p.t != null) p.t.position = new Vector3(Mathf.Round(p.baseX - shift * (p.factor - 1f)), p.t.position.y, p.t.position.z);
         }
 
-        private void SnapCamera() => LateUpdate();
+        protected void SnapCamera() => LateUpdate();
 
         // ---- Utilitários para as cenas ----
 
@@ -277,6 +303,41 @@ namespace EspacoCultural.Campus
             GameState.Set("pista_" + id);
             GameAudio.Sfx("sfx_pegar", 0.6f);
             hud.Popup($"PISTA DA MOEMA ({GameState.CluesFound}/{GameState.CluesTotal})", text);
+        }
+
+        /// <summary>Abre o mapa do campus. Ao fim da caminhada no mapa, a tela escurece e o guarda aparece no destino.</summary>
+        protected void OpenMap() => OpenMap(0);
+
+        /// <param name="dir">-1/+1: já deixa escolhido o local vizinho à esquerda/direita.</param>
+        protected void OpenMap(int dir)
+        {
+            if (map == null || Locked) return;
+            GameAudio.Sfx("sfx_menu_confirmar", 0.6f);
+            map.Show(MapHere, MapInside, dest => StartCoroutine(TravelTo(dest)), dir);
+        }
+
+        private IEnumerator TravelTo(string dest)
+        {
+            transitioning = true;
+            yield return hud.FadeTo(1f, 0.35f);
+            map.Hide();
+            int from = TravelMap.IndexOf(MapHere), to = TravelMap.IndexOf(dest);
+            // Chega pela esquerda quem vem de um local à esquerda (e vice-versa).
+            string spawn = "chegada_" + dest + (to >= from ? "_esq" : "_dir");
+            if (ArriveInScene(spawn))
+            {
+                SnapCamera();
+                hud.SetObjective(Objective());
+                hud.SetHint(Controls);
+                yield return new WaitForSecondsRealtime(0.1f);
+                yield return hud.FadeTo(0f, 0.4f);
+                transitioning = false;
+            }
+            else
+            {
+                transitioning = false;
+                GoTo("Campus", spawn);
+            }
         }
 
         protected void GoTo(string scene, string spawn)

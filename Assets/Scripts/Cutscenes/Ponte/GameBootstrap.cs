@@ -12,7 +12,8 @@ namespace Misterio.Core
     ///  - congela o nosso relógio (GameClock) enquanto a cutscene toca;
     ///  - passa o horário atual para as cenas que mostram o relógio (SetGlobalClock);
     ///  - na CC09, escolhe a variação do andar em que o tempo acabou (SetIncompleteFloor);
-    ///  - liga o fim da cutscene à próxima cena da nossa rota (RouteRules.NextAfter).
+    ///  - liga o fim da cutscene à próxima cena da nossa rota (RouteRules.NextAfter);
+    ///  - adiciona o CutsceneSkip (segurar ESPAÇO/ENTER/ESC pula a cutscene).
     /// </summary>
     public sealed class GameBootstrap : MonoBehaviour
     {
@@ -38,6 +39,10 @@ namespace Misterio.Core
             Feed(controller, clock);
             Wire(controller, gameObject.scene.name);
             BindVolumes();
+
+            // Segurar ESPAÇO/ENTER/ESC pula a cutscene (os Créditos já têm o pulo próprio).
+            if (controller.GetType().Name != "CreditsRollController")
+                gameObject.AddComponent<CutsceneSkip>().Init(controller, gameObject.scene.name);
         }
 
         private void OnDestroy()

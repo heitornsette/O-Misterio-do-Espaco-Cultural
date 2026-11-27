@@ -6,6 +6,7 @@ namespace EspacoCultural.Gameplay.EditorTools
     /// <summary>
     /// Configura automaticamente toda imagem colocada em Assets/Resources/Jogo:
     /// Sprite, filtro Point, sem compressão, sem mipmap, PPU 100, sem redimensionar (pixel art nítida).
+    /// Também vale para Assets/Resources/Campus (os ícones mapa_icone_* ficam com Read/Write ligado).
     /// </summary>
     public class GameplayArtImporter : AssetPostprocessor
     {
@@ -24,6 +25,8 @@ namespace EspacoCultural.Gameplay.EditorTools
             imp.wrapMode = TextureWrapMode.Clamp;
             imp.alphaIsTransparency = true;
             imp.maxTextureSize = 4096;
+            // Ícones do mapa do campus: o TravelMap lê os pixels para desenhar o contorno de destaque e testar o clique.
+            if (System.IO.Path.GetFileName(p).StartsWith("mapa_icone_")) imp.isReadable = true;
         }
     }
 }

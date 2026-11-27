@@ -14,6 +14,7 @@ namespace EspacoCultural.Campus
     {
         protected override float WorldWidth => 640;
         protected override Rect WalkArea => new Rect(24, 8, 580, 100);
+        protected override string MapHere => "gi";
         protected override string DefaultSpawn => "gin_entrada";
         protected override Dictionary<string, Vector2> SpawnPoints => new Dictionary<string, Vector2>
         {

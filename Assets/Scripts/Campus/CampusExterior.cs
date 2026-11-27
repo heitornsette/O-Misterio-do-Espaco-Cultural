@@ -7,8 +7,11 @@ using UnityEngine;
 namespace EspacoCultural.Campus
 {
     /// <summary>
-    /// Cena "Campus": a faixa externa da Unifor, com rolagem lateral (3.200 px = 5 telas):
+    /// Cena "Campus": as frentes dos prédios da Unifor, uma tela (640 px) por local, lado a lado no mundo:
     ///   [Espaço Cultural] [Centro de Convivência] [Praça da fonte] [Biblioteca Central] [Ginásio]
+    /// Desde 27/11 o guarda não atravessa de uma tela para outra andando: cada local é fechado e a
+    /// viagem é feita pelo mapa do campus (TravelMap, estilo Punch Club) — tecla M, o ponto de
+    /// "seguir a pé" nas bordas, ou simplesmente andar contra a borda da tela.
     /// Cada tela é um fundo pintado (PixelLab, 640×360). Palmeiras em primeiro plano escondem as emendas
     /// e passam com parallax. Postes, portas e janelas têm Light 2D; o guarda leva a lanterna.
     /// Interações: porta de serviço do museu, entrada do CC, fonte + registro (estátua do Vaqueiro),
@@ -27,7 +30,50 @@ namespace EspacoCultural.Campus
             { "cc_porta", new Vector2(CC + 320, 50) },
             { "bib_porta", new Vector2(BI + 318, 50) },
             { "gin_porta", new Vector2(GI + GinDoorX, 50) },
+            // Chegadas pelo mapa: pela esquerda (_esq) ou pela direita (_dir) da tela do local
+            { "chegada_ec_esq", new Vector2(EC + 70, 30) }, { "chegada_ec_dir", new Vector2(EC + 570, 30) },
+            { "chegada_cc_esq", new Vector2(CC + 70, 30) }, { "chegada_cc_dir", new Vector2(CC + 570, 30) },
+            { "chegada_pr_esq", new Vector2(PR + 60, 24) }, { "chegada_pr_dir", new Vector2(PR + 580, 24) },
+            { "chegada_bi_esq", new Vector2(BI + 70, 30) }, { "chegada_bi_dir", new Vector2(BI + 570, 30) },
+            { "chegada_gi_esq", new Vector2(GI + 70, 30) }, { "chegada_gi_dir", new Vector2(GI + 570, 30) },
         };
+
+        // ---- Um local por tela + mapa de viagem ----
+        private const float ScreenW = 640;
+        private float edgeTimer;
+
+        private int Section => Mathf.Clamp(Mathf.FloorToInt(player.transform.position.x / ScreenW), 0, TravelMap.Places.Length - 1);
+        private static Rect SectionArea(int s) => new Rect(s * ScreenW + 24, 8, ScreenW - 48, 52);
+
+        protected override string MapHere => TravelMap.Places[Section].id;
+        protected override bool MapInside => false;
+        protected override Vector2 CameraRange
+        {
+            get { float c = Section * ScreenW + ScreenW * 0.5f; return new Vector2(c, c); }
+        }
+
+        protected override bool ArriveInScene(string spawn)
+        {
+            if (!SpawnPoints.TryGetValue(spawn, out var p)) return false;
+            player.transform.position = new Vector3(Mathf.Round(p.x), Mathf.Round(p.y), 0);
+            player.area = SectionArea(Section);
+            player.Face(spawn.EndsWith("_dir") ? Vector2.left : Vector2.right);
+            edgeTimer = 0f;
+            return true;
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (player == null || Locked) { edgeTimer = 0f; return; }
+            // Andar contra a borda da tela por um instante abre o mapa (como sair de um local no Punch Club).
+            var a = player.area;
+            float x = player.transform.position.x;
+            bool pushing = player.Moving &&
+                           ((x <= a.xMin + 0.5f && player.Facing.x < -0.3f) || (x >= a.xMax - 0.5f && player.Facing.x > 0.3f));
+            edgeTimer = pushing ? edgeTimer + Time.deltaTime : 0f;
+            if (edgeTimer > 0.35f) { edgeTimer = 0f; OpenMap(player.Facing.x < 0 ? -1 : 1); }
+        }
 
         // Posições que dependem da arte da praça e do ginásio (px dentro da tela de 640).
         private const float FountainX = 322, FountainY = 60, FountainW = 300;
@@ -54,14 +100,13 @@ namespace EspacoCultural.Campus
             Background("fundo_ext_bib", BI);
             Background("fundo_ext_gin", GI);
 
-            // Palmeiras em primeiro plano nas emendas (parallax 1.25: passam mais rápido que o cenário)
+            // Palmeiras em primeiro plano nas emendas: com a câmera fixa em cada local, emolduram as bordas da tela.
             foreach (float x in new[] { CC, PR, BI, GI })
             {
                 var palm = Prop("Palmeira", "palmeira_frente", new Vector2(x, -6), -1, false);
                 if (palm == null) continue;
                 palm.sortingOrder = 2500;
                 palm.color = new Color(0.55f, 0.6f, 0.75f);
-                Parallax(palm.transform, 1.25f);
             }
 
             // ---- Luzes ----
@@ -122,13 +167,21 @@ namespace EspacoCultural.Campus
             AddSpot("PortaGin", new Vector2(GI + GinDoorX, 60), () => "entrar no Ginásio Poliesportivo",
                 () => GoTo("Ginasio", "gin_entrada"));
 
-            // ---- Bordas ----
-            AddSpot("BordaEsq", new Vector2(30, 40), () => "o campus continua... mas a ronda é por aqui", () => { }, null, 30);
-            AddSpot("BordaDir", new Vector2(3170, 40), () => "o campus continua... mas a ronda é por aqui", () => { }, null, 30);
+            // ---- Bordas de cada local: seguir a pé para outro lugar (abre o mapa) ----
+            for (int i = 0; i < TravelMap.Places.Length; i++)
+            {
+                float x0 = i * ScreenW;
+                AddSpot("Mapa_Esq" + i, new Vector2(x0 + 34, 30), () => "seguir a pé (mapa do campus)", () => OpenMap(-1), null, 30);
+                AddSpot("Mapa_Dir" + i, new Vector2(x0 + ScreenW - 34, 30), () => "seguir a pé (mapa do campus)", () => OpenMap(1), null, 30);
+            }
         }
 
         protected override void OnEntered()
         {
+            player.area = SectionArea(Section);
+            if (spawnUsed != null && spawnUsed.EndsWith("_dir")) player.Face(Vector2.left);
+            else if (spawnUsed != null && spawnUsed.EndsWith("_esq")) player.Face(Vector2.right);
+            SnapCamera();
             if (GameState.Flag("radio")) return;
             GameState.Set("radio");
             SayThen("RÁDIO", () => hud.SetObjective(Objective()),
@@ -137,6 +190,7 @@ namespace EspacoCultural.Campus
                 "ficam no quadro de luz do ginásio.",
                 "<color=#8EC1DA>Central:</color> A zeladora está no Centro de Convivência e o Seu Raimundo cuida da " +
                 "biblioteca. Qualquer coisa, fala com eles. Câmbio, desligo.",
+                "<color=#F4C98A>Guarda:</color> (Para ir de um prédio a outro, abro o mapa do campus: tecla M.)",
                 "<color=#F4C98A>Guarda:</color> Entendido. ...E que pegadas são essas na praça?");
         }
 
