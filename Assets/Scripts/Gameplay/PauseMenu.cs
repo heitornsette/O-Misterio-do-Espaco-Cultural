@@ -1,176 +1,168 @@
-using Misterio.Core;
+using System;
+using System.Collections.Generic;
+using EspacoCultural.Audio;
+using EspacoCultural.Menu;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace Misterio.Gameplay
+namespace EspacoCultural.Gameplay
 {
     /// <summary>
-    /// Pause on ESC. It freezes the night clock, dims the scene and offers continue or restart.
-    /// Built from code so every floor gets the same overlay without per-scene wiring.
+    /// Pausa dos andares (Esc) com as mesmas configurações do menu inicial:
+    /// CONTINUAR, MÚSICA, EFEITOS, TELA CHEIA, RESOLUÇÃO e MENU INICIAL.
+    /// Setas/WASD escolhem e ajustam, E/Espaço/Enter confirmam, Esc fecha.
+    /// Os valores são os do GameSettings (PlayerPrefs), então valem para o jogo todo.
     /// </summary>
-    public sealed class PauseMenu : MonoBehaviour
+    public class PauseMenu : MonoBehaviour
     {
-        [SerializeField] Font font;
+        private enum Row { Continuar, Musica, Efeitos, TelaCheia, Resolucao, Menu }
 
-        Canvas canvas;
-        Text titleText;
-        bool paused;
+        private RectTransform root;
+        private readonly List<Text> labels = new List<Text>();
+        private readonly List<Text> values = new List<Text>();
+        private readonly List<Image[]> bars = new List<Image[]>();
+        private Text cursor;
+        private int index;
+        private float openedAt;
+        private Action onResume, onMenu;
 
-        public static PauseMenu Create(Font font)
+        private static readonly Color Normal = new Color32(0xEC, 0xE8, 0xDE, 0xFF);
+        private static readonly Color SegOff = new Color32(0x33, 0x4A, 0x63, 0xFF);
+        private const int RowH = 18, Top = 34, W = 280, H = 168;
+
+        public bool Open => root != null && root.gameObject.activeSelf;
+
+        public void Build(RectTransform screen, Font title, Font body)
         {
-            var host = new GameObject("Pause");
-            var menu = host.AddComponent<PauseMenu>();
-            menu.font = font;
-            menu.Build();
-            return menu;
-        }
+            root = Px.Panel("Pausa", screen, (Px.W - W) / 2f, 70, W, H);
+            Px.Label("Titulo", root, title, 8, Px.Warm, 0, 12, W, 12, TextAnchor.UpperCenter).text = "PAUSA";
 
-        void Build()
-        {
-            canvas = gameObject.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 900;
-            var scaler = gameObject.AddComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920f, 1080f);
-            scaler.matchWidthOrHeight = 0.5f;
-            gameObject.AddComponent<GraphicRaycaster>();
-
-            var backdrop = MakeImage("Fundo", Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero,
-                                     new Color(0.008f, 0.012f, 0.028f, 0.78f));
-            backdrop.raycastTarget = true;
-
-            var panel = MakeImage("Painel", new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
-                                  Vector2.zero, new Vector2(760f, 340f),
-                                  new Color(0.03f, 0.05f, 0.10f, 0.96f));
-
-            titleText = MakeText("Título", panel.transform, new Vector2(0.5f, 1f), new Vector2(0f, -46f),
-                                 new Vector2(700f, 70f), 46, "NOITE PAUSADA");
-            MakeText("Dica", panel.transform, new Vector2(0.5f, 1f), new Vector2(0f, -112f),
-                     new Vector2(700f, 48f), 26, "ESC continua  ·  R recomeça a noite");
-
-            MakeButton(panel.transform, "CONTINUAR", new Vector2(0f, -150f), Continue);
-            MakeButton(panel.transform, "RECOMEÇAR", new Vector2(0f, -230f), Restart);
-
-            canvas.enabled = false;
-        }
-
-        Image MakeImage(string name, Vector2 anchorMin, Vector2 anchorMax, Vector2 offsetMin,
-                        Vector2 offsetMax, Color color)
-        {
-            var host = new GameObject(name, typeof(RectTransform));
-            host.transform.SetParent(transform, false);
-            var image = host.AddComponent<Image>();
-            image.color = color;
-            var rect = image.rectTransform;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.offsetMin = offsetMin;
-            rect.offsetMax = offsetMax;
-            return image;
-        }
-
-        Text MakeText(string name, Transform parent, Vector2 anchor, Vector2 offset, Vector2 size,
-                      int fontSize, string content)
-        {
-            var host = new GameObject(name, typeof(RectTransform));
-            host.transform.SetParent(parent, false);
-            var text = host.AddComponent<Text>();
-            text.font = font != null ? font : Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            text.fontSize = fontSize;
-            text.text = content;
-            text.color = new Color(0.93f, 0.95f, 1f, 1f);
-            text.alignment = TextAnchor.MiddleCenter;
-            text.raycastTarget = false;
-            var rect = text.rectTransform;
-            rect.anchorMin = anchor;
-            rect.anchorMax = anchor;
-            rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = offset;
-            rect.sizeDelta = size;
-            return text;
-        }
-
-        void MakeButton(Transform parent, string label, Vector2 position, UnityEngine.Events.UnityAction action)
-        {
-            var host = new GameObject(label, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
-            host.transform.SetParent(parent, false);
-            var image = host.GetComponent<Image>();
-            image.color = new Color(0.10f, 0.16f, 0.28f, 1f);
-            var rect = image.rectTransform;
-            rect.anchorMin = new Vector2(0.5f, 0.5f);
-            rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = position;
-            rect.sizeDelta = new Vector2(420f, 62f);
-
-            var button = host.GetComponent<Button>();
-            button.onClick.AddListener(action);
-            var colors = button.colors;
-            colors.highlightedColor = new Color(0.18f, 0.26f, 0.42f, 1f);
-            colors.pressedColor = new Color(0.24f, 0.34f, 0.52f, 1f);
-            button.colors = colors;
-
-            var text = MakeText("Texto", host.transform, new Vector2(0.5f, 0.5f), Vector2.zero,
-                                new Vector2(400f, 56f), 30, label);
-            text.alignment = TextAnchor.MiddleCenter;
-        }
-
-        void Update()
-        {
-            if (PlaytestInput.Active)
+            string[] names = { "CONTINUAR", "MÚSICA", "EFEITOS", "TELA CHEIA", "RESOLUÇÃO", "MENU INICIAL" };
+            for (int i = 0; i < names.Length; i++)
             {
-                if (PlaytestInput.PausePressed) Toggle();
-                return;
+                float y = Top + i * RowH;
+                labels.Add(Px.Label("Item", root, body, 8, Normal, 26, y, 120, 12));
+                labels[i].text = names[i];
+                values.Add(Px.Label("Valor", root, body, 8, Normal, 140, y, 124, 12, TextAnchor.UpperRight));
+                Image[] seg = null;
+                if (i == (int)Row.Musica || i == (int)Row.Efeitos)
+                {
+                    seg = new Image[GameSettings.MaxLevel];
+                    for (int k = 0; k < seg.Length; k++)
+                        seg[k] = Px.Box("Seg", root, SegOff, 164 + k * 10, y + 1, 8, 8);
+                }
+                bars.Add(seg);
             }
+            cursor = Px.Label("Cursor", root, body, 8, Px.LightBlue, 14, Top, 10, 12);
+            cursor.text = ">";
 
-            var keyboard = Keyboard.current;
-            if (keyboard == null) return;
-
-            if (keyboard.escapeKey.wasPressedThisFrame) Toggle();
-
-            if (paused && keyboard.rKey.wasPressedThisFrame) Restart();
+            var note = Px.Label("Nota", root, body, 8, new Color(1, 1, 1, 0.55f), 0, H - 22, W, 12, TextAnchor.UpperCenter);
+#if UNITY_EDITOR
+            note.text = "No Editor: tela cheia maximiza a aba Game";
+#else
+            note.text = "SETAS ajustar   E confirmar   ESC voltar";
+#endif
+            root.gameObject.SetActive(false);
         }
 
-        public void Toggle()
+        public void Show(Action resume, Action goToMenu)
         {
-            paused = !paused;
-            canvas.enabled = paused;
-            Time.timeScale = paused ? 0f : 1f;
+            onResume = resume;
+            onMenu = goToMenu;
+            index = 0;
+            openedAt = Time.unscaledTime;
+            root.gameObject.SetActive(true);
+            root.SetAsLastSibling();
+            Refresh();
+        }
 
-            var session = GameSession.Instance != null ? GameSession.Instance : GameSession.EnsureExists();
-            session.SetClockRunning(!paused);
+        public void Hide()
+        {
+            if (!Open) return;
+            root.gameObject.SetActive(false);
+            var cb = onResume; onResume = null;
+            cb?.Invoke();
+        }
 
-            // The floor stops reading input while paused.
-            foreach (var actor in Object.FindObjectsByType<GuardActor>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        private void Update()
+        {
+            if (!Open || Time.unscaledTime - openedAt < 0.15f) return;
+            var k = Keyboard.current;
+            if (k == null) return;
+
+            if (k.escapeKey.wasPressedThisFrame) { GameAudio.Sfx("sfx_menu_mover", 0.6f); Hide(); return; }
+            if (k.mKey.wasPressedThisFrame) { GoMenu(); return; }
+            if (k.upArrowKey.wasPressedThisFrame || k.wKey.wasPressedThisFrame) Move(-1);
+            if (k.downArrowKey.wasPressedThisFrame || k.sKey.wasPressedThisFrame) Move(1);
+            if (k.leftArrowKey.wasPressedThisFrame || k.aKey.wasPressedThisFrame) Adjust(-1);
+            if (k.rightArrowKey.wasPressedThisFrame || k.dKey.wasPressedThisFrame) Adjust(1);
+            if (k.eKey.wasPressedThisFrame || k.spaceKey.wasPressedThisFrame || k.enterKey.wasPressedThisFrame) Confirm();
+        }
+
+        private void Move(int d)
+        {
+            index = (index + d + labels.Count) % labels.Count;
+            GameAudio.Sfx("sfx_menu_mover", 0.6f);
+            Refresh();
+        }
+
+        private void Adjust(int d)
+        {
+            switch ((Row)index)
             {
-                actor.CanMove = !paused;
-                actor.CanInteract = !paused;
+                case Row.Musica: GameSettings.MusicLevel = Mathf.Clamp(GameSettings.MusicLevel + d, 0, GameSettings.MaxLevel); break;
+                case Row.Efeitos: GameSettings.SfxLevel = Mathf.Clamp(GameSettings.SfxLevel + d, 0, GameSettings.MaxLevel); break;
+                case Row.TelaCheia: GameSettings.Fullscreen = !GameSettings.Fullscreen; break;
+                case Row.Resolucao:
+                    int n = GameSettings.AvailableResolutions().Count;
+                    GameSettings.ResolutionIndex = (GameSettings.ResolutionIndex + d + n) % n;
+                    break;
+                default: return;
+            }
+            GameAudio.Sfx("sfx_ajuste");
+            Refresh();
+        }
+
+        private void Confirm()
+        {
+            switch ((Row)index)
+            {
+                case Row.Continuar: GameAudio.Sfx("sfx_menu_confirmar"); Hide(); break;
+                case Row.Menu: GoMenu(); break;
+                case Row.TelaCheia:
+                case Row.Resolucao: Adjust(1); break;
             }
         }
 
-        void Continue()
+        private void GoMenu()
         {
-            if (paused) Toggle();
+            GameAudio.Sfx("sfx_menu_confirmar");
+            root.gameObject.SetActive(false);
+            onResume = null;
+            var cb = onMenu; onMenu = null;
+            cb?.Invoke();
         }
 
-        void OnDisable()
+        private void Refresh()
         {
-            // A paused game must not survive the object: leaving timeScale at zero would freeze the
-            // next scene as well.
-            if (!paused) return;
-            paused = false;
-            Time.timeScale = 1f;
-            var session = GameSession.Instance;
-            if (session != null) session.SetClockRunning(false);
-        }
-
-        void Restart()
-        {
-            Time.timeScale = 1f;
-            GameSession.Instance?.ResetRun();
-            GameFlow.EnsureExists().Load(GameFlow.Exterior);
+            for (int i = 0; i < labels.Count; i++)
+            {
+                bool sel = i == index;
+                var c = sel ? Px.LightBlue : Normal;
+                labels[i].color = c;
+                values[i].color = c;
+                if (bars[i] != null)
+                {
+                    int lvl = i == (int)Row.Musica ? GameSettings.MusicLevel : GameSettings.SfxLevel;
+                    for (int k = 0; k < bars[i].Length; k++) bars[i][k].color = k < lvl ? Px.LightBlue : SegOff;
+                }
+            }
+            values[(int)Row.TelaCheia].text = "< " + (GameSettings.Fullscreen ? "SIM" : "NÃO") + " >";
+            var list = GameSettings.AvailableResolutions();
+            var r = list[Mathf.Clamp(GameSettings.ResolutionIndex, 0, list.Count - 1)];
+            values[(int)Row.Resolucao].text = "< " + GameSettings.ResolutionLabel(r) + " >";
+            Px.Place(cursor.rectTransform, 14, Top + index * RowH, 10, 12);
         }
     }
 }
